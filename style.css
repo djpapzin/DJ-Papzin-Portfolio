@@ -21,7 +21,7 @@
   background-image: url(assets/bgimage.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center center;
   position: relative;
   z-index: 1;
 }
