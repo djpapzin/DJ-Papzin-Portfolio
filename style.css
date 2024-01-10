@@ -18,7 +18,7 @@
 
 .banner-wrap {
   /* feel free to use your own img  */
-  /* background-image: url(assets/bgimage.jpg); */
+  background-image: url(assets/bgimage.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
