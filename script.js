@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Typed.js initialization for name
     var nameOptions = {
-        strings: ['I am Letlhogonolo Fanampe (DJ Papzin)'],
+        strings: ['I am Letlhogonolo Fanampe'],
         typeSpeed: 50,
         backSpeed: 50,
         loop: false,
