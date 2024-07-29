@@ -236,3 +236,15 @@ footer {
   letter-spacing: 2px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+.skill-category {
+    margin-bottom: 1rem;
+}
+
+.skill-category h5 {
+    margin-bottom: 0.5rem;
+}
+
+.skill-category .badge {
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+}
