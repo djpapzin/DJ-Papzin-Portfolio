@@ -50,36 +50,49 @@ document.addEventListener('DOMContentLoaded', function() {
     // View More functionality
     const viewMoreBtn = document.getElementById('viewMoreBtn');
     const projectsRow = document.getElementById('projectsRow');
-    let isExpanded = false;
+    const additionalProjects = [
+        {
+            image: "assets/chatsnap.png",
+            alt: "ChatSnap-Extractor",
+            title: "ChatSnap-Extractor",
+            description: "Django-based web app for extracting text, timestamps, and emojis from chat screenshots with 99%+ accuracy.",
+            technologies: "Python, Django, PaddleOCR, YOLO",
+            link: "https://github.com/djpapzin/ChatSnap-Extractor"
+        },
+        // Add more projects here
+    ];
 
-    viewMoreBtn.addEventListener('click', function() {
-        if (!isExpanded) {
-            // Add more project cards here
-            projectsRow.innerHTML += `
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="assets/chatsnap.png" class="card-img-top" alt="ChatSnap-Extractor">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title project-title">ChatSnap-Extractor</h5>
-                            <p class="card-text flex-grow-1">
-                                Django-based web app for extracting text, timestamps, and emojis from chat screenshots with 99%+ accuracy.<br><br>
-                                <strong>Technologies:</strong> Python, Django, PaddleOCR, YOLO
-                            </p>
-                            <div class="mt-auto">
-                                <a href="https://github.com/djpapzin/ChatSnap-Extractor" class="btn btn-primary w-100" target="_blank">View Project</a>
-                            </div>
+    function createProjectCard(project) {
+        return `
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="${project.image}" class="card-img-top" alt="${project.alt}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title project-title">${project.title}</h5>
+                        <p class="card-text flex-grow-1">
+                            ${project.description}<br><br>
+                            <strong>Technologies:</strong> ${project.technologies}
+                        </p>
+                        <div class="mt-auto">
+                            <a href="${project.link}" class="btn btn-primary w-100" target="_blank">View Project</a>
                         </div>
                     </div>
                 </div>
-                <!-- Add more project cards here -->
-            `;
+            </div>
+        `;
+    }
+
+    viewMoreBtn.addEventListener('click', function() {
+        if (projectsRow.children.length <= 3) {
+            additionalProjects.forEach(project => {
+                projectsRow.innerHTML += createProjectCard(project);
+            });
             viewMoreBtn.textContent = 'View Less';
-            isExpanded = true;
         } else {
-            // Remove additional project cards
-            projectsRow.innerHTML = projectsRow.innerHTML.split('<div class="col-md-4 mb-4">').slice(0, 4).join('<div class="col-md-4 mb-4">');
+            while (projectsRow.children.length > 3) {
+                projectsRow.removeChild(projectsRow.lastChild);
+            }
             viewMoreBtn.textContent = 'View More';
-            isExpanded = false;
         }
     });
 });
