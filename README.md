@@ -59,6 +59,13 @@ Here are the key AI/ML projects featured in this portfolio:
    - Features: Gender identification, demographic prediction, face rating system
    - [GitHub Repository](https://github.com/djpapzin/NextSapien-Facial-Analysis)
 
+9. **Quixflow**
+   - AI-powered JIRA optimization tool
+   - Technologies: AI, Voice Recognition
+   - Features: Automated ticket creation, task assignment, project workflow management
+   - [Demo](https://quixflow-agile.vercel.app/)
+   - [GitHub Repository](https://github.com/djpapzin/quixflow)
+
 ## Technologies Used
 
 - Python, TensorFlow, Keras, OpenCV
