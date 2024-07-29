@@ -46,4 +46,40 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Thank you for your message! I will get back to you soon.');
         this.reset();
     });
+
+    // View More functionality
+    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    const projectsRow = document.getElementById('projectsRow');
+    let isExpanded = false;
+
+    viewMoreBtn.addEventListener('click', function() {
+        if (!isExpanded) {
+            // Add more project cards here
+            projectsRow.innerHTML += `
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="assets/chatsnap.png" class="card-img-top" alt="ChatSnap-Extractor">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title project-title">ChatSnap-Extractor</h5>
+                            <p class="card-text flex-grow-1">
+                                Django-based web app for extracting text, timestamps, and emojis from chat screenshots with 99%+ accuracy.<br><br>
+                                <strong>Technologies:</strong> Python, Django, PaddleOCR, YOLO
+                            </p>
+                            <div class="mt-auto">
+                                <a href="https://github.com/djpapzin/ChatSnap-Extractor" class="btn btn-primary w-100" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more project cards here -->
+            `;
+            viewMoreBtn.textContent = 'View Less';
+            isExpanded = true;
+        } else {
+            // Remove additional project cards
+            projectsRow.innerHTML = projectsRow.innerHTML.split('<div class="col-md-4 mb-4">').slice(0, 4).join('<div class="col-md-4 mb-4">');
+            viewMoreBtn.textContent = 'View More';
+            isExpanded = false;
+        }
+    });
 });
