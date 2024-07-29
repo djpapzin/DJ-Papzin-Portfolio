@@ -1,23 +1,15 @@
-/*
- * Globals
- */
-
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/*
- * Base structure
- */
-
-/*
- * Header
- */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+}
 
 .banner-wrap {
-  /* feel free to use your own img  */
   background-image: url(assets/bgimage.jpg);
   background-size: cover;
   background-repeat: no-repeat;
@@ -25,49 +17,94 @@
   position: relative;
   z-index: 1;
 }
+
 .overlay {
   z-index: -1;
   height: 100%;
   width: 100%;
-  background: black;
-  opacity: 50%;
+  background: rgba(0, 0, 0, 0.7);
   position: absolute;
   top: 0;
 }
 
-.nav-masthead .nav-link {
-  padding: 0.25rem 0;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  background-color: transparent;
-  border-bottom: 0.25rem solid transparent;
-}
-
-.nav-masthead .nav-link:hover,
-.nav-masthead .nav-link:focus {
-  border-bottom-color: rgba(255, 255, 255, 0.25);
-}
-
-.nav-masthead .nav-link + .nav-link {
-  margin-left: 1rem;
-}
-
-.nav-masthead .active {
-  color: #fff;
-  border-bottom-color: #fff;
-}
-
 header {
-    background: black;
-    opacity: 80%;
-}
-
-.scrolling {
-  background: black;
-  opacity: 80%;
+  background: rgba(0, 0, 0, 0.8);
   transition: all 0.5s;
 }
 
-.img-fluid {
-  border-radius: 50%;
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #fff !important;
+}
+
+#home h1 {
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.lead {
+  font-size: 1.5rem;
+}
+
+#about img {
+  max-width: 200px;
+  border: 5px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.skills .badge {
+  margin: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.card {
+  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+form .form-control {
+  border-radius: 0;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+footer {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .banner-wrap h1 {
+      font-size: 2.5rem;
+  }
+
+  .lead {
+      font-size: 1.2rem;
+  }
 }
