@@ -183,6 +183,8 @@ footer {
   animation: typedjsBlink 0.7s infinite;
   -webkit-animation: typedjsBlink 0.7s infinite;
   animation: typedjsBlink 0.7s infinite;
+  font-size: 2rem;
+  vertical-align: middle;
 }
 @keyframes typedjsBlink {
   50% { opacity: 0.0; }
