@@ -4,7 +4,7 @@ Welcome to my portfolio! This repository contains the source code for my persona
 
 ## About Me
 
-I'm Letlhogonolo Fanampe (DJ Papzin), an innovative AI/ML Engineer specializing in Computer Vision and Natural Language Processing. With a proven track record of developing and enhancing sophisticated algorithms and applications, I'm passionate about leveraging cutting-edge technologies to solve complex problems.
+I'm Letlhogonolo Fanampe (DJ Papzin), an innovative AI/ML Engineer specializing in Computer Vision, Natural Language Processing, and Generative AI. With a proven track record of developing and enhancing sophisticated algorithms and applications, I'm passionate about leveraging cutting-edge technologies to solve complex problems and create intelligent systems that push the boundaries of what's possible in artificial intelligence.
 
 ## Projects
 
@@ -66,12 +66,27 @@ Here are the key AI/ML projects featured in this portfolio:
    - [Demo](https://quixflow-agile.vercel.app/)
    - [GitHub Repository](https://github.com/djpapzin/quixflow)
 
+10. **TruthGuard**
+    - AI-powered system to combat fake news
+    - Technologies: Python, Flask, Together AI (Llama 3), Pandas, Scikit-learn, LlamaIndex, Milvus
+    - Features: Real-time detection, content moderation
+    - [Demo](https://truth-guard-dusky.vercel.app/)
+    - [Presentation](https://lablab.ai/event/llama-3-ai-hackathon/truth-defenders/truthguard)
+    - [GitHub Repository](https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM)
+
+11. **Movie Info AI**
+    - AI-powered movie information retrieval tool
+    - Technologies: Python, OpenAI API (gpt-3.5-turbo)
+    - Features: Detailed movie insights, comprehensive information retrieval
+    - [GitHub Repository](https://github.com/djpapzin/movie-info-ai)
+
 ## Technologies Used
 
 - Python, TensorFlow, Keras, OpenCV
 - Natural Language Processing (NLP)
 - Computer Vision
 - Machine Learning & Deep Learning
+- Generative AI
 - Django, Flask, Streamlit
 - OpenAI API, LangChain
 - Node.js, SQLite, Three.js
