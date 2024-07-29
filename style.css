@@ -93,13 +93,21 @@ footer {
 }
 
 .lead {
-  font-size: 1.5rem;
+  font-size: 2rem;
+}
+
+#typed {
+  display: inline-block;
 }
 
 #about img {
   max-width: 200px;
   border: 5px solid #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#about p, #about .skills {
+  margin-bottom: 1.5rem;
 }
 
 .skills .badge {
@@ -164,7 +172,8 @@ footer {
 }
 
 .typed-cursor {
-  vertical-align: text-top;
+  vertical-align: baseline;
+  font-size: 2rem;
 }
 
 @media (max-width: 768px) {
@@ -195,7 +204,12 @@ footer {
   color: #e0e0e0;
 }
 
-#projects h2 {
+#projects h2, #about h2, #contact h2 {
   color: #fff;
   margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
