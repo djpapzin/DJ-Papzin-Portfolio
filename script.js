@@ -1,13 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Typed.js initialization
-    var options = {
+    // Typed.js initialization for name
+    var nameOptions = {
+        strings: ['I am Letlhogonolo Fanampe (DJ Papzin)'],
+        typeSpeed: 50,
+        backSpeed: 50,
+        loop: false,
+        showCursor: false
+    };
+    
+    var typedName = new Typed('#typed-name', nameOptions);
+
+    // Typed.js initialization for roles
+    var rolesOptions = {
         strings: ['AI/ML Engineer', 'Computer Vision Specialist', 'Deep Learning Expert', 'Facial Recognition Developer', 'OCR Innovator'],
         typeSpeed: 50,
         backSpeed: 50,
-        loop: true
+        loop: true,
+        startDelay: 2000 // Start after the name animation is complete
     };
     
-    var typed = new Typed('#typed', options);
+    var typedRoles = new Typed('#typed-roles', rolesOptions);
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
