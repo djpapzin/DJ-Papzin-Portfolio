@@ -10,61 +10,70 @@ I'm Letlhogonolo Fanampe (DJ Papzin), an innovative AI/ML Engineer specializing 
 
 Here are the key AI/ML projects featured in this portfolio:
 
-1. **VisualPro (Hackathon Winner)**
+1. **Quixflow**
+   - AI-powered JIRA optimization tool
+   - Technologies: JIRA API Automation, Together AI API, LLama-3, Finetuning
+   - Features: Automated ticket creation, task assignment, project workflow management
+   - [Demo](https://quixflow-agile.vercel.app/)
+   - [Presentation](https://lablab.ai/event/hack-the-loop/riot-crew/quixflow)
+   - [GitHub Repository](https://github.com/djpapzin/quixflow)
+
+2. **TruthGuard**
+   - AI-powered system to combat fake news
+   - Technologies: Python, Flask, Together AI (Llama 3), Pandas, Scikit-learn, LlamaIndex, Milvus
+   - Features: Real-time detection, content moderation across digital platforms
+   - [Demo](https://truth-guard-dusky.vercel.app/)
+   - [Presentation](https://lablab.ai/event/llama-3-ai-hackathon/truth-defenders/truthguard)
+   - [GitHub Repository](https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM)
+
+3. **VisualPro (Hackathon Winner)**
    - 1st place in WebGPU Hackathon
-   - Lead Back-end Developer
    - Technologies: Node.js, SQLite, Three.js
    - Features: 3D data visualization
-   - [View Project](https://lablab.ai/event/webgpu-hackathon/tender-ai/visualpro)
+   - [Presentation](https://lablab.ai/event/webgpu-hackathon/tender-ai/visualpro)
+   - [GitHub Repository](https://github.com/Fayaz-khani/WebGPU_Hack)
 
-2. **Play My Emotions**
+4. **Play My Emotions**
    - AI-driven Disney song recommender
    - Technologies: Python, OpenAI, DeepLake, LangChain, Streamlit
    - Features: Emotion analysis, personalized song recommendations
    - [GitHub Repository](https://github.com/djpapzin/Play-My-Emotions)
 
-3. **MentalWellnessChatbot**
+5. **MentalWellnessChatbot**
    - AI chatbot for mental health advice
    - Technologies: Python, Streamlit, LangChain, Llama 2 by Meta
    - Features: Real-time responses, PDF information retrieval
    - [GitHub Repository](https://github.com/djpapzin/MentalWellnessChatbot)
 
-4. **Jarvis-Voice-Assistant**
+6. **Jarvis-Voice-Assistant**
    - AI-powered voice assistant
    - Technologies: Python, OpenAI Whisper, DeepLake, ChatGPT, ElevenLabs
    - Features: Voice recognition, knowledge base search, natural language responses
    - [GitHub Repository](https://github.com/djpapzin/Jarvis-Voice-Assistant)
 
-5. **AI-Powered-News-Summarizer**
+7. **AI-Powered-News-Summarizer**
    - News article summarization tool
    - Technologies: Python, OpenAI GPT-3.5-turbo
    - Features: Concise summaries of lengthy news content
    - [GitHub Repository](https://github.com/djpapzin/AI-Powered-News-Summarizer)
 
-6. **AI-Assistant-WhatsApp-Bot**
+8. **AI-Assistant-WhatsApp-Bot**
    - AI-powered WhatsApp chatbot
    - Technologies: Python, OpenAI GPT-3.5 turbo, Twilio API
    - Features: Natural language interaction via WhatsApp
    - [GitHub Repository](https://github.com/djpapzin/AI-Assistant-WhatsApp-Bot)
 
-7. **ChatSnap-Extractor**
+9. **ChatSnap-Extractor**
    - Chat screenshot text extraction tool
    - Technologies: Python, Django, PaddleOCR, YOLO
    - Features: 99%+ accuracy in extracting text, timestamps, and emojis
    - [GitHub Repository](https://github.com/djpapzin/ChatSnap-Extractor)
 
-8. **NextSapien Facial Analysis**
-   - Comprehensive facial analysis system
-   - Technologies: Python, DeepFace, Facial Attribute Recognition
-   - Features: Gender identification, demographic prediction, face rating system
-   - [GitHub Repository](https://github.com/djpapzin/NextSapien-Facial-Analysis)
-
-9. **Quixflow**
-   - AI-powered JIRA optimization tool
-   - Technologies: AI, Voice Recognition
-   - Features: Automated ticket creation, task assignment, project workflow management
-   - [Demo](https://quixflow-agile.vercel.app/)
-   - [GitHub Repository](https://github.com/djpapzin/quixflow)
+10. **NextSapien Facial Analysis**
+    - Comprehensive facial analysis system
+    - Technologies: Python, DeepFace, Facial Attribute Recognition
+    - Features: Gender identification, demographic prediction, face rating system
+    - [GitHub Repository](https://github.com/djpapzin/NextSapien-Facial-Analysis)
 
 ## Technologies Used
 
