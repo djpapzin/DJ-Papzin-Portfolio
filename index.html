@@ -1,254 +1,201 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
-    <meta name="generator" content="Hugo 0.84.0" />
-    <title>Portfolio | DJ Papzin</title>
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/" />
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-
-    <!-- Bootstrap icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-    <!-- Custom styles for this template -->
-    <link href="style.css" rel="stylesheet">
-
-    <!-- Favicon icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="/assets/favicon_io/site.webmanifest">
-
-    <!-- Chatbase  Chatbot-->
-<!--     <script>
-        window.embeddedChatbotConfig = {
-            chatbotId: "tx0KUFuo86F2gaPUMfWmp",
-            domain: "www.chatbase.co"
-        }
-    </script>
-    <script src="https://www.chatbase.co/embed.min.js" chatbotId="tx0KUFuo86F2gaPUMfWmp" domain="www.chatbase.co" defer></script> -->
-
-    <!-- Cody Chatbot -->
-    <script>
-        window.codySettings = { widget_id: '9a640b99-78f0-44de-b371-28cc3ffb257d' };
-        
-        !function(){var t=window,e=document,a=function(){var t=e.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://trinketsofcody.com/cody-widget.js";var a=e.getElementsByTagName("script")[0];a.parentNode.insertBefore(t,a)};"complete"===document.readyState?a():t.attachEvent?t.attachEvent("onload",a):t.addEventListener("load",a,!1)}();
-        </script>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ Papzin - AI/ML Developer Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
-
-<body class="bg-dark">
-    <div class="banner-wrap vh-100 vw-100 d-flex align-items-center justify-content-center text-white">
-        <div class="overlay"></div>
-        <header class="px-5 p-3 text-white fixed-top">
-            <div>
-                <h3 class="float-md-start text-center">Portfolio</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="#about">About</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="#projects">Projects</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="#contact">Contact</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="https://flowcv.com/resume/tbttguovq8" target="_blank">Resume <i class="bi bi-box-arrow-up-right"></i></a>
-                </nav>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">DJ Papzin</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://flowcv.com/resume/tbttguovq8" target="_blank">Resume</a></li>
+                    </ul>
+                </div>
             </div>
-        </header>
-        <main class="text-center">
-            <h1 class="display-1">I am DJ Papzin</h1>
-            <span class="lead" id="typed"></span>
-        </main>
-    </div>
+        </nav>
+    </header>
 
-    <section id="about">
-        <div class="container p-5">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row p-3">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <img src="assets/profile.jpeg" class="img-fluid" alt="Profile Picture">
-                                </div>
-                                <div class="col-md-7 mt-3">
-                                    <p><strong>Name:</strong> Letlhogonolo Fanampe</p>
-                                    <p><strong>Profile:</strong> AI/ML Developer</p>
-                                    <p><strong>Email:</strong> L.fanampe@gmail.com</p>
-                                    <p><strong>Phone:</strong> +27834837699</p>
-                                    <p>
-                                        <strong>Skills:</strong>
+    <main>
+        <section id="home" class="banner-wrap vh-100 d-flex align-items-center justify-content-center text-white">
+            <div class="overlay"></div>
+            <div class="container text-center">
+                <h1 class="display-1">I am DJ Papzin</h1>
+                <p class="lead" id="typed"></p>
+            </div>
+        </section>
 
-                                        <!-- AI & Machine Learning Skills -->
-                                        <span class="badge rounded-pill bg-dark">Python</span>
-                                        <span class="badge rounded-pill bg-dark">OpenCV</span>
-                                        <span class="badge rounded-pill bg-dark">Keras</span>
-                                        <span class="badge rounded-pill bg-dark">TensorFlow</span>
-                                        <span class="badge rounded-pill bg-dark">PyTorch</span>
-                                        <span class="badge rounded-pill bg-dark">OCR</span>
-                                        <span class="badge rounded-pill bg-dark">AI/ML Model Integration and Optimization</span>
-                                        <span class="badge rounded-pill bg-dark">OpenAI API</span>
-                                        <span class="badge rounded-pill bg-dark">LLama 2</span>
-                                        <span class="badge rounded-pill bg-dark">LangChain Framework</span>
-                                        <span class="badge rounded-pill bg-dark">AI Chatbot Integration</span>
-                                        <span class="badge rounded-pill bg-dark">NLP</span>
-                                        <span class="badge rounded-pill bg-dark">AR Development</span>
-                                        <span class="badge rounded-pill bg-dark">Autonomous Agents</span>
-                                        <span class="badge rounded-pill bg-dark">Backend Development for AI Applications</span>
-                                        <span class="badge rounded-pill bg-dark">Vector Databases</span>
-                                        <span class="badge rounded-pill bg-dark">Real-time Data Processing</span>
-                                        <span class="badge rounded-pill bg-dark">Data Visualization</span>
-                                        
-                                        <!-- Web Development Skills -->
-                                        <span class="badge rounded-pill bg-dark">Django</span>
-                                        <span class="badge rounded-pill bg-dark">Flask</span>
-                                        <span class="badge rounded-pill bg-dark">Streamlit</span>
-                                        <span class="badge rounded-pill bg-dark">NodeJS</span>
-                                        <span class="badge rounded-pill bg-dark">JavaScript</span>
-                                        <span class="badge rounded-pill bg-dark">HTML5</span>
-                                        <span class="badge rounded-pill bg-dark">CSS3</span>
-                                        <span class="badge rounded-pill bg-dark">Git</span>
-                                        <span class="badge rounded-pill bg-dark">ReactJS</span>
-                                        <span class="badge rounded-pill bg-dark">Responsive Web Design</span>
-                                        <span class="badge rounded-pill bg-dark">WebGPU</span>
-                                        
-                                        <!-- Database & Data Handling Skills -->
-                                        <span class="badge rounded-pill bg-dark">SQLite</span>
-                                        
-                                        <!-- Soft & Other Technical Skills -->
-                                        <span class="badge rounded-pill bg-dark">Problem Solving</span>
-                                        <span class="badge rounded-pill bg-dark">Critical Thinking</span>
-                                        <span class="badge rounded-pill bg-dark">Collaborative Development</span>
-                                        <span class="badge rounded-pill bg-dark">LIMS</span>
-                                        <span class="badge rounded-pill bg-dark">Laboratory Instrumentation and Procedures</span>
-                                        <span class="badge rounded-pill bg-dark">ISO 17025:2017 and ISO/IEC requirements knowledge</span>
-                                        <span class="badge rounded-pill bg-dark">MS Excel (Fundamentals & Intermediate)</span>
-                                        
-                                    </p>
-                                </div>
+        <section id="about" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">About Me</h2>
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <img src="assets/profile.jpeg" alt="DJ Papzin" class="img-fluid rounded-circle mb-3">
+                        <h3>Letlhogonolo Fanampe</h3>
+                        <p>AI/ML Developer</p>
+                    </div>
+                    <div class="col-md-8">
+                        <p>An innovative AI/ML Engineer specializing in Computer Vision, with a proven track record of developing and enhancing sophisticated algorithms and applications in the field. Skilled in leveraging deep learning, facial recognition, and optical character recognition technologies to solve complex problems and deliver cutting-edge solutions.</p>
+                        <p>Successfully enhanced OCR accuracy to over 95%, and pioneered height estimation algorithms with remarkable precision. Adept in Python, TensorFlow, Keras, OpenCV, and various AI/ML technologies.</p>
+                        <h4>Skills</h4>
+                        <div class="skills">
+                            <span class="badge bg-primary">Python</span>
+                            <span class="badge bg-primary">TensorFlow</span>
+                            <span class="badge bg-primary">Keras</span>
+                            <span class="badge bg-primary">OpenCV</span>
+                            <span class="badge bg-primary">NLP</span>
+                            <span class="badge bg-primary">Computer Vision</span>
+                            <span class="badge bg-primary">Machine Learning</span>
+                            <span class="badge bg-primary">Deep Learning</span>
+                            <span class="badge bg-primary">Django</span>
+                            <span class="badge bg-primary">Flask</span>
+                            <span class="badge bg-primary">Streamlit</span>
+                            <span class="badge bg-primary">OpenAI API</span>
+                            <span class="badge bg-primary">LangChain</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5">Projects</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/visualpro.jpg" class="card-img-top" alt="VisualPro">
+                            <div class="card-body">
+                                <h5 class="card-title">VisualPro (Hackathon Winner)</h5>
+                                <p class="card-text">1st place in WebGPU Hackathon. Lead Back-end Developer. Built with Node.js, SQLite, and Three.js for 3D data visualization.</p>
+                                <a href="https://lablab.ai/event/webgpu-hackathon/tender-ai/visualpro" class="btn btn-primary" target="_blank">View Project</a>
                             </div>
                         </div>
-                        <div class="col-md-6 mt-3">
-                            <h1 class="text-center text-md-start"><mark>About me</mark></h1>
-                            <p class="lead">
-                                An innovative AI/ML Engineer specializing in Computer Vision, with a proven track record of developing and enhancing sophisticated algorithms and applications in the field. <br>
-                               Skilled in leveraging deep learning, facial recognition, and optical character recognition technologies to solve complex problems and deliver cutting-edge solutions. Successfully enhanced OCR accuracy to over 95%, and pioneered height estimation algorithms with remarkable precision. Adept in Python, TensorFlow, Keras, OpenCV, and various AI/ML technologies. <br>
-                                I bring a blend of analytical expertise, creative problem-solving, and a continuous learning mindset to drive advancements in computer vision and beyond. Committed to pushing the boundaries of AI to create impactful and efficient solutions. <br>
-                                Let's embark on a collaborative journey to shape the next big thing in AI!
-                            </p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/PlayMyEmotions.jpeg" class="card-img-top" alt="Play My Emotions">
+                            <div class="card-body">
+                                <h5 class="card-title">Play My Emotions</h5>
+                                <p class="card-text">AI-driven Disney song recommender built with Python that uses OpenAI, DeepLake, LangChain and Streamlit.</p>
+                                <a href="https://github.com/djpapzin/Play-My-Emotions" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/mentalwellness.jpg" class="card-img-top" alt="MentalWellnessChatbot">
+                            <div class="card-body">
+                                <h5 class="card-title">MentalWellnessChatbot</h5>
+                                <p class="card-text">AI chatbot offering mental health advice using Streamlit, LangChain, and Llama 2 by Meta.</p>
+                                <a href="https://github.com/djpapzin/MentalWellnessChatbot" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/jarvis.jpeg" class="card-img-top" alt="Jarvis-Voice-Assistant">
+                            <div class="card-body">
+                                <h5 class="card-title">Jarvis-Voice-Assistant</h5>
+                                <p class="card-text">AI-powered voice assistant using OpenAI Whisper, DeepLake, ChatGPT, and ElevenLabs.</p>
+                                <a href="https://github.com/djpapzin/Jarvis-Voice-Assistant" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/newssummarizer.jpeg" class="card-img-top" alt="AI-Powered-News-Summarizer">
+                            <div class="card-body">
+                                <h5 class="card-title">AI-Powered-News-Summarizer</h5>
+                                <p class="card-text">News article summarizer using OpenAI's GPT-3.5-turbo model for concise summaries.</p>
+                                <a href="https://github.com/djpapzin/AI-Powered-News-Summarizer" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/whatsappbot.png" class="card-img-top" alt="AI-Assistant-WhatsApp-Bot">
+                            <div class="card-body">
+                                <h5 class="card-title">AI-Assistant-WhatsApp-Bot</h5>
+                                <p class="card-text">Python-based AI assistant using OpenAI's GPT-3.5 turbo model for WhatsApp interactions.</p>
+                                <a href="https://github.com/djpapzin/AI-Assistant-WhatsApp-Bot" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/chatsnap.png" class="card-img-top" alt="ChatSnap-Extractor">
+                            <div class="card-body">
+                                <h5 class="card-title">ChatSnap-Extractor</h5>
+                                <p class="card-text">Django-based web app for extracting text, timestamps, and emojis from chat screenshots with 99%+ accuracy.</p>
+                                <a href="https://github.com/djpapzin/ChatSnap-Extractor" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/nextsapien.png" class="card-img-top" alt="NextSapien Facial Analysis">
+                            <div class="card-body">
+                                <h5 class="card-title">NextSapien Facial Analysis</h5>
+                                <p class="card-text">Comprehensive facial analysis system using DeepFace and Facial Attribute Recognition.</p>
+                                <a href="https://github.com/djpapzin/NextSapien-Facial-Analysis" class="btn btn-primary" target="_blank">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects">
-        <div class="container p-5">
-            <h1 class="text-center"><mark>Projects</mark></h1>
-            <div class="row">
-                <div class="col-md-4 mt-3">
-                    <div class="card">
-                        <img src="assets\WebGPU.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">VisualPro (Hackathon Winner)</h5>
-                            <p class="card-text">1st place in WebGPU Hackathon. Lead Back-end Developer. Built with Node.js, SQLite, and Three.js for 3D data visualization.</p>
-                            <a href="https://lablab.ai/event/webgpu-hackathon/tender-ai/visualpro" target="_blank" class="btn btn-primary">View Website</a>
-                            <a href="https://github.com/djpapzin/webgpu-backend" target="_blank" class="btn btn-outline-dark"><i class="bi bi-code-slash"></i></a>
-                        </div>
+        <section id="contact" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Let's Connect</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
                     </div>
                 </div>
-
-                <div class="col-md-4 mt-3">
-                    <div class="card">
-                        <img src="assets\PlayMyEmotions.jpeg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Play My Emotions</h5>
-                            <p class="card-text">AI-driven Disney song recommender built with Python that uses OpenAI, DeepLake, LangChain and Streamlit.</p>
-                            <a href="https://huggingface.co/spaces/DjPapzin/PlayMyEmotions" target="_blank" class="btn btn-primary">View Website</a>
-                            <a href="https://github.com/djpapzin/Play-My-Emotions" target="_blank" class="btn btn-outline-dark"><i class="bi bi-code-slash"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mt-3">
-                    <div class="card">
-                        <img src="assets\AI-Bot-Recommendation.jpeg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">AI Survey Bot Recommendation</h5>
-                            <p class="card-text">Streamlit app powered by OpenAI that provides AI tool recommendations to enhance businesses based on user responses to survey questions.</p>
-                            <a href="https://huggingface.co/spaces/DjPapzin/AI-Bot-Recommendation" target="_blank" class="btn btn-primary">View Website</a>
-                            <a href="https://github.com/djpapzin/AI-Survey-Bot_Recommendation" target="_blank" class="btn btn-outline-dark"><i class="bi bi-code-slash"></i></a>
-                        </div>
-                    </div>
+                <div class="text-center mt-4">
+                    <a href="https://twitter.com/djpapzin" class="btn btn-outline-primary me-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com/in/djpapzin" class="btn btn-outline-primary me-2" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/djpapzin" class="btn btn-outline-primary" target="_blank"><i class="fab fa-github"></i></a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <section id="contact">
-        <div class="container p-5">
-            <div class="card p-3">
-                <div class="card-body px-5 text-center">
-                    <h1><mark>Let's Connect</mark></h1>
-                    <p class="lead">
-                        Would love to connect with fellow developers, employers looking for developers, or anyone looking to get web development done.
-                    </p>
-                    <a class="fs-2" href="https://twitter.com/djpapzin" target="_blank"><i class="bi bi-twitter m-2"></i></a>
-                    <a class="fs-2" href="https://linkedin.com/in/djpapzin" target="_blank"><i class="bi bi-linkedin m-2"></i></a>
-                    <a class="fs-2" href="https://github.com/djpapzin" target="_blank"><i class="bi bi-github m-2"></i></a>
-
-                    <form>
-                        <div class="mb-3">
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email Address" />
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="name" placeholder="Enter Name" />
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="subject" placeholder="Enter Subject" />
-                        </div>
-
-                        <div class="mb-3">
-                            <textarea class="form-control" aria-label="with textarea" placeholder="Enter Message"></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-dark text-center text-white">
-        <div class="container p-3">
-            <p>Developed by DJ Papzin using Bootstrap</p>
+    <footer class="bg-dark text-white py-3">
+        <div class="container text-center">
+            <p>&copy; 2024 DJ Papzin. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script>
-        window.addEventListener("scroll", () => {
-            const header = document.querySelector("header")
-            header.classList.toggle("scrolling", window.scrollY > 0)
-        })
-    </script>
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-    <script>
-        var typed = new Typed('#typed', {
-            strings: ['AI Developer', 'Python Developer', 'Web Development Certified', 'Analytical Chemistry Graduate'],
-            loop: true,
-            typeSpeed: 75,
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>
