@@ -63,6 +63,10 @@ footer {
   border-color: #666;
 }
 
+.form-control::placeholder {
+  color: #aaa;
+}
+
 .btn-primary {
   background-color: #0056b3;
   border-color: #004085;
