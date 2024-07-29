@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Typed.js initialization
     var options = {
-        strings: ['AI/ML Developer', 'Python Enthusiast', 'Computer Vision Specialist', 'NLP Engineer'],
+        strings: ['AI/ML Engineer', 'Computer Vision Specialist', 'Deep Learning Expert', 'Facial Recognition Developer', 'OCR Innovator'],
         typeSpeed: 50,
         backSpeed: 50,
         loop: true
