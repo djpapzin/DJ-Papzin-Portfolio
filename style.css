@@ -163,6 +163,10 @@ footer {
   font-size: 0.9rem;
 }
 
+.typed-cursor {
+  vertical-align: text-top;
+}
+
 @media (max-width: 768px) {
   .banner-wrap h1 {
       font-size: 2.5rem;
