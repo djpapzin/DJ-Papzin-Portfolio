@@ -125,6 +125,26 @@ footer {
   object-fit: cover;
 }
 
+.project-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-text {
+  flex-grow: 1;
+}
+
+.btn-container {
+  margin-top: auto;
+}
+
 form .form-control {
   border-radius: 0;
 }
