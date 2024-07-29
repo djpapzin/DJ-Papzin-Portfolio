@@ -47,14 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
         this.reset();
     });
 
-    // View More functionality
-    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    // Projects functionality
     const projectsRow = document.getElementById('projectsRow');
-    const additionalProjects = document.getElementById('additionalProjects');
-    let isExpanded = false;
 
     const allProjects = [
-        // Add all your projects here, including the initial visible ones
+        // Add all your projects here
         {
             image: "assets/truthguard.jpg",
             alt: "TruthGuard",
@@ -91,24 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeProjects() {
-        const visibleProjects = allProjects.slice(0, 3);
-        const hiddenProjects = allProjects.slice(3);
-
-        projectsRow.innerHTML = visibleProjects.map(createProjectCard).join('');
-        additionalProjects.innerHTML = hiddenProjects.map(createProjectCard).join('');
+        projectsRow.innerHTML = allProjects.map(createProjectCard).join('');
     }
-
-    viewMoreBtn.addEventListener('click', function() {
-        if (!isExpanded) {
-            additionalProjects.style.display = 'flex';
-            viewMoreBtn.textContent = 'View Less';
-            isExpanded = true;
-        } else {
-            additionalProjects.style.display = 'none';
-            viewMoreBtn.textContent = 'View More';
-            isExpanded = false;
-        }
-    });
 
     // Initialize the projects when the page loads
     window.addEventListener('DOMContentLoaded', initializeProjects);
