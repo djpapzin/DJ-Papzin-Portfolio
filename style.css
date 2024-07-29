@@ -179,13 +179,18 @@ footer {
 }
 
 .typed-cursor {
-  vertical-align: middle;
-  font-size: 2rem;
-  line-height: 1;
-  display: inline-block;
-  margin-left: 0.1em;
-  position: relative;
-  top: -0.1em;
+  opacity: 1;
+  animation: typedjsBlink 0.7s infinite;
+  -webkit-animation: typedjsBlink 0.7s infinite;
+  animation: typedjsBlink 0.7s infinite;
+}
+@keyframes typedjsBlink {
+  50% { opacity: 0.0; }
+}
+@-webkit-keyframes typedjsBlink {
+  0% { opacity: 1; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1; }
 }
 
 @media (max-width: 768px) {
