@@ -179,8 +179,9 @@ footer {
 }
 
 .typed-cursor {
-  vertical-align: baseline;
+  vertical-align: middle;
   font-size: 2rem;
+  line-height: 1;
 }
 
 @media (max-width: 768px) {
