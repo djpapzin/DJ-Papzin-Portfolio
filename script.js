@@ -88,8 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeProjects() {
-        const projectsHTML = allProjects.map(createProjectCard).join('');
-        projectsRow.innerHTML = `<div class="row">${projectsHTML}</div>`;
+        projectsRow.innerHTML = allProjects.map(createProjectCard).join('');
     }
 
     // Initialize the projects when the page loads
