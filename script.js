@@ -50,22 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // View More functionality
     const viewMoreBtn = document.getElementById('viewMoreBtn');
     const projectsRow = document.getElementById('projectsRow');
-    const additionalProjects = document.getElementById('additionalProjects');
-    let isExpanded = false;
-
-    const allProjects = [
-        // Add all your projects here, including the initial visible ones
+    const additionalProjects = [
         {
-            image: "assets/truthguard.jpg",
-            alt: "TruthGuard",
-            title: "TruthGuard",
-            description: "AI-powered system to combat fake news using Llama 3, featuring real-time detection and content moderation across digital platforms.",
-            technologies: "Python, Flask, Together AI (Llama 3), Pandas, Scikit-learn, LlamaIndex, Milvus",
-            demoLink: "https://truth-guard-dusky.vercel.app/",
-            presentationLink: "https://lablab.ai/event/llama-3-ai-hackathon/truth-defenders/truthguard",
-            projectLink: "https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM"
+            image: "assets/chatsnap.png",
+            alt: "ChatSnap-Extractor",
+            title: "ChatSnap-Extractor",
+            description: "Django-based web app for extracting text, timestamps, and emojis from chat screenshots with 99%+ accuracy.",
+            technologies: "Python, Django, PaddleOCR, YOLO",
+            link: "https://github.com/djpapzin/ChatSnap-Extractor"
         },
-        // Add the rest of your projects here
+        // Add more projects here
     ];
 
     function createProjectCard(project) {
@@ -80,9 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <strong>Technologies:</strong> ${project.technologies}
                         </p>
                         <div class="mt-auto">
-                            ${project.demoLink ? `<a href="${project.demoLink}" class="btn btn-info w-100 mb-2" target="_blank">View Demo</a>` : ''}
-                            ${project.presentationLink ? `<a href="${project.presentationLink}" class="btn btn-presentation w-100 mb-2" target="_blank">View Presentation</a>` : ''}
-                            <a href="${project.projectLink}" class="btn btn-primary w-100" target="_blank">View Project</a>
+                            <a href="${project.link}" class="btn btn-primary w-100" target="_blank">View Project</a>
                         </div>
                     </div>
                 </div>
@@ -90,26 +82,17 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    function initializeProjects() {
-        const visibleProjects = allProjects.slice(0, 3);
-        const hiddenProjects = allProjects.slice(3);
-
-        projectsRow.innerHTML = visibleProjects.map(createProjectCard).join('');
-        additionalProjects.innerHTML = hiddenProjects.map(createProjectCard).join('');
-    }
-
     viewMoreBtn.addEventListener('click', function() {
-        if (!isExpanded) {
-            additionalProjects.style.display = 'flex';
+        if (projectsRow.children.length <= 3) {
+            additionalProjects.forEach(project => {
+                projectsRow.innerHTML += createProjectCard(project);
+            });
             viewMoreBtn.textContent = 'View Less';
-            isExpanded = true;
         } else {
-            additionalProjects.style.display = 'none';
+            while (projectsRow.children.length > 3) {
+                projectsRow.removeChild(projectsRow.lastChild);
+            }
             viewMoreBtn.textContent = 'View More';
-            isExpanded = false;
         }
     });
-
-    // Initialize the projects when the page loads
-    window.addEventListener('DOMContentLoaded', initializeProjects);
 });
