@@ -1,14 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Typing animation for name
-    new Typed('#typed-name', {
-        strings: ['I am Letlhogonolo Fanampe'],
-        typeSpeed: 50,
-        showCursor: false,
-        onComplete: function() {
-            // Start roles animation after name is typed
-            initRolesTyping();
-        }
-    });
+    // Initialize name typing animation
+    try {
+        const nameTyping = new Typed('#typed-name', {
+            strings: ['I am Letlhogonolo Fanampe'],
+            typeSpeed: 50,
+            showCursor: false,
+            onComplete: function() {
+                // Start roles animation after name is typed
+                initRolesTyping();
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing name typing:', error);
+    }
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -77,24 +81,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initRolesTyping() {
-    new Typed('#typed-roles', {
-        strings: [
-            'AI/ML Consultant & Solutions Architect',
-            'Generative AI Developer',
-            'NLP Specialist',
-            'Python Developer',
-            'Computer Vision Engineer',
-            'LLM Integration Expert',
-            'MLOps Engineer',
-            'AI Solutions Architect'
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        backDelay: 2000,
-        startDelay: 500,
-        loop: true,
-        showCursor: true,
-        cursorChar: '|',
-        autoInsertCss: true
-    });
+    try {
+        const rolesTyping = new Typed('#typed-roles', {
+            strings: [
+                'AI/ML Engineer | Gen AI | NLP | Python Developer',
+                'AI/ML Consultant & Solutions Architect',
+                'Generative AI & LLM Integration Expert',
+                'Computer Vision & NLP Specialist',
+                'Full Stack AI Developer',
+                'MLOps & AI Pipeline Engineer'
+            ],
+            typeSpeed: 40,
+            backSpeed: 20,
+            backDelay: 2000,
+            startDelay: 300,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|',
+            autoInsertCss: true,
+            fadeOut: true,
+            fadeOutClass: 'typed-fade-out',
+            fadeOutDelay: 500
+        });
+    } catch (error) {
+        console.error('Error initializing roles typing:', error);
+    }
 }
