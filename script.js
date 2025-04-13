@@ -1,33 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Typed.js initialization for name
-    var nameOptions = {
+    // Typing animation for name
+    new Typed('#typed-name', {
         strings: ['I am Letlhogonolo Fanampe'],
         typeSpeed: 50,
-        backSpeed: 50,
-        loop: false,
-        showCursor: false
-    };
-    
-    var typedName = new Typed('#typed-name', nameOptions);
-
-    // Typed.js initialization for roles
-    var rolesOptions = {
-        strings: ['AI/ML Engineer', 'Computer Vision Specialist', 'Deep Learning Expert', 'Facial Recognition Developer', 'OCR Innovator'],
-        typeSpeed: 50,
-        backSpeed: 50,
-        loop: true,
-        startDelay: 2000 // Start after the name animation is complete
-    };
-    
-    var typedRoles = new Typed('#typed-roles', rolesOptions);
+        showCursor: false,
+        onComplete: function() {
+            // Start roles animation after name is typed
+            initRolesTyping();
+        }
+    });
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 
@@ -83,3 +75,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function initRolesTyping() {
+    new Typed('#typed-roles', {
+        strings: [
+            'AI/ML Consultant & Solutions Architect',
+            'Generative AI Developer',
+            'NLP Specialist',
+            'Python Developer',
+            'Computer Vision Engineer',
+            'LLM Integration Expert',
+            'MLOps Engineer',
+            'AI Solutions Architect'
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        startDelay: 500,
+        loop: true,
+        showCursor: true,
+        cursorChar: '|',
+        autoInsertCss: true
+    });
+}

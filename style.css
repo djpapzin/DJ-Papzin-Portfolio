@@ -270,6 +270,9 @@ footer {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 2rem;
+    background: linear-gradient(145deg, #2a2a2a, #333, #2d2d2d);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
 }
 
 .service-card:hover {
@@ -277,6 +280,7 @@ footer {
     background: linear-gradient(145deg, #333 0%, #383838 100%);
     border-color: rgba(0, 123, 255, 0.2);
     box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+    animation: gradientShift 8s ease infinite;
 }
 
 .service-icon {
@@ -356,6 +360,9 @@ footer {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     padding: 2rem;
+    background: linear-gradient(145deg, #2a2a2a, #333, #2d2d2d);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
 }
 
 .case-study-card:hover {
@@ -363,6 +370,7 @@ footer {
     background: linear-gradient(145deg, #333 0%, #383838 100%);
     border-color: rgba(0, 123, 255, 0.2);
     box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+    animation: gradientShift 8s ease infinite;
 }
 
 .case-study-title {
@@ -415,6 +423,16 @@ footer {
 
 .case-study-links .btn {
     flex: 1;
+}
+
+.case-study-links .btn-outline-primary {
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.case-study-links .btn-outline-primary:hover {
+    background: #007bff;
+    color: #fff;
 }
 
 /* CTA Buttons */
@@ -484,20 +502,24 @@ footer {
 }
 
 .experience-item {
-    padding: 1rem;
+    padding: 1.5rem;
     border-left: 3px solid #6c5ce7;
     margin-bottom: 1.5rem;
     background: rgba(108, 92, 231, 0.05);
+    border-radius: 8px;
 }
 
 .experience-item h5 {
-    color: #2d3436;
+    color: #e0e0e0;
     margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .experience-item .text-muted {
+    color: #b3b3b3 !important;
     font-size: 0.9rem;
     margin-bottom: 1rem;
+    opacity: 0.9;
 }
 
 .experience-item ul {
@@ -510,6 +532,7 @@ footer {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
+    color: #aaa;
 }
 
 .experience-item ul li:before {
@@ -546,5 +569,46 @@ html {
 @media (min-width: 768px) {
     .service-card, .case-study-card {
         height: calc(100% - 2rem);
+    }
+}
+
+.row.g-4 {
+    --bs-gutter-x: 2rem;
+    --bs-gutter-y: 2rem;
+}
+
+.service-card, .case-study-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-card .card-body, .case-study-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-features, .case-study-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.case-study-links, .service-features {
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
