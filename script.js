@@ -78,6 +78,168 @@ document.addEventListener('DOMContentLoaded', function() {
             isExpanded = false;
         }
     });
+
+    // Enhanced consultation form handling
+    const consultationForm = document.getElementById('consultationForm');
+    if (consultationForm) {
+        // Add loading spinner to submit button
+        const submitBtn = consultationForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        
+        // Form validation feedback
+        const inputs = consultationForm.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', function(e) {
+                e.preventDefault();
+                this.classList.add('is-invalid');
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('is-invalid')) {
+                    this.classList.remove('is-invalid');
+                }
+            });
+        });
+
+        consultationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+            
+            try {
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    service: document.getElementById('serviceType').value,
+                    dateTime: document.getElementById('consultationDateTime').value,
+                    details: document.getElementById('projectDetails').value
+                };
+                
+                // Simulate API call (replace with actual API endpoint)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show success message
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success mt-3 animate__animated animate__fadeIn';
+                successAlert.innerHTML = `
+                    <h5>Consultation Request Received!</h5>
+                    <p>Thank you ${formData.name}! I will contact you shortly to confirm your consultation for ${new Date(formData.dateTime).toLocaleString()}.</p>
+                `;
+                
+                this.insertAdjacentElement('afterend', successAlert);
+                
+                // Reset form
+                this.reset();
+                
+                // Remove success message after 5 seconds
+                setTimeout(() => {
+                    successAlert.classList.replace('animate__fadeIn', 'animate__fadeOut');
+                    setTimeout(() => successAlert.remove(), 1000);
+                }, 5000);
+                
+            } catch (error) {
+                // Show error message
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'alert alert-danger mt-3';
+                errorAlert.textContent = 'There was an error submitting your request. Please try again.';
+                this.insertAdjacentElement('afterend', errorAlert);
+                
+                // Remove error message after 5 seconds
+                setTimeout(() => errorAlert.remove(), 5000);
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+    }
+
+    // Project filtering
+    const filterButtons = document.querySelectorAll('.btn-filter');
+    const projectItems = document.querySelectorAll('.project-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filterValue = button.getAttribute('data-filter');
+
+            projectItems.forEach(item => {
+                if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                    item.classList.remove('hidden');
+                    setTimeout(() => {
+                        item.style.display = 'block';
+                    }, 300);
+                } else {
+                    item.classList.add('hidden');
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+
+    // Project filtering functionality
+    const projectFilters = document.querySelectorAll('.btn-filter');
+    const projectItems = document.querySelectorAll('.project-item');
+
+    projectFilters.forEach(filter => {
+        filter.addEventListener('click', function() {
+            const category = this.dataset.filter;
+            
+            // Update active filter button
+            projectFilters.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter projects
+            projectItems.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                    // Add animation
+                    item.classList.add('fade-in');
+                    setTimeout(() => item.classList.remove('fade-in'), 500);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Initialize project metrics counters
+    const metrics = document.querySelectorAll('.project-metric-value');
+    metrics.forEach(metric => {
+        const target = parseInt(metric.getAttribute('data-target'));
+        const increment = target / 20;
+        let current = 0;
+        
+        const updateCount = () => {
+            if (current < target) {
+                current += increment;
+                metric.textContent = Math.ceil(current);
+                requestAnimationFrame(updateCount);
+            } else {
+                metric.textContent = target;
+            }
+        };
+        
+        // Start counter when element is in viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCount();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        
+        observer.observe(metric);
+    });
 });
 
 function initRolesTyping() {

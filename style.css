@@ -655,3 +655,338 @@ section h2:after {
 .experience-item li {
     color: rgba(255, 255, 255, 0.9);
 }
+
+.booking-section {
+    background: linear-gradient(145deg, #2a2a2a 0%, #333 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 3rem;
+}
+
+.consultation-form .form-control,
+.consultation-form .form-select {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    color: #e0e0e0;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.consultation-form .form-control:focus,
+.consultation-form .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+}
+
+.consultation-form .form-control::placeholder {
+    color: #aaa;
+}
+
+.consultation-form .btn-primary {
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.consultation-form .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+}
+
+/* Projects Section Styles */
+.project-filters {
+    margin-bottom: 3rem;
+}
+
+.btn-filter {
+    background: transparent;
+    border: 1px solid #6c5ce7;
+    color: #fff;
+    margin: 0.25rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-filter:hover,
+.btn-filter.active {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+.project-item {
+    transition: all 0.5s ease;
+}
+
+.project-category {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(108, 92, 231, 0.9);
+    color: #fff;
+    padding: 0.3rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.card {
+    background: rgba(33, 37, 41, 0.03);
+    border: 1px solid rgba(108, 92, 231, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(108, 92, 231, 0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-stack .badge {
+    background: rgba(108, 92, 231, 0.1);
+    color: #6c5ce7;
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    padding: 0.5rem 1rem;
+}
+
+.project-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e2e2e2;
+}
+
+.metric i {
+    color: #6c5ce7;
+}
+
+.metric strong {
+    color: #fff;
+}
+
+/* Animation for filtering */
+.project-item {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.5s ease;
+}
+
+.project-item.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+.project-filters {
+    margin-bottom: 2rem;
+}
+
+.btn-filter {
+    background: transparent;
+    border: 2px solid #6c5ce7;
+    color: #e0e0e0;
+    margin: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-filter:hover,
+.btn-filter.active {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+.project-item {
+    transition: all 0.5s ease;
+    opacity: 1;
+}
+
+.project-item.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.project-category {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(108, 92, 231, 0.9);
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.tech-stack {
+    margin: 0.5rem 0;
+}
+
+.tech-stack .badge {
+    margin: 0.2rem;
+    background: rgba(108, 92, 231, 0.2);
+    color: #6c5ce7;
+    border: 1px solid #6c5ce7;
+}
+
+.project-metrics {
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+
+.project-metrics .metric {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: #aaa;
+}
+
+.project-metrics .metric i {
+    color: #6c5ce7;
+    margin-right: 0.5rem;
+    width: 20px;
+}
+
+.project-metrics .metric strong {
+    color: #6c5ce7;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form validation and feedback styles */
+.consultation-form .form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.consultation-form .is-invalid::placeholder {
+    color: #dc3545;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 768px) {
+    .booking-section {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .consultation-form .btn-primary {
+        width: 100%;
+        padding: 0.8rem;
+    }
+
+    .project-filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-filter {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .project-metrics {
+        flex-direction: column;
+    }
+
+    .project-metrics .metric {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .case-study-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Animation classes */
+.animate__animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+    animation-name: fadeIn;
+}
+
+.animate__fadeOut {
+    animation-name: fadeOut;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
