@@ -767,14 +767,16 @@ section h2:after {
 
 .project-category {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(108, 92, 231, 0.9);
-    color: var(--button-text);
-    padding: 5px 15px;
-    border-radius: 15px;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border-radius: 6px;
     font-size: 0.85rem;
+    font-weight: 500;
     z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Styles */
@@ -1068,4 +1070,80 @@ section:hover {
 /* Theme transition */
 .theme-transition * {
     transition: all 0.3s ease !important;
+}
+
+.badge {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.badge.bg-primary {
+    background-color: var(--accent-color) !important;
+    color: #ffffff;
+}
+
+.tech-stack .badge {
+    margin: 0.3rem 0.2rem;
+    background-color: rgba(108, 92, 231, 0.15);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.tech-stack .badge:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.case-study-meta .badge {
+    margin: 0.2rem;
+    padding: 0.5rem 1rem;
+}
+
+.case-study-meta .badge.bg-success {
+    background-color: #28a745 !important;
+    color: #ffffff;
+}
+
+.case-study-meta .badge.bg-info {
+    background-color: #17a2b8 !important;
+    color: #ffffff;
+}
+
+/* Dark theme adjustments */
+body.dark-theme .tech-stack .badge {
+    background-color: rgba(108, 92, 231, 0.2);
+    border-color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .badge {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+    }
+    
+    .tech-stack .badge {
+        margin: 0.2rem 0.15rem;
+    }
+}
+
+#about .lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.9;
+    max-width: 100%;
+    margin-bottom: 2rem;
+}
+
+.about-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    opacity: 0.9;
+    margin-bottom: 2rem;
 }
