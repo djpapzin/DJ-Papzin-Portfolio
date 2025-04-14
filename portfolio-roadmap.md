@@ -23,49 +23,6 @@
 - [x] Test visibility across different screen sizes
 - [x] Ensure consistent styling across all project cards
 
-### Project Metrics Validation
-
-#### WhatsApp AI Assistant
-- [ ] Verify response time: < 2s
-- [ ] Confirm language support: 10+ languages
-- [ ] Test accuracy claim: 95%
-
-#### NextSapien Facial Analysis
-- [ ] Verify processing speed: 0.5s/image
-- [ ] Confirm accuracy claims:
-  - [ ] Gender identification: 98%
-  - [ ] Age estimation: 94%
-  - [ ] Emotion detection: 96%
-
-#### TruthGuard
-- [ ] Test fake news detection accuracy: 95%
-- [ ] Verify processing time: < 2s
-- [ ] Confirm daily article handling: 10,000+
-
-#### Gemini Telegram Bot
-- [ ] Verify response time: < 1.5s
-- [ ] Confirm active users count: 500+
-
-#### MultiDoc Llama2 Bot
-- [ ] Test document processing time: 3s/doc
-- [ ] Verify maximum document limit: 10
-
-#### Comment Scope
-- [ ] Verify sentiment analysis accuracy: 94%
-- [ ] Test processing speed: 0.3s
-
-#### Article Assistant
-- [ ] Confirm articles/day capacity: 100+
-- [ ] Verify average processing time: 45s
-
-#### YT Video Summarizer
-- [ ] Test compression ratio: 90%
-- [ ] Verify supported languages: 8
-
-#### Mental Wellness Chatbot
-- [ ] Verify knowledge base size: 50+ PDFs
-- [ ] Confirm user satisfaction rate: 96%
-
 ## 🟡 Medium Priority Tasks
 
 ### Project Descriptions Verification
@@ -172,6 +129,7 @@
 - Re-order the ribbon according to the order of the title
 - Make the web browsing MCP to be headless because every time it runs, it opens a browser but doesn't close it
 - WhatsApp assistant screenshot demo not working
+- Banner image overlay inconsistency: greys out on hover and has inconsistent behavior when scrolling
 - Missing images in assets folder:
   - ai-assistant-whatsapp.jpg
   - stability-ai-drying.jpg
@@ -188,4 +146,47 @@
 - Gather feedback from users/clients
 - Keep content fresh and relevant
 - Monitor industry trends for new additions
-- Track implementation progress 
+- Track implementation progress
+
+## 🟣 Project Metrics Validation (Lowest Priority)
+
+### WhatsApp AI Assistant
+- [ ] Verify response time: < 2s
+- [ ] Confirm language support: 10+ languages
+- [ ] Test accuracy claim: 95%
+
+### NextSapien Facial Analysis
+- [ ] Verify processing speed: 0.5s/image
+- [ ] Confirm accuracy claims:
+  - [ ] Gender identification: 98%
+  - [ ] Age estimation: 94%
+  - [ ] Emotion detection: 96%
+
+### TruthGuard
+- [ ] Test fake news detection accuracy: 95%
+- [ ] Verify processing time: < 2s
+- [ ] Confirm daily article handling: 10,000+
+
+### Gemini Telegram Bot
+- [ ] Verify response time: < 1.5s
+- [ ] Confirm active users count: 500+
+
+### MultiDoc Llama2 Bot
+- [ ] Test document processing time: 3s/doc
+- [ ] Verify maximum document limit: 10
+
+### Comment Scope
+- [ ] Verify sentiment analysis accuracy: 94%
+- [ ] Test processing speed: 0.3s
+
+### Article Assistant
+- [ ] Confirm articles/day capacity: 100+
+- [ ] Verify average processing time: 45s
+
+### YT Video Summarizer
+- [ ] Test compression ratio: 90%
+- [ ] Verify supported languages: 8
+
+### Mental Wellness Chatbot
+- [ ] Verify knowledge base size: 50+ PDFs
+- [ ] Confirm user satisfaction rate: 96% 
