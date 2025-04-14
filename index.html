@@ -25,6 +25,11 @@
                         <li class="nav-item"><a class="nav-link" href="#expertise">Technical Expertise</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://flowcv.com/resume/tbttguovq8" target="_blank" rel="noopener">Resume</a></li>
+                        <li class="nav-item">
+                            <button id="themeToggle" class="btn btn-link nav-link" aria-label="Toggle dark mode">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +61,7 @@
                         <h3>Letlhogonolo Fanampe</h3>
                         <p>AI/ML Engineer | Gen AI | NLP | Python Developer</p>
                         <div class="contact-info mt-3">
-                            <p><i class="fas fa-envelope"></i> l.fanampe@gmail.com</p>
+                            <p><i class="fas fa-envelope"></i> <a href="mailto:l.fanampe@gmail.com?subject=AI/ML%20Consulting%20Inquiry%20-%20Let's%20Collaborate" class="email-link">l.fanampe@gmail.com</a></p>
                             <p><i class="fas fa-map-marker-alt"></i> South Africa (Remote)</p>
                             <div class="social-links">
                                 <a href="https://github.com/djpapzin" target="_blank" rel="noopener" class="me-2"><i class="fab fa-github"></i></a>
@@ -136,115 +141,6 @@
             </div>
         </section>
 
-        <section id="services" class="py-5 bg-light">
-            <div class="container">
-                <h2 class="text-center mb-5">AI/ML Consulting Services</h2>
-                <div class="row g-4">
-                    <!-- LLM Integration & Development -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <h3>LLM Integration & Development</h3>
-                            <ul class="service-list">
-                                <li>Custom LLM solution development</li>
-                                <li>Model fine-tuning and optimization</li>
-                                <li>Chatbot & conversational AI systems</li>
-                                <li>Integration with LangChain & FastAPI</li>
-                                <li>Performance optimization & scaling</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Computer Vision Solutions -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <h3>Computer Vision Solutions</h3>
-                            <ul class="service-list">
-                                <li>Object detection & recognition</li>
-                                <li>Facial analysis systems</li>
-                                <li>OCR implementation</li>
-                                <li>Image processing pipelines</li>
-                                <li>Real-time video analytics</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- NLP & Text Analytics -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-language"></i>
-                            </div>
-                            <h3>NLP & Text Analytics</h3>
-                            <ul class="service-list">
-                                <li>Text classification & sentiment analysis</li>
-                                <li>Named entity recognition</li>
-                                <li>Document processing automation</li>
-                                <li>Multi-language support</li>
-                                <li>Text generation & summarization</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- AI Infrastructure & MLOps -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-server"></i>
-                            </div>
-                            <h3>AI Infrastructure & MLOps</h3>
-                            <ul class="service-list">
-                                <li>Model deployment & serving</li>
-                                <li>Pipeline automation</li>
-                                <li>Performance monitoring</li>
-                                <li>Scalability solutions</li>
-                                <li>Cloud infrastructure setup</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- AI Strategy & Consulting -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <h3>AI Strategy & Consulting</h3>
-                            <ul class="service-list">
-                                <li>AI readiness assessment</li>
-                                <li>Solution architecture design</li>
-                                <li>Technology stack selection</li>
-                                <li>ROI analysis & planning</li>
-                                <li>Team training & knowledge transfer</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Custom AI Solutions -->
-                    <div class="col-md-4 mb-4">
-                        <div class="service-card h-100">
-                            <div class="service-icon">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <h3>Custom AI Solutions</h3>
-                            <ul class="service-list">
-                                <li>Bespoke AI application development</li>
-                                <li>Integration with existing systems</li>
-                                <li>Proof of concept development</li>
-                                <li>AI-powered automation</li>
-                                <li>End-to-end project delivery</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="projects" class="py-5">
             <div class="container">
                 <h2 class="text-center mb-5">Projects</h2>
@@ -252,18 +148,17 @@
                 <!-- Project Filters -->
                 <div class="project-filters text-center mb-5">
                     <button class="btn btn-filter active" data-filter="all">All Projects</button>
-                    <button class="btn btn-filter" data-filter="llm">LLM Applications</button>
-                    <button class="btn btn-filter" data-filter="cv">Computer Vision</button>
-                    <button class="btn btn-filter" data-filter="nlp">NLP & Text Processing</button>
-                    <button class="btn btn-filter" data-filter="automation">AI Tools & Automation</button>
+                    <button class="btn btn-filter" data-filter="llm-applications">LLM Applications</button>
+                    <button class="btn btn-filter" data-filter="computer-vision">Computer Vision</button>
+                    <button class="btn btn-filter" data-filter="nlp-text">NLP & Text Processing</button>
                 </div>
 
                 <div class="row g-4">
                     <!-- LLM Applications -->
-                    <div class="col-md-4 mb-4 project-item llm">
+                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
                         <div class="card h-100">
                             <div class="project-category">LLM Applications</div>
-                            <img src="assets/ai-assistant-whatsapp.jpg" class="card-img-top" alt="AI Assistant WhatsApp Bot">
+                            <img src="assets/whatsappbot.png" class="card-img-top" alt="AI Assistant WhatsApp Bot">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">AI Assistant WhatsApp Bot</h5>
                                 <div class="tech-stack mb-3">
@@ -292,7 +187,7 @@
                     </div>
 
                     <!-- Computer Vision -->
-                    <div class="col-md-4 mb-4 project-item cv">
+                    <div class="col-md-4 mb-4 project-item" data-category="computer-vision">
                         <div class="card h-100">
                             <div class="project-category">Computer Vision</div>
                             <img src="assets/nextsapien.png" class="card-img-top" alt="NextSapien Facial Analysis">
@@ -324,7 +219,7 @@
                     </div>
 
                     <!-- NLP & Text Processing -->
-                    <div class="col-md-4 mb-4 project-item nlp">
+                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
                         <div class="card h-100">
                             <div class="project-category">NLP & Text Processing</div>
                             <img src="assets/truthguard.jpg" class="card-img-top" alt="TruthGuard">
@@ -356,7 +251,7 @@
                     </div>
 
                     <!-- Gemini Telegram Bot -->
-                    <div class="col-md-4 mb-4 project-item llm">
+                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
                         <div class="card h-100">
                             <div class="project-category">LLM Applications</div>
                             <img src="assets/jarvis.jpeg" class="card-img-top" alt="Gemini Telegram Bot">
@@ -388,7 +283,7 @@
                     </div>
 
                     <!-- Multiple Document Llama2 Bot -->
-                    <div class="col-md-4 mb-4 project-item llm">
+                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
                         <div class="card h-100">
                             <div class="project-category">LLM Applications</div>
                             <img src="assets/AI-Bot-Recommendation.jpeg" class="card-img-top" alt="Multiple Document Llama2 Bot">
@@ -420,7 +315,7 @@
                     </div>
 
                     <!-- ChatSnap Extractor -->
-                    <div class="col-md-4 mb-4 project-item cv">
+                    <div class="col-md-4 mb-4 project-item" data-category="computer-vision">
                         <div class="card h-100">
                             <div class="project-category">Computer Vision</div>
                             <img src="assets/chatsnap.png" class="card-img-top" alt="ChatSnap Extractor">
@@ -452,7 +347,7 @@
                     </div>
 
                     <!-- Comment Scope -->
-                    <div class="col-md-4 mb-4 project-item nlp">
+                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
                         <div class="card h-100">
                             <div class="project-category">NLP & Text Processing</div>
                             <img src="assets/mentalwellness.jpg" class="card-img-top" alt="Comment Scope">
@@ -484,7 +379,7 @@
                     </div>
 
                     <!-- Article Assistant -->
-                    <div class="col-md-4 mb-4 project-item nlp">
+                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
                         <div class="card h-100">
                             <div class="project-category">NLP & Text Processing</div>
                             <img src="assets/newssummarizer.jpeg" class="card-img-top" alt="Article Assistant">
@@ -516,7 +411,7 @@
                     </div>
 
                     <!-- YouTube Video Summarizer -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Tools & Automation</div>
                             <img src="assets/movie-finder-ai.jpeg" class="card-img-top" alt="YouTube Video Summarizer">
@@ -548,7 +443,7 @@
                     </div>
 
                     <!-- Jarvis Voice Assistant -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
                             <img src="assets/jarvis.jpeg" class="card-img-top" alt="Jarvis Voice Assistant">
@@ -580,10 +475,10 @@
                     </div>
 
                     <!-- AI Assistant WhatsApp Bot -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
-                            <img src="assets/ai-assistant-whatsapp.jpg" class="card-img-top" alt="AI Assistant WhatsApp Bot">
+                            <img src="assets/whatsappbot.png" class="card-img-top" alt="AI Assistant WhatsApp Bot">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">WhatsApp AI Assistant</h5>
                                 <div class="tech-stack mb-3">
@@ -612,7 +507,7 @@
                     </div>
 
                     <!-- AI Survey Bot -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
                             <img src="assets/AI-Bot-Recommendation.jpeg" class="card-img-top" alt="AI Survey Bot">
@@ -644,7 +539,7 @@
                     </div>
 
                     <!-- Mental Wellness Chatbot -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
                             <img src="assets/mentalwellness.jpg" class="card-img-top" alt="Mental Wellness Chatbot">
@@ -676,10 +571,10 @@
                     </div>
 
                     <!-- RAG-based Support Agent -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
-                            <img src="assets/zendesk-support-agent.jpg" class="card-img-top" alt="RAG-based Support Agent - AI-powered customer support automation">
+                            <img src="assets/qxf.png" class="card-img-top" alt="RAG-based Support Agent">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">RAG-based Support Agent</h5>
                                 <div class="tech-stack mb-3">
@@ -708,10 +603,10 @@
                     </div>
 
                     <!-- Agent All Dry -->
-                    <div class="col-md-4 mb-4 project-item automation">
+                    <div class="col-md-4 mb-4 project-item" data-category="automation">
                         <div class="card h-100">
                             <div class="project-category">AI Agents</div>
-                            <img src="assets/stability-ai-drying.jpg" class="card-img-top" alt="Agent All Dry - AI-powered drying assistant">
+                            <img src="assets/visualpro.jpg" class="card-img-top" alt="Agent All Dry - AI-powered drying assistant">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">Agent All Dry</h5>
                                 <div class="tech-stack mb-3">
@@ -741,6 +636,161 @@
                 </div>
             </div>
         </section>        
+
+        <section id="services" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">AI/ML Consulting Services</h2>
+                <div class="row g-4">
+                    <!-- LLM Integration -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-brain fa-2x"></i>
+                                </div>
+                                <h3 class="h4">LLM Integration & Development</h3>
+                                <p>Custom LLM solutions tailored to your business needs. From model selection to deployment, I help you harness the power of language models effectively.</p>
+                                <ul class="service-features">
+                                    <li>Model Selection & Fine-tuning</li>
+                                    <li>Custom Training & Optimization</li>
+                                    <li>Integration with Existing Systems</li>
+                                    <li>Performance Optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AI Solution Architecture -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-microchip fa-2x"></i>
+                                </div>
+                                <h3 class="h4">Custom AI Solution Architecture</h3>
+                                <p>End-to-end AI solution design and implementation. From concept to deployment, I architect scalable and efficient AI systems.</p>
+                                <ul class="service-features">
+                                    <li>Requirements Analysis</li>
+                                    <li>System Design & Architecture</li>
+                                    <li>Technology Stack Selection</li>
+                                    <li>Implementation & Deployment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Computer Vision -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-eye fa-2x"></i>
+                                </div>
+                                <h3 class="h4">Computer Vision Applications</h3>
+                                <p>Specialized computer vision solutions for complex visual recognition tasks. From facial analysis to object detection.</p>
+                                <ul class="service-features">
+                                    <li>Object Detection & Recognition</li>
+                                    <li>Facial Analysis & Recognition</li>
+                                    <li>Image Segmentation</li>
+                                    <li>Video Analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- NLP & Text Processing -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-language fa-2x"></i>
+                                </div>
+                                <h3 class="h4">NLP & Text Processing</h3>
+                                <p>Advanced natural language processing solutions for text analysis, understanding, and generation.</p>
+                                <ul class="service-features">
+                                    <li>Text Classification</li>
+                                    <li>Sentiment Analysis</li>
+                                    <li>Named Entity Recognition</li>
+                                    <li>Text Generation & Summarization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- AI Pipeline Optimization -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-cogs fa-2x"></i>
+                                </div>
+                                <h3 class="h4">AI Pipeline Optimization</h3>
+                                <p>Streamline and optimize your AI workflows for better performance and efficiency.</p>
+                                <ul class="service-features">
+                                    <li>Pipeline Architecture Design</li>
+                                    <li>Performance Optimization</li>
+                                    <li>Resource Management</li>
+                                    <li>Monitoring & Maintenance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MLOps & Deployment -->
+                    <div class="col-md-4">
+                        <div class="service-card h-100">
+                            <div class="card-body">
+                                <div class="service-icon mb-4">
+                                    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                                </div>
+                                <h3 class="h4">MLOps & Deployment</h3>
+                                <p>Implement robust MLOps practices for reliable AI system deployment and management.</p>
+                                <ul class="service-features">
+                                    <li>CI/CD Pipeline Setup</li>
+                                    <li>Model Versioning</li>
+                                    <li>Monitoring & Logging</li>
+                                    <li>Scaling & Management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-8">
+                        <div class="booking-section">
+                            <h3 class="text-center mb-4">Book a Consultation</h3>
+                            <form id="consultationForm" class="consultation-form">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="serviceType" class="form-label">Service Type</label>
+                                    <select class="form-select" id="serviceType" name="serviceType" title="Select a service type" required>
+                                        <option value="">Select Service</option>
+                                        <option value="llm-applications">LLM Integration & Development</option>
+                                        <option value="ai-architecture">Custom AI Solution Architecture</option>
+                                        <option value="computer-vision">Computer Vision Applications</option>
+                                        <option value="nlp-text">NLP & Text Processing</option>
+                                        <option value="pipeline">AI Pipeline Optimization</option>
+                                        <option value="mlops">MLOps & Deployment</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="consultationDateTime" class="form-label">Preferred Date and Time</label>
+                                    <input type="datetime-local" class="form-control" id="consultationDateTime" name="consultationDateTime" title="Select your preferred consultation date and time" required>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="projectDetails" rows="4" placeholder="Brief Project Details" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Schedule Consultation</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="case-studies" class="py-5">
             <div class="container">
@@ -952,5 +1002,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="script.js"></script>
+    <script src="test-filtering.js"></script>
 </body>
 </html>

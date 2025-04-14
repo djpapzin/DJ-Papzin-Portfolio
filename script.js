@@ -1,10 +1,59 @@
+// Theme functions
+function updateThemeIcon(isDark) {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    const icon = themeToggle.querySelector('i');
+    if (!icon) return;
+
+    // Show sun icon in dark theme (to switch to light) and moon icon in light theme (to switch to dark)
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.classList.add('dark-theme');
+        updateThemeIcon(true);
+    } else {
+        document.body.classList.remove('dark-theme');
+        updateThemeIcon(false);
+    }
+}
+
+function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.add('theme-transition');
+        const isDark = document.body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+
+        // Remove transition class after animation completes
+        setTimeout(() => {
+            document.body.classList.remove('theme-transition');
+        }, 300);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initializeTheme();
+    setupThemeToggle();
+
     // Initialize name typing animation
     try {
         const nameTyping = new Typed('#typed-name', {
-            strings: ['I am Letlhogonolo Fanampe'],
+            strings: ['Letlhogonolo Fanampe'],
             typeSpeed: 50,
-            showCursor: false,
+            backSpeed: 30,
+            startDelay: 500,
+            showCursor: true,
+            cursorChar: '|',
             onComplete: function() {
                 // Start roles animation after name is typed
                 initRolesTyping();
@@ -12,6 +61,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } catch (error) {
         console.error('Error initializing name typing:', error);
+        document.getElementById('typed-name').textContent = 'Letlhogonolo Fanampe'; // Fallback text
+    }
+
+    function initRolesTyping() {
+        try {
+            const rolesTyping = new Typed('#typed-roles', {
+                strings: [
+                    'AI/ML Engineer | Gen AI | NLP | Python Developer',
+                    'AI/ML Consultant & Solutions Architect',
+                    'Generative AI & LLM Integration Expert',
+                    'Computer Vision & NLP Specialist',
+                    'Full Stack AI Developer',
+                    'MLOps & AI Pipeline Engineer'
+                ],
+                typeSpeed: 40,
+                backSpeed: 20,
+                backDelay: 2000,
+                startDelay: 300,
+                loop: true,
+                showCursor: true,
+                cursorChar: '|',
+                autoInsertCss: true,
+                fadeOut: true,
+                fadeOutClass: 'typed-fade-out',
+                fadeOutDelay: 500
+            });
+        } catch (error) {
+            console.error('Error initializing roles typing:', error);
+            document.getElementById('typed-roles').textContent = 'AI/ML Engineer | Gen AI | NLP | Python Developer'; // Fallback text
+        }
     }
 
     // Smooth scrolling for navigation links
@@ -20,9 +99,30 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                // Get the target position
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1000; // 1 second
+                let start = null;
+
+                // Animation function
+                function animation(currentTime) {
+                    if (start === null) start = currentTime;
+                    const timeElapsed = currentTime - start;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    
+                    // Easing function for smooth acceleration and deceleration
+                    const ease = t => t<.5 ? 2*t*t : -1+(4-2*t)*t;
+                    
+                    window.scrollTo(0, startPosition + (distance * ease(progress)));
+                    
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
             }
         });
     });
@@ -156,57 +256,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Project filtering
-    const filterButtons = document.querySelectorAll('.btn-filter');
+    // Initialize filter buttons
+    const filterBtns = document.querySelectorAll('.btn-filter');
     const projectItems = document.querySelectorAll('.project-item');
 
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
+    // Set 'all' filter as active by default
+    document.querySelector('[data-filter="all"]').classList.add('active');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
             // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
+            filterBtns.forEach(b => b.classList.remove('active'));
             // Add active class to clicked button
-            button.classList.add('active');
-
-            const filterValue = button.getAttribute('data-filter');
-
-            projectItems.forEach(item => {
-                if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                    item.classList.remove('hidden');
-                    setTimeout(() => {
-                        item.style.display = 'block';
-                    }, 300);
-                } else {
-                    item.classList.add('hidden');
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-
-    // Project filtering functionality
-    const projectFilters = document.querySelectorAll('.btn-filter');
-    const projectItems = document.querySelectorAll('.project-item');
-
-    projectFilters.forEach(filter => {
-        filter.addEventListener('click', function() {
-            const category = this.dataset.filter;
-            
-            // Update active filter button
-            projectFilters.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
-            // Filter projects
+
+            const filter = this.getAttribute('data-filter');
+
             projectItems.forEach(item => {
-                if (category === 'all' || item.classList.contains(category)) {
-                    item.style.display = 'block';
-                    // Add animation
-                    item.classList.add('fade-in');
-                    setTimeout(() => item.classList.remove('fade-in'), 500);
-                } else {
-                    item.style.display = 'none';
-                }
+                // Start fade out
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.8)';
+
+                setTimeout(() => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        // Trigger reflow
+                        void item.offsetWidth;
+                        // Start fade in
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }, 300);
             });
         });
     });
@@ -240,32 +322,25 @@ document.addEventListener('DOMContentLoaded', function() {
         
         observer.observe(metric);
     });
-});
 
-function initRolesTyping() {
-    try {
-        const rolesTyping = new Typed('#typed-roles', {
-            strings: [
-                'AI/ML Engineer | Gen AI | NLP | Python Developer',
-                'AI/ML Consultant & Solutions Architect',
-                'Generative AI & LLM Integration Expert',
-                'Computer Vision & NLP Specialist',
-                'Full Stack AI Developer',
-                'MLOps & AI Pipeline Engineer'
-            ],
-            typeSpeed: 40,
-            backSpeed: 20,
-            backDelay: 2000,
-            startDelay: 300,
-            loop: true,
-            showCursor: true,
-            cursorChar: '|',
-            autoInsertCss: true,
-            fadeOut: true,
-            fadeOutClass: 'typed-fade-out',
-            fadeOutDelay: 500
+    // Add smooth reveal animation for sections when scrolling
+    const sections = document.querySelectorAll('section');
+    const options = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observerSections = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+                observerSections.unobserve(entry.target);
+            }
         });
-    } catch (error) {
-        console.error('Error initializing roles typing:', error);
-    }
-}
+    }, options);
+
+    sections.forEach(section => {
+        section.classList.add('section-hidden');
+        observerSections.observe(section);
+    });
+});
