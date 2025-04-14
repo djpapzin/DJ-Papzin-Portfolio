@@ -17,11 +17,11 @@
 - [x] Add fallback text for cases where JavaScript fails
 
 ### Technology Badge Visibility
-- [ ] Update badge background color for better contrast
-- [ ] Adjust badge text color for readability
-- [ ] Review and update badge padding/spacing
-- [ ] Test visibility across different screen sizes
-- [ ] Ensure consistent styling across all project cards
+- [x] Update badge background color for better contrast
+- [x] Adjust badge text color for readability
+- [x] Review and update badge padding/spacing
+- [x] Test visibility across different screen sizes
+- [x] Ensure consistent styling across all project cards
 
 ### Project Metrics Validation
 
