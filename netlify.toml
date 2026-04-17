@@ -1,7 +1,7 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = ""
+  command = "python3 scripts/build-code-index.py"
 
 [[redirects]]
   from = "/api/*"

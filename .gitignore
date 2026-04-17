@@ -1,2 +1,5 @@
 .aider*
 *.cfg
+
+# Generated code search index, built at deploy time
+netlify/functions/code-index.json
