@@ -945,7 +945,7 @@ footer .neon-line {
       <h4>DJ Papzin's Assistant</h4>
       <span>● Online — Ask me anything</span>
     </div>
-    <button class="close-btn" onclick="toggleChat()">✕</button>
+    <button class="close-btn" onclick="closeChat()">✕</button>
   </div>
   <div class="chatbot-messages" id="chat-messages"></div>
   <div class="chatbot-suggestions" id="chat-suggestions"></div>
@@ -1198,15 +1198,37 @@ const SUGGESTIONS = [
 
 let chatHistory = [];
 
-function toggleChat() {
+function openChat() {
   const w = document.getElementById('chatbot');
-  w.classList.toggle('open');
+  w.classList.add('open');
   document.getElementById('chat-badge').style.display = 'none';
-  if (w.classList.contains('open') && !document.getElementById('chat-messages').children.length) {
-      botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
+  if (!document.getElementById('chat-messages').children.length) {
+    botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
     showSuggestions(SUGGESTIONS);
   }
 }
+
+function closeChat() {
+  document.getElementById('chatbot').classList.remove('open');
+}
+
+function toggleChat() {
+  const w = document.getElementById('chatbot');
+  if (w.classList.contains('open')) closeChat();
+  else openChat();
+}
+
+document.addEventListener('click', (e) => {
+  const w = document.getElementById('chatbot');
+  const t = document.querySelector('.chatbot-toggle');
+  if (!w.classList.contains('open')) return;
+  if (w.contains(e.target) || t.contains(e.target)) return;
+  closeChat();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeChat();
+});
 
 function botReply(text) {
   const el = document.createElement('div');
