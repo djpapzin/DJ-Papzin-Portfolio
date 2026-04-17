@@ -418,6 +418,15 @@ footer .neon-line {
   display: none; flex-direction: column; overflow: hidden;
 }
 .chatbot-window.open { display: flex; }
+.chatbot-window.minimized {
+  height: 62px;
+  max-height: 62px;
+}
+.chatbot-window.minimized .chatbot-messages,
+.chatbot-window.minimized .chatbot-suggestions,
+.chatbot-window.minimized .chatbot-input {
+  display: none;
+}
 
 .chatbot-header {
   padding: 1rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;
@@ -436,6 +445,11 @@ footer .neon-line {
   background: none; border: none; color: var(--text-dim); cursor: pointer;
   font-size: 1.2rem; transition: color 0.2s;
 }
+.chatbot-header .min-btn {
+  background: none; border: none; color: var(--text-dim); cursor: pointer;
+  font-size: 1.2rem; transition: color 0.2s; margin-right: 0.15rem;
+}
+.chatbot-header .min-btn:hover,
 .chatbot-header .close-btn:hover { color: var(--text); }
 
 .chatbot-messages {
@@ -945,6 +959,7 @@ footer .neon-line {
       <h4>DJ Papzin's Assistant</h4>
       <span>● Online — Ask me anything</span>
     </div>
+    <button class="min-btn" onclick="minimizeChat()" aria-label="Minimize chat">−</button>
     <button class="close-btn" onclick="closeChat()">✕</button>
   </div>
   <div class="chatbot-messages" id="chat-messages"></div>
@@ -1201,6 +1216,7 @@ let chatHistory = [];
 function openChat() {
   const w = document.getElementById('chatbot');
   w.classList.add('open');
+  w.classList.remove('minimized');
   document.getElementById('chat-badge').style.display = 'none';
   if (!document.getElementById('chat-messages').children.length) {
     botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
@@ -1208,13 +1224,22 @@ function openChat() {
   }
 }
 
+function minimizeChat() {
+  const w = document.getElementById('chatbot');
+  w.classList.add('open');
+  w.classList.add('minimized');
+  document.getElementById('chat-badge').style.display = 'none';
+}
+
 function closeChat() {
-  document.getElementById('chatbot').classList.remove('open');
+  const w = document.getElementById('chatbot');
+  w.classList.remove('open');
+  w.classList.remove('minimized');
 }
 
 function toggleChat() {
   const w = document.getElementById('chatbot');
-  if (w.classList.contains('open')) closeChat();
+  if (w.classList.contains('open') && !w.classList.contains('minimized')) closeChat();
   else openChat();
 }
 
@@ -1223,7 +1248,7 @@ document.addEventListener('click', (e) => {
   const t = document.querySelector('.chatbot-toggle');
   if (!w.classList.contains('open')) return;
   if (w.contains(e.target) || t.contains(e.target)) return;
-  closeChat();
+  minimizeChat();
 });
 
 document.addEventListener('keydown', (e) => {
