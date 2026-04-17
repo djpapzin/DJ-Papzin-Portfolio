@@ -1,1007 +1,1319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DJ Papzin - AI/ML Consultant & Engineer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letlhogonolo Fanampe — AI/ML Engineer | DJ Papzin</title>
+<meta name="description" content="Letlhogonolo Fanampe (DJ Papzin) — AI/ML Engineer, Gen AI specialist, producer, and DJ. Building intelligent solutions and keeping the dancefloor moving.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --neon-cyan: #00f0ff;
+  --neon-magenta: #ff00aa;
+  --neon-purple: #8b5cf6;
+  --text: #e0e0e8;
+  --text-dim: #6a6a7a;
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.1);
+  --glow-magenta: 0 0 20px rgba(255, 0, 170, 0.4), 0 0 60px rgba(255, 0, 170, 0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.3s;
+}
+nav .logo {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900; font-size: 1.3rem;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: 3px;
+}
+nav .links { display: flex; gap: 2rem; list-style: none; }
+nav .links a {
+  color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
+  letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+nav .links a:hover { color: var(--neon-cyan); text-shadow: var(--glow-cyan); }
+nav .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+/* ─── TABS ─── */
+.tab-bar {
+  position: sticky; top: 60px; z-index: 90;
+  display: flex; justify-content: center; gap: 0;
+  background: rgba(10, 10, 15, 0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 0 1rem;
+}
+.tab-btn {
+  padding: 0.9rem 1.8rem;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--text-dim); font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; cursor: pointer;
+  transition: color 0.3s, border-color 0.3s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  color: var(--neon-cyan);
+  border-bottom-color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0,240,255,0.3);
+}
+.tab-panel { display: none; animation: fadeTab 0.3s ease; }
+.tab-panel.active { display: block; }
+@keyframes fadeTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 50vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  position: relative; overflow: hidden;
+  padding: 6rem 2rem 3rem;
+}
+#hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 0, 170, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900; letter-spacing: 8px;
+  text-align: center; position: relative;
+  animation: glitch 8s infinite;
+}
+.hero-title .main-text {
+  background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 50%, var(--neon-magenta) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.3));
+}
+@keyframes glitch {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.8; transform: translate(-2px, 1px); }
+  97% { opacity: 0.9; transform: translate(2px, -1px); }
+  98% { opacity: 0.85; transform: translate(-1px, -1px); }
+  99% { opacity: 0.95; transform: translate(1px, 0); }
+}
+
+.hero-sub {
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: var(--text-dim); letter-spacing: 4px;
+  text-transform: uppercase; margin-top: 1rem;
+  text-align: center;
+}
+
+.hero-cta {
+  margin-top: 2.5rem; display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center;
+}
+.btn {
+  padding: 0.8rem 2rem; border-radius: 4px; font-weight: 600;
+  text-decoration: none; font-size: 0.9rem; letter-spacing: 1px;
+  text-transform: uppercase; transition: all 0.3s; cursor: pointer;
+  border: none; font-family: 'Inter', sans-serif;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: #000;
+}
+.btn-primary:hover { box-shadow: var(--glow-cyan); transform: translateY(-2px); }
+.btn-outline {
+  background: transparent; color: var(--neon-magenta);
+  border: 1px solid var(--neon-magenta);
+}
+.btn-outline:hover { background: rgba(255, 0, 170, 0.1); box-shadow: var(--glow-magenta); transform: translateY(-2px); }
+
+.scroll-indicator {
+  position: absolute; bottom: 2rem;
+  animation: bounce 2s infinite;
+  color: var(--text-dim); font-size: 1.5rem;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* ─── VISUALIZER ─── */
+#visualizer-section {
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+}
+#visualizer-section h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem; letter-spacing: 4px;
+  color: var(--text-dim); text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.viz-container {
+  position: relative; width: 100%;
+  max-width: 1000px; margin: 0 auto;
+  aspect-ratio: 3/1;
+}
+#visualizer {
+  width: 100%; height: 100%;
+  border-radius: 8px;
+  background: rgba(18, 18, 26, 0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.audio-controls {
+  margin-top: 1.5rem; display: flex; justify-content: center;
+  align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.audio-controls .btn { padding: 0.6rem 1.5rem; font-size: 0.8rem; }
+.audio-controls label {
+  cursor: pointer; color: var(--neon-cyan);
+  font-size: 0.8rem; letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.6rem 1.5rem; border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  transition: all 0.3s;
+  font-weight: 600;
+}
+.audio-controls label:hover { background: rgba(0, 240, 255, 0.1); box-shadow: var(--glow-cyan); }
+#audio-upload { display: none; }
+#audio-status { color: var(--text-dim); font-size: 0.75rem; margin-top: 0.8rem; }
+
+/* ─── SECTIONS ─── */
+section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem; letter-spacing: 4px;
+  color: var(--neon-cyan); text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+section h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700; margin-bottom: 2rem;
+  background: linear-gradient(90deg, #fff, var(--text-dim));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* ─── ABOUT ─── */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  align-items: start;
+}
+.about-text p { color: var(--text-dim); margin-bottom: 1rem; font-size: 0.95rem; }
+.about-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+.stat-card {
+  background: var(--surface); border-radius: 8px; padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.stat-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+.stat-card .number {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-card .label { color: var(--text-dim); font-size: 0.8rem; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ─── SKILLS ─── */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.skill-category {
+  background: var(--surface); border-radius: 8px; padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.skill-category h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8rem; letter-spacing: 2px;
+  color: var(--neon-cyan); margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-tag {
+  padding: 0.3rem 0.7rem; border-radius: 3px; font-size: 0.75rem;
+  background: rgba(0,240,255,0.08); color: var(--text-dim);
+  border: 1px solid rgba(0,240,255,0.15);
+}
+
+/* ─── EXPERIENCE ─── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(180deg, var(--neon-cyan), var(--neon-magenta), transparent);
+}
+.timeline-item {
+  position: relative; margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.timeline-item:last-child { border-bottom: none; margin-bottom: 0; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -2rem; top: 0.5rem;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan);
+  transform: translateX(-4px);
+}
+.timeline-item .date {
+  font-size: 0.75rem; color: var(--neon-magenta);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.timeline-item h3 { font-size: 1.1rem; margin-bottom: 0.2rem; }
+.timeline-item .company { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.8rem; }
+.timeline-item ul { list-style: none; }
+.timeline-item li {
+  color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.5rem;
+  padding-left: 1rem; position: relative;
+}
+.timeline-item li::before {
+  content: '▸'; position: absolute; left: 0; color: var(--neon-cyan);
+}
+
+/* ─── PROJECTS ─── */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.project-card {
+  background: var(--surface); border-radius: 8px; padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.4s; position: relative; overflow: hidden;
+}
+.project-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+  transform: scaleX(0); transition: transform 0.4s; transform-origin: left;
+}
+.project-card:hover { border-color: rgba(0,240,255,0.2); transform: translateY(-4px); }
+.project-card:hover::before { transform: scaleX(1); }
+.project-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.project-card h3 { font-family: 'Orbitron', monospace; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.project-card p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+.project-card .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.project-card .tag {
+  padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.65rem;
+  text-transform: uppercase; letter-spacing: 1px;
+  background: rgba(0,240,255,0.1); color: var(--neon-cyan);
+}
+.project-card .tag.accent { background: rgba(255,0,170,0.1); color: var(--neon-magenta); }
+
+/* ─── MUSIC ─── */
+.music-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.music-card {
+  background: var(--surface); border-radius: 8px; padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s; text-align: center;
+}
+.music-card:hover { border-color: rgba(255,0,170,0.3); }
+.music-card .album-art {
+  width: 100%; aspect-ratio: 1; border-radius: 6px; margin-bottom: 1rem;
+  background: linear-gradient(135deg, rgba(0,240,255,0.2), rgba(255,0,170,0.2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; position: relative; overflow: hidden;
+}
+.music-card .album-art::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+  pointer-events: none;
+}
+.music-card h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+.music-card .genre { color: var(--text-dim); font-size: 0.8rem; }
+
+/* ─── CONTACT ─── */
+#contact { text-align: center; }
+#contact p { color: var(--text-dim); max-width: 500px; margin: 0 auto 2rem; font-size: 0.95rem; }
+.contact-grid {
+  display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.social-link {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.5rem; border-radius: 4px;
+  background: var(--surface); border: 1px solid rgba(255,255,255,0.05);
+  color: var(--text); text-decoration: none; font-size: 0.85rem;
+  transition: all 0.3s;
+}
+.social-link:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0,240,255,0.15); }
+.availability {
+  display: inline-block; padding: 0.5rem 1.5rem; border-radius: 20px;
+  background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3);
+  color: var(--neon-cyan); font-size: 0.8rem; letter-spacing: 1px;
+}
+.availability::before { content: '● '; color: #00ff88; }
+
+/* ─── FOOTER ─── */
+footer {
+  text-align: center; padding: 3rem 2rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-dim); font-size: 0.8rem;
+}
+footer .neon-line {
+  width: 60px; height: 2px; margin: 0 auto 1.5rem;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+  border-radius: 1px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav .links { display: none; }
+  nav .hamburger { display: block; }
+  nav.open .links {
+    display: flex; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: rgba(10,10,15,0.95); padding: 1.5rem 2rem; gap: 1.2rem;
+    backdrop-filter: blur(20px);
+  }
+  .about-grid { grid-template-columns: 1fr; }
+  .hero-title { letter-spacing: 3px; }
+  .hero-sub { letter-spacing: 1px; font-size: 0.75rem; }
+  #hero p[style*="letter-spacing: 3px"] { letter-spacing: 1px; font-size: 0.7rem; }
+  .tab-bar { overflow-x: auto; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+  .tab-btn { flex-shrink: 0; padding: 0.8rem 1.2rem; font-size: 0.7rem; }
+}
+
+/* ─── AI CHATBOT ─── */
+.chatbot-toggle {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: #000; box-shadow: 0 4px 20px rgba(0,240,255,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.chatbot-toggle:hover { transform: scale(1.1); box-shadow: 0 4px 30px rgba(0,240,255,0.5); }
+.chatbot-toggle .badge {
+  position: absolute; top: -2px; right: -2px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--neon-magenta); border: 2px solid var(--bg);
+  animation: pulse-badge 2s infinite;
+}
+@keyframes pulse-badge { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.chatbot-window {
+  position: fixed; bottom: 6rem; right: 2rem; z-index: 200;
+  width: 380px; max-width: calc(100vw - 2rem);
+  height: 500px; max-height: calc(100vh - 8rem);
+  background: var(--surface); border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  display: none; flex-direction: column; overflow: hidden;
+}
+.chatbot-window.open { display: flex; }
+
+.chatbot-header {
+  padding: 1rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,240,255,0.03);
+}
+.chatbot-header .avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+}
+.chatbot-header .info { flex: 1; }
+.chatbot-header .info h4 { font-size: 0.85rem; margin-bottom: 0.1rem; }
+.chatbot-header .info span { font-size: 0.7rem; color: #00ff88; }
+.chatbot-header .close-btn {
+  background: none; border: none; color: var(--text-dim); cursor: pointer;
+  font-size: 1.2rem; transition: color 0.2s;
+}
+.chatbot-header .close-btn:hover { color: var(--text); }
+
+.chatbot-messages {
+  flex: 1; overflow-y: auto; padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.chatbot-messages::-webkit-scrollbar { width: 4px; }
+.chatbot-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.msg {
+  max-width: 85%; padding: 0.7rem 1rem; border-radius: 12px;
+  font-size: 0.85rem; line-height: 1.5;
+  animation: msgIn 0.3s ease;
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.msg.bot {
+  align-self: flex-start;
+  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.15);
+  border-bottom-left-radius: 4px;
+}
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(255,0,170,0.2));
+  border: 1px solid rgba(139,92,246,0.2);
+  border-bottom-right-radius: 4px;
+}
+.msg .typing { display: inline-flex; gap: 3px; }
+.msg .typing span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--neon-cyan); animation: typingDot 1.2s infinite;
+}
+.msg .typing span:nth-child(2) { animation-delay: 0.2s; }
+.msg .typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%,60%,100% { opacity: 0.3; } 30% { opacity: 1; } }
+
+.chatbot-suggestions {
+  padding: 0.5rem 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.suggestion {
+  padding: 0.35rem 0.8rem; border-radius: 16px; font-size: 0.72rem;
+  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.2);
+  color: var(--neon-cyan); cursor: pointer; transition: all 0.2s;
+  white-space: nowrap;
+}
+.suggestion:hover { background: rgba(0,240,255,0.15); }
+
+.chatbot-input {
+  padding: 0.8rem; display: flex; gap: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.chatbot-input input {
+  flex: 1; padding: 0.6rem 1rem; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1); background: var(--bg);
+  color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.85rem;
+  outline: none; transition: border-color 0.2s;
+}
+.chatbot-input input:focus { border-color: var(--neon-cyan); }
+.chatbot-input button {
+  padding: 0.6rem 1rem; border-radius: 8px; border: none;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: #000; font-weight: 600; cursor: pointer; font-size: 0.85rem;
+  transition: opacity 0.2s;
+}
+.chatbot-input button:hover { opacity: 0.85; }
+
+@media (max-width: 480px) {
+  .chatbot-window { right: 0.5rem; bottom: 5rem; width: calc(100vw - 1rem); height: calc(100vh - 6rem); }
+  .chatbot-toggle { right: 1rem; bottom: 1rem; }
+}
+
+/* ─── PARTICLES ─── */
+#particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+</style>
 </head>
 <body>
-    <header class="fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">DJ Papzin</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#case-studies">Case Studies</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#expertise">Technical Expertise</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="https://flowcv.com/resume/tbttguovq8" target="_blank" rel="noopener">Resume</a></li>
-                        <li class="nav-item">
-                            <button id="themeToggle" class="btn btn-link nav-link" aria-label="Toggle dark mode">
-                                <i class="fas fa-moon"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
 
-    <main>
-        <section id="home" class="banner-wrap vh-100 d-flex align-items-center justify-content-center text-white">
-            <div class="overlay"></div>
-            <div class="container text-center">
-                <h1 class="display-1">
-                    <span id="typed-name"></span>
-                </h1>
-                <span class="dj-papzin">DJ Papzin</span>
-                <p class="lead"><span id="typed-roles"></span></p>
-                <div class="cta-buttons mt-4">
-                    <a href="#services" class="btn btn-primary btn-lg mx-2">View Services</a>
-                    <a href="#contact" class="btn btn-outline-light btn-lg mx-2">Get in Touch</a>
-                </div>
-            </div>
-        </section>
+<canvas id="particles"></canvas>
 
-        <section id="about" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">About Me</h2>
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <img src="assets/profile.jpeg" alt="DJ Papzin" class="img-fluid rounded-circle mb-3">
-                        <h3>Letlhogonolo Fanampe</h3>
-                        <p>AI/ML Engineer | Gen AI | NLP | Python Developer</p>
-                        <div class="contact-info mt-3">
-                            <p><i class="fas fa-envelope"></i> <a href="mailto:l.fanampe@gmail.com?subject=AI/ML%20Consulting%20Inquiry%20-%20Let's%20Collaborate" class="email-link">l.fanampe@gmail.com</a></p>
-                            <p><i class="fas fa-map-marker-alt"></i> South Africa (Remote)</p>
-                            <div class="social-links">
-                                <a href="https://github.com/djpapzin" target="_blank" rel="noopener" class="me-2"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/djpapzin" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <p class="about-description mb-4">AI/ML Engineer with a deep passion for developing innovative solutions using Generative AI and NLP technologies. Experienced in building, fine-tuning, and deploying LLMs for diverse applications, including fake news detection, creative text generation, and multimodal interactions. Proven track record in winning hackathons and delivering high-impact AI solutions.</p>
-                        
-                        <div class="recent-experience mb-4">
-                            <h4 class="mb-3">Recent Experience</h4>
-                            <div class="experience-item mb-3">
-                                <h5>AI/ML Consultant - Kwantu PTY LTD</h5>
-                                <p class="text-muted">November 2024 - Present</p>
-                                <ul>
-                                    <li>Developed chatbot solutions using LangChain, FastAPI, and various LLMs (Mixtral-8x7B, Together AI)</li>
-                                    <li>Engineered data pipeline for ID document recognition using Detectron2 and Tesseract OCR</li>
-                                    <li>Managed server infrastructure and optimized multi-lingual AI applications</li>
-                                </ul>
-                            </div>
-                            <div class="experience-item">
-                                <h5>Software Engineer for AI Training Data - G2i</h5>
-                                <p class="text-muted">July 2024 - Present</p>
-                                <ul>
-                                    <li>Enhanced AI performance using RLHF techniques</li>
-                                    <li>Evaluated AI model outputs for improved accuracy</li>
-                                </ul>
-                            </div>
-                        </div>
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo" style="display:flex;align-items:center;gap:0.8rem;">
+    <span style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;">LF</span>
+    <span style="font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;">AI/ML Engineer</span>
+  </div>
+  <ul class="links">
+    <li><a href="#" onclick="switchTab('home');this.closest('nav').classList.remove('open');return false">Home</a></li>
+    <li><a href="#" onclick="switchTab('experience');this.closest('nav').classList.remove('open');return false">Experience</a></li>
+    <li><a href="#" onclick="switchTab('projects');this.closest('nav').classList.remove('open');return false">Projects</a></li>
+    <li><a href="#" onclick="switchTab('music');this.closest('nav').classList.remove('open');return false">Music</a></li>
+    <li><a href="#" onclick="switchTab('contact');this.closest('nav').classList.remove('open');return false">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="this.parentElement.classList.toggle('open')">☰</button>
+</nav>
 
-                        <h4 id="expertise">Technical Expertise</h4>
-                        <div class="skills">
-                            <div class="skill-category">
-                                <h5>AI/ML & Data Science:</h5>
-                                <span class="badge bg-primary">LLM Integration</span>
-                                <span class="badge bg-primary">Generative AI</span>
-                                <span class="badge bg-primary">NLP</span>
-                                <span class="badge bg-primary">Computer Vision</span>
-                                <span class="badge bg-primary">RLHF</span>
-                                <span class="badge bg-primary">OCR Technologies</span>
-                                <span class="badge bg-primary">Model Optimization</span>
-                            </div>
-                            
-                            <div class="skill-category">
-                                <h5>Programming & Development:</h5>
-                                <span class="badge bg-primary">Python</span>
-                                <span class="badge bg-primary">JavaScript (ReactJS, NodeJS)</span>
-                                <span class="badge bg-primary">Django</span>
-                                <span class="badge bg-primary">Flask</span>
-                                <span class="badge bg-primary">Streamlit</span>
-                                <span class="badge bg-primary">SQLite</span>
-                            </div>
-                            
-                            <div class="skill-category">
-                                <h5>Tools & Technologies:</h5>
-                                <span class="badge bg-primary">LangChain</span>
-                                <span class="badge bg-primary">FastAPI</span>
-                                <span class="badge bg-primary">Docker</span>
-                                <span class="badge bg-primary">Git</span>
-                                <span class="badge bg-primary">TensorFlow</span>
-                                <span class="badge bg-primary">Keras</span>
-                                <span class="badge bg-primary">OpenCV</span>
-                            </div>
-                            
-                            <div class="skill-category">
-                                <h5>Soft Skills:</h5>
-                                <span class="badge bg-primary">Problem Solving</span>
-                                <span class="badge bg-primary">Critical Thinking</span>
-                                <span class="badge bg-primary">Team Collaboration</span>
-                                <span class="badge bg-primary">Technical Communication</span>
-                                <span class="badge bg-primary">Project Management</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- HERO -->
+<section id="hero">
+  <p style="font-family: 'Orbitron', monospace; font-size: 0.8rem; letter-spacing: 6px; color: var(--neon-cyan); text-transform: uppercase; margin-bottom: 0.5rem;">Letlhogonolo Fanampe</p>
+  <h1 class="hero-title"><span class="main-text">AI/ML Engineer</span></h1>
+  <p class="hero-sub">Generative AI &bull; NLP &bull; LLMs</p>
+  <p style="color: var(--text-dim); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 0.6rem; text-align: center;"><strong style="color: var(--neon-magenta);">DJ Papzin</strong> &bull; Builder &bull; DJ since 2012</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="switchTab('projects')">See What I've Built</button>
+    <button class="btn btn-outline" onclick="switchTab('music')">Hear the Music</button>
+  </div>
+</section>
 
-        <section id="projects" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">Projects</h2>
-                
-                <!-- Project Filters -->
-                <div class="project-filters text-center mb-5">
-                    <button class="btn btn-filter active" data-filter="all">All Projects</button>
-                    <button class="btn btn-filter" data-filter="llm-applications">LLM Applications</button>
-                    <button class="btn btn-filter" data-filter="computer-vision">Computer Vision</button>
-                    <button class="btn btn-filter" data-filter="nlp-text">NLP & Text Processing</button>
-                </div>
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="home">Home</button>
+  <button class="tab-btn" data-tab="experience">Experience</button>
+  <button class="tab-btn" data-tab="projects">Projects</button>
+  <button class="tab-btn" data-tab="music">Music</button>
+  <button class="tab-btn" data-tab="contact">Contact</button>
+</div>
 
-                <div class="row g-4">
-                    <!-- LLM Applications -->
-                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
-                        <div class="card h-100">
-                            <div class="project-category">LLM Applications</div>
-                            <img src="assets/whatsappbot.png" class="card-img-top" alt="AI Assistant WhatsApp Bot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">AI Assistant WhatsApp Bot</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">OpenAI GPT-3.5</span>
-                                    <span class="badge bg-primary">Twilio API</span>
-                                    <span class="badge bg-primary">Flask</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    WhatsApp bot using OpenAI's GPT-3.5 for intelligent responses. Features real-time processing and multi-language support.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-clock"></i>
-                                        <span>Response Time: <strong>< 2s</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>Accuracy: <strong>95%</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/AI-Assistant-WhatsApp-Bot" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- TAB: HOME -->
+<div class="tab-panel active" id="tab-home">
 
-                    <!-- Computer Vision -->
-                    <div class="col-md-4 mb-4 project-item" data-category="computer-vision">
-                        <div class="card h-100">
-                            <div class="project-category">Computer Vision</div>
-                            <img src="assets/nextsapien.png" class="card-img-top" alt="NextSapien Facial Analysis">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">NextSapien Facial Analysis</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">DeepFace</span>
-                                    <span class="badge bg-primary">Python</span>
-                                    <span class="badge bg-primary">OpenCV</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Advanced facial analysis system providing comprehensive demographic insights and facial attribute recognition.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-bullseye"></i>
-                                        <span>Accuracy: <strong>98%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        <span>Processing: <strong>0.5s/image</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/NextSapien-Facial-Analysis" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">Who</p>
+  <h2>About</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Eight years running chemical tests at a cement lab in Lichtenburg. Routine, precise, underpaid. I was good at it. I was also bored out of my mind.</p>
+      <p>In 2022 I left and never looked back. Taught myself Python. Started entering hackathons for fun. Won some. Lost more. Built things that worked and things that didn't. Found AI — or maybe AI found me.</p>
+      <p>Now I build multi-agent systems, deploy real infrastructure, and ship code that runs 24/7. I'm not a "prompt engineer" — I write the pipelines, the APIs, the deployment scripts. The whole stack, from LangChain chains to systemd services.</p>
+      <p>When I'm not building AI, I'm DJing. Been at it since 2012. Co-founded Papzin & Crew — a platform for Mega-Mixers, not algorithm-curated playlists. Real mixes by real people. That same energy goes into everything I build: it has to be real, it has to work, and it has to move people.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="number">12+</div><div class="label">Years DJing</div></div>
+      <div class="stat-card"><div class="number">8</div><div class="label">Years in a Lab</div></div>
+      <div class="stat-card"><div class="number">3</div><div class="label">Hackathon Wins</div></div>
+      <div class="stat-card"><div class="number">0</div><div class="label">Regrets</div></div>
+    </div>
+  </div>
+</section>
 
-                    <!-- NLP & Text Processing -->
-                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
-                        <div class="card h-100">
-                            <div class="project-category">NLP & Text Processing</div>
-                            <img src="assets/truthguard.jpg" class="card-img-top" alt="TruthGuard">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">TruthGuard</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Llama 3</span>
-                                    <span class="badge bg-primary">Flask</span>
-                                    <span class="badge bg-primary">Milvus</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI-powered fake news detection system with real-time analysis and content verification capabilities.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Accuracy: <strong>95%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-clock"></i>
-                                        <span>Processing: <strong>< 2s</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div><!-- end tab-home -->
 
-                    <!-- Gemini Telegram Bot -->
-                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
-                        <div class="card h-100">
-                            <div class="project-category">LLM Applications</div>
-                            <img src="assets/jarvis.jpeg" class="card-img-top" alt="Gemini Telegram Bot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Gemini Telegram Bot</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Google Gemini</span>
-                                    <span class="badge bg-primary">Python</span>
-                                    <span class="badge bg-primary">Telegram API</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Advanced Telegram chatbot powered by Google's Gemini AI, featuring multi-modal capabilities and real-time responses.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-clock"></i>
-                                        <span>Response Time: <strong>< 1.5s</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-users"></i>
-                                        <span>Active Users: <strong>500+</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/Gemini-Telegram-Bot" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- TAB: EXPERIENCE -->
+<div class="tab-panel" id="tab-experience">
 
-                    <!-- Multiple Document Llama2 Bot -->
-                    <div class="col-md-4 mb-4 project-item" data-category="llm-applications">
-                        <div class="card h-100">
-                            <div class="project-category">LLM Applications</div>
-                            <img src="assets/AI-Bot-Recommendation.jpeg" class="card-img-top" alt="Multiple Document Llama2 Bot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">MultiDoc Llama2 Bot</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Llama2</span>
-                                    <span class="badge bg-primary">LangChain</span>
-                                    <span class="badge bg-primary">Streamlit</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Chat interface for analyzing multiple PDFs using Llama2 and LangChain, enabling contextual document understanding.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-file-alt"></i>
-                                        <span>Max Documents: <strong>10</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        <span>Processing: <strong>3s/doc</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/MultipleDocumentllama2Bot" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Stack</p>
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-category">
+      <h3>AI / ML</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">Keras</span>
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">NLP</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">OCR</span>
+        <span class="skill-tag">RLHF</span>
+        <span class="skill-tag">Detectron2</span>
+        <span class="skill-tag">LLMs</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <h3>Backend</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">FastAPI</span>
+        <span class="skill-tag">Django</span>
+        <span class="skill-tag">Flask</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">SQLite</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <h3>Frontend</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Streamlit</span>
+        <span class="skill-tag">HTML/CSS</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <h3>DevOps</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Nginx</span>
+        <span class="skill-tag">systemd</span>
+        <span class="skill-tag">Linux</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                    <!-- ChatSnap Extractor -->
-                    <div class="col-md-4 mb-4 project-item" data-category="computer-vision">
-                        <div class="card h-100">
-                            <div class="project-category">Computer Vision</div>
-                            <img src="assets/chatsnap.png" class="card-img-top" alt="ChatSnap Extractor">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">ChatSnap Extractor</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">OpenCV</span>
-                                    <span class="badge bg-primary">Tesseract</span>
-                                    <span class="badge bg-primary">Python</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Advanced image processing tool for extracting and analyzing text from chat screenshots and social media content.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-bullseye"></i>
-                                        <span>Accuracy: <strong>92%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-language"></i>
-                                        <span>Languages: <strong>15+</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/ChatSnap-Extractor" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- HACKATHON WINS -->
+<section id="wins">
+  <p class="section-label">Proof</p>
+  <h2>Hackathon Wins & Certs</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="icon">🏆</div>
+      <h3>WebGPU Hackathon Winner</h3>
+      <p>One-Day Challenge — built VisualPro, a WebGPU backend with 3D data visualization using Three.js and Node.js.</p>
+      <div class="tags"><span class="tag accent">Winner</span><span class="tag">WebGPU</span></div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🏅</div>
+      <h3>ElevenLabs AI Audio Challenge</h3>
+      <p>Built Vocal Thread — YouTube comment-to-speech with sentiment analysis using ElevenLabs API and Google Gemini.</p>
+      <div class="tags"><span class="tag accent">Hackathon</span><span class="tag">ElevenLabs</span></div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🥇</div>
+      <h3>Geekle.us Hackathon FR1</h3>
+      <p>One-click solution launcher integrating GitHub, Gitpod, and Claude AI (Anthropic API).</p>
+      <div class="tags"><span class="tag accent">Hackathon</span><span class="tag">Claude AI</span></div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🎖️</div>
+      <h3>LabLab.ai — 25+ Certifications</h3>
+      <p>Llama 3 Hackathon, Falcon Hackathon, Advanced GPT-3, AI Agents, FintechNova, TalentFlow, Autonomous Agents — 25 certifications across multiple AI hackathons.</p>
+      <div class="tags"><span class="tag accent">25 Certs</span><span class="tag">LabLab.ai</span></div>
+    </div>
+  </div>
+</section>
 
-                    <!-- Comment Scope -->
-                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
-                        <div class="card h-100">
-                            <div class="project-category">NLP & Text Processing</div>
-                            <img src="assets/mentalwellness.jpg" class="card-img-top" alt="Comment Scope">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Comment Scope</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">BERT</span>
-                                    <span class="badge bg-primary">FastAPI</span>
-                                    <span class="badge bg-primary">React</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI-powered comment analysis tool for sentiment analysis and toxic content detection in social media comments.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Accuracy: <strong>94%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-bolt"></i>
-                                        <span>Processing: <strong>0.3s</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/Comment-Scope" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Career</p>
+  <h2>Experience</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="date">2012 — Present</div>
+      <h3>DJ & Co-Founder</h3>
+      <div class="company">Papzin & Crew — South Africa</div>
+      <ul>
+        <li>DJing since 2012, creating mega-mixes and Cruize Friday weekly mixes</li>
+        <li>Co-founded Papzin & Crew (2016) — DJ platform with freemium streaming, mix requests, and 24/7 radio</li>
+        <li>Managing Mega-Mixers, bookings, promotions, and artist development</li>
+        <li>Now exploring AI-generated music production via Suno</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">2025 — Present</div>
+      <h3>Freelance AI/ML Engineer</h3>
+      <div class="company">Independent — South Africa (Remote)</div>
+      <ul>
+        <li>Building AI solutions for clients — chatbots, data pipelines, LLM integrations</li>
+        <li>Available for contract work in Gen AI, NLP, and full-stack development</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Oct 2024 — Dec 2024</div>
+      <h3>AI Prompt Evaluator</h3>
+      <div class="company">Translated — Remote</div>
+      <ul>
+        <li>Evaluated and refined AI-generated responses for a major GPU computing platform</li>
+        <li>Contributed to improving AI model accuracy through systematic prompt engineering and quality assessment</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Oct 2024 — Apr 2025</div>
+      <h3>AI/ML Consultant</h3>
+      <div class="company">Kwantu PTY LTD — Remote</div>
+      <ul>
+        <li>Deployed multiple RAG chatbot solutions (PDF, SQL) using LangChain, FastAPI, and LLMs (Mixtral-8x7B, Together AI)</li>
+        <li>Built a data pipeline for SA ID document recognition — annotation (Label Studio), training (Detectron2), OCR (Tesseract)</li>
+        <li>Managed CentOS server infrastructure — systemd, Nginx reverse proxy, deployment</li>
+        <li>Delivered a functional multi-lingual AI chatbot integrated with WhatsApp and Telegram</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Jul 2024 — 2025</div>
+      <h3>Software Engineer for AI Training Data</h3>
+      <div class="company">Outlier.ai (Contract) — Remote</div>
+      <ul>
+        <li>Enhanced AI model performance using RLHF (Reinforcement Learning with Human Feedback)</li>
+        <li>Verified training data and evaluated AI model outputs for accuracy and reliability</li>
+        <li>Focused on AI/ML, computer vision, and Python-driven solutions</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Dec 2023 — Jan 2024</div>
+      <h3>AI/ML Engineer — Computer Vision</h3>
+      <div class="company">Next Sapien — Remote</div>
+      <ul>
+        <li>Led AI-driven computer vision project development for automated image analysis</li>
+        <li>Built ChatSnap-Extractor — Python script for extracting text and timestamps from chat screenshots</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Feb 2024 — Oct 2024</div>
+      <h3>Freelance AI Developer & Hackathon Participant</h3>
+      <div class="company">Independent — Pretoria (Remote)</div>
+      <ul>
+        <li>Built AI applications in NLP, speech synthesis, and machine learning</li>
+        <li>Created Vocal Thread — converts YouTube comments to speech via ElevenLabs API</li>
+        <li>Won the WebGPU Hackathon (One-Day Challenge) with VisualPro</li>
+        <li>Multiple LabLab.ai hackathon certifications and project submissions</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="date">Dec 2014 — Jul 2022</div>
+      <h3>Laboratory Analyst & Assistant</h3>
+      <div class="company">Afrisam — Lichtenburg, South Africa</div>
+      <ul>
+        <li>8 years of routine and specialized laboratory testing with top-tier quality control</li>
+        <li>Maintained advanced lab equipment ensuring accurate, reliable results</li>
+        <li>Cross-functional collaboration on product development and quality assurance</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                    <!-- Article Assistant -->
-                    <div class="col-md-4 mb-4 project-item" data-category="nlp-text">
-                        <div class="card h-100">
-                            <div class="project-category">NLP & Text Processing</div>
-                            <img src="assets/newssummarizer.jpeg" class="card-img-top" alt="Article Assistant">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Article Assistant</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">GPT-4</span>
-                                    <span class="badge bg-primary">Django</span>
-                                    <span class="badge bg-primary">PostgreSQL</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI writing assistant for article generation, summarization, and content optimization with SEO recommendations.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-file-alt"></i>
-                                        <span>Articles/Day: <strong>100+</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-clock"></i>
-                                        <span>Avg Time: <strong>45s</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/ArticleAssistant" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Foundation</p>
+  <h2>Education</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="date">2010 — 2015</div>
+      <h3>National Diploma, Analytical Chemistry</h3>
+      <div class="company">Tshwane University of Technology</div>
+      <ul>
+        <li>Analytical Chemistry, Organic Chemistry, Mathematics, Physics</li>
+        <li>The precision mindset — quality control, data accuracy, reproducible results — that now drives how I build AI systems</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                    <!-- YouTube Video Summarizer -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Tools & Automation</div>
-                            <img src="assets/movie-finder-ai.jpeg" class="card-img-top" alt="YouTube Video Summarizer">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">YT Video Summarizer</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Whisper</span>
-                                    <span class="badge bg-primary">T5</span>
-                                    <span class="badge bg-primary">Flask</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Automated tool for generating concise summaries of YouTube videos using speech recognition and text summarization.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-compress-alt"></i>
-                                        <span>Compression: <strong>90%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-language"></i>
-                                        <span>Languages: <strong>8</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/yt-video-summarizer" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div><!-- end tab-experience -->
 
-                    <!-- Jarvis Voice Assistant -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/jarvis.jpeg" class="card-img-top" alt="Jarvis Voice Assistant">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Jarvis Voice Assistant</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">OpenAI Whisper</span>
-                                    <span class="badge bg-primary">DeepLake</span>
-                                    <span class="badge bg-primary">ElevenLabs</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI-powered voice assistant that answers questions by searching a knowledge base built from Python library docs.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-microphone"></i>
-                                        <span>Voice Recognition: <strong>98%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-database"></i>
-                                        <span>Knowledge Base: <strong>100+ Docs</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/Jarvis-Voice-Assistant" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- TAB: PROJECTS -->
+<div class="tab-panel" id="tab-projects">
 
-                    <!-- AI Assistant WhatsApp Bot -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/whatsappbot.png" class="card-img-top" alt="AI Assistant WhatsApp Bot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">WhatsApp AI Assistant</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">GPT-3.5</span>
-                                    <span class="badge bg-primary">Twilio API</span>
-                                    <span class="badge bg-primary">Flask</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Python-based AI assistant using GPT-3.5 to generate intelligent responses to WhatsApp queries with multi-language support.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-clock"></i>
-                                        <span>Response Time: <strong>< 2s</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-language"></i>
-                                        <span>Languages: <strong>10+</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/AI-Assistant-WhatsApp-Bot" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Work</p>
+  <h2>Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="icon">📻</div>
+      <h3>Papzin & Crew</h3>
+      <p>DJ platform connecting Mega-Mixers with music lovers. Freemium streaming, Cruize Friday mixes, custom mix requests, and 24/7 online radio. Co-founded in 2016.</p>
+      <a href="https://github.com/djpapzin/PapzinCrew-Music-Streaming-Platform" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">Music</span>
+        <span class="tag">Streaming</span>
+        <span class="tag accent">Co-Founder</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">📋</div>
+      <h3>Task Tracker</h3>
+      <p>AI-powered task management with FastAPI, PostgreSQL, and state-machine enforcement for engineering workflows. Powers PapzinAI operations.</p>
+      <a href="https://github.com/djpapzin/PapzinAI-Task-Tracker" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">FastAPI</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🎤</div>
+      <h3>Vocal Thread</h3>
+      <p>AI-powered web app converting YouTube comments into engaging audio. Sentiment analysis and "Chat with Comments" feature. Built for the ElevenLabs AI Audio Challenge.</p>
+      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">ElevenLabs</span>
+        <span class="tag">Gemini</span>
+        <span class="tag accent">Hackathon</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🛡️</div>
+      <h3>TruthGuard</h3>
+      <p>Real-time fake news detection system using Llama 3. Content moderation tools to enhance platform reliability across multiple channels.</p>
+      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">Llama 3</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🤖</div>
+      <h3>PapzinAI</h3>
+      <p>Multi-agent AI system orchestrating autonomous coding agents — Hermes, OpenClaw, and custom workflows for automated development.</p>
+      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">Agents</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Open Source</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">🎮</div>
+      <h3>VisualPro</h3>
+      <p>WebGPU backend with 3D data visualization. API endpoints with Node.js, SQLite storage, Three.js rendering. WebGPU Hackathon winner.</p>
+      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">WebGPU</span>
+        <span class="tag">Node.js</span>
+        <span class="tag accent">Winner</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="icon">💼</div>
+      <h3>TalentFlow Bot</h3>
+      <p>Smart recruitment assistant handling candidate screening, interview scheduling, and feedback collection. NLP-powered HR automation.</p>
+      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <div class="tags">
+        <span class="tag">NLP</span>
+        <span class="tag">Automation</span>
+        <span class="tag">HR Tech</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                    <!-- AI Survey Bot -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/AI-Bot-Recommendation.jpeg" class="card-img-top" alt="AI Survey Bot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">AI Survey Bot</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">GPT-3.5</span>
-                                    <span class="badge bg-primary">Streamlit</span>
-                                    <span class="badge bg-primary">Python</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    Streamlit application providing tailor-made responses to business-related questions using advanced language models.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Accuracy: <strong>92%</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-users"></i>
-                                        <span>User Rating: <strong>4.8/5</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/AI-Survey-Bot_Recommendation" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div><!-- end tab-projects -->
 
-                    <!-- Mental Wellness Chatbot -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/mentalwellness.jpg" class="card-img-top" alt="Mental Wellness Chatbot">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Mental Wellness Chatbot</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Llama 2</span>
-                                    <span class="badge bg-primary">LangChain</span>
-                                    <span class="badge bg-primary">Streamlit</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI chatbot for mental health advice using Llama 2, retrieving information from PDFs and offering real-time support.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-book"></i>
-                                        <span>Knowledge Base: <strong>50+ PDFs</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-heart"></i>
-                                        <span>User Satisfaction: <strong>96%</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/MentalWellnessChatbot" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- TAB: MUSIC -->
+<div class="tab-panel" id="tab-music">
 
-                    <!-- RAG-based Support Agent -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/qxf.png" class="card-img-top" alt="RAG-based Support Agent">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">RAG-based Support Agent</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">LangChain</span>
-                                    <span class="badge bg-primary">HuggingFace</span>
-                                    <span class="badge bg-primary">Zendesk API</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    An intelligent support agent that automatically learns from resolved Zendesk tickets to provide accurate responses to new support queries.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-brain"></i>
-                                        <span>Learning: <strong>Continuous</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Response Accuracy: <strong>90%+</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/rag-based-support-agent" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- VISUALIZER -->
+<div id="visualizer-section" style="padding: 2rem 2rem 1rem;">
+  <div class="viz-container">
+    <canvas id="visualizer"></canvas>
+  </div>
+  <div class="audio-controls">
+    <button class="btn btn-outline" onclick="startDemo()">&#9654; Demo Beat</button>
+    <label for="audio-upload">&#128190; Load Track
+      <input type="file" id="audio-upload" accept="audio/*">
+    </label>
+    <button class="btn btn-outline" onclick="startMic()">&#127908; Mic</button>
+  </div>
+  <p id="audio-status">Drop a track or hit Demo to see the visualizer react</p>
+</div>
 
-                    <!-- Agent All Dry -->
-                    <div class="col-md-4 mb-4 project-item" data-category="automation">
-                        <div class="card h-100">
-                            <div class="project-category">AI Agents</div>
-                            <img src="assets/visualpro.jpg" class="card-img-top" alt="Agent All Dry - AI-powered drying assistant">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Agent All Dry</h5>
-                                <div class="tech-stack mb-3">
-                                    <span class="badge bg-primary">Stability AI</span>
-                                    <span class="badge bg-primary">LangChain</span>
-                                    <span class="badge bg-primary">Gradio</span>
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    AI-powered assistant for drying items using Stability AI, featuring chat and image processing capabilities for intelligent drying recommendations.
-                                </p>
-                                <div class="project-metrics mb-3">
-                                    <div class="metric">
-                                        <i class="fas fa-image"></i>
-                                        <span>Processing: <strong>Real-time</strong></span>
-                                    </div>
-                                    <div class="metric">
-                                        <i class="fas fa-globe"></i>
-                                        <span>Deployment: <strong>Render</strong></span>
-                                    </div>
-                                </div>
-                                <div class="mt-auto">
-                                    <a href="https://github.com/djpapzin/agent-all-dry" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>        
+<!-- MUSIC -->
+<section id="music">
+  <p class="section-label">Listen</p>
+  <h2>Music</h2>
+  <div class="about-text" style="margin-bottom: 2rem;">
+    <p>DJing since 2012. Co-founded Papzin & Crew in 2016 because Spotify playlists are boring and Mega-Mixers deserve a platform. Cruize Friday mixes, custom requests, 24/7 streaming — real music by real people.</p>
+    <p>Now I'm also experimenting with AI-generated music through Suno. Because why not? If the AI can make something that moves people, I'm in.</p>
+  </div>
+  <div class="music-grid">
+    <div class="music-card">
+      <div class="album-art">📻</div>
+      <h3>Papzin & Crew</h3>
+      <p class="genre">Mega-mix platform · Cruize Friday mixes · 24/7 radio</p>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="https://papzincrew.netlify.app" target="_blank" class="btn btn-outline" style="margin-right:0.8rem;">Visit Papzin & Crew →</a>
+    <a href="https://suno.com" target="_blank" class="btn btn-primary">AI Music on Suno →</a>
+  </div>
+</section>
 
-        <section id="services" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">AI/ML Consulting Services</h2>
-                <div class="row g-4">
-                    <!-- LLM Integration -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-brain fa-2x"></i>
-                                </div>
-                                <h3 class="h4">LLM Integration & Development</h3>
-                                <p>Custom LLM solutions tailored to your business needs. From model selection to deployment, I help you harness the power of language models effectively.</p>
-                                <ul class="service-features">
-                                    <li>Model Selection & Fine-tuning</li>
-                                    <li>Custom Training & Optimization</li>
-                                    <li>Integration with Existing Systems</li>
-                                    <li>Performance Optimization</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- AI Solution Architecture -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-microchip fa-2x"></i>
-                                </div>
-                                <h3 class="h4">Custom AI Solution Architecture</h3>
-                                <p>End-to-end AI solution design and implementation. From concept to deployment, I architect scalable and efficient AI systems.</p>
-                                <ul class="service-features">
-                                    <li>Requirements Analysis</li>
-                                    <li>System Design & Architecture</li>
-                                    <li>Technology Stack Selection</li>
-                                    <li>Implementation & Deployment</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Computer Vision -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-eye fa-2x"></i>
-                                </div>
-                                <h3 class="h4">Computer Vision Applications</h3>
-                                <p>Specialized computer vision solutions for complex visual recognition tasks. From facial analysis to object detection.</p>
-                                <ul class="service-features">
-                                    <li>Object Detection & Recognition</li>
-                                    <li>Facial Analysis & Recognition</li>
-                                    <li>Image Segmentation</li>
-                                    <li>Video Analysis</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- NLP & Text Processing -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-language fa-2x"></i>
-                                </div>
-                                <h3 class="h4">NLP & Text Processing</h3>
-                                <p>Advanced natural language processing solutions for text analysis, understanding, and generation.</p>
-                                <ul class="service-features">
-                                    <li>Text Classification</li>
-                                    <li>Sentiment Analysis</li>
-                                    <li>Named Entity Recognition</li>
-                                    <li>Text Generation & Summarization</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- AI Pipeline Optimization -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-cogs fa-2x"></i>
-                                </div>
-                                <h3 class="h4">AI Pipeline Optimization</h3>
-                                <p>Streamline and optimize your AI workflows for better performance and efficiency.</p>
-                                <ul class="service-features">
-                                    <li>Pipeline Architecture Design</li>
-                                    <li>Performance Optimization</li>
-                                    <li>Resource Management</li>
-                                    <li>Monitoring & Maintenance</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- MLOps & Deployment -->
-                    <div class="col-md-4">
-                        <div class="service-card h-100">
-                            <div class="card-body">
-                                <div class="service-icon mb-4">
-                                    <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                                </div>
-                                <h3 class="h4">MLOps & Deployment</h3>
-                                <p>Implement robust MLOps practices for reliable AI system deployment and management.</p>
-                                <ul class="service-features">
-                                    <li>CI/CD Pipeline Setup</li>
-                                    <li>Model Versioning</li>
-                                    <li>Monitoring & Logging</li>
-                                    <li>Scaling & Management</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-5">
-                    <div class="col-md-8">
-                        <div class="booking-section">
-                            <h3 class="text-center mb-4">Book a Consultation</h3>
-                            <form id="consultationForm" class="consultation-form">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="serviceType" class="form-label">Service Type</label>
-                                    <select class="form-select" id="serviceType" name="serviceType" title="Select a service type" required>
-                                        <option value="">Select Service</option>
-                                        <option value="llm-applications">LLM Integration & Development</option>
-                                        <option value="ai-architecture">Custom AI Solution Architecture</option>
-                                        <option value="computer-vision">Computer Vision Applications</option>
-                                        <option value="nlp-text">NLP & Text Processing</option>
-                                        <option value="pipeline">AI Pipeline Optimization</option>
-                                        <option value="mlops">MLOps & Deployment</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="consultationDateTime" class="form-label">Preferred Date and Time</label>
-                                    <input type="datetime-local" class="form-control" id="consultationDateTime" name="consultationDateTime" title="Select your preferred consultation date and time" required>
-                                </div>
-                                <div class="mb-3">
-                                    <textarea class="form-control" id="projectDetails" rows="4" placeholder="Brief Project Details" required></textarea>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary btn-lg">Schedule Consultation</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+</div><!-- end tab-music -->
 
-        <section id="case-studies" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">Case Studies</h2>
-                <div class="row g-4">
-                    <!-- TruthGuard Case Study -->
-                    <div class="col-md-6">
-                        <div class="case-study-card h-100">
-                            <div class="card-body">
-                                <h3 class="case-study-title">TruthGuard: AI-Powered Fake News Detection</h3>
-                                <div class="case-study-meta">
-                                    <span class="badge bg-success">Completed 2024</span>
-                                    <span class="badge bg-info">LLM Integration</span>
-                                </div>
-                                <div class="case-study-content mt-4">
-                                    <h4>Challenge</h4>
-                                    <p>Combat the spread of misinformation across digital platforms with real-time detection capabilities.</p>
-                                    
-                                    <h4>Solution</h4>
-                                    <p>Developed an AI system using Llama 3 for advanced text analysis and content verification.</p>
-                                    
-                                    <h4>Technical Implementation</h4>
-                                    <ul>
-                                        <li>Integrated Together AI's Llama 3 model</li>
-                                        <li>Built custom training pipeline</li>
-                                        <li>Implemented vector search with Milvus</li>
-                                        <li>Developed real-time processing system</li>
-                                    </ul>
-                                    
-                                    <h4>Results</h4>
-                                    <ul>
-                                        <li>95% accuracy in fake news detection</li>
-                                        <li>Processing time under 2 seconds</li>
-                                        <li>Scalable to handle 10,000+ articles daily</li>
-                                    </ul>
-                                </div>
-                                <div class="case-study-links mt-4">
-                                    <a href="https://truth-guard-dusky.vercel.app/" class="btn btn-outline-primary" target="_blank" rel="noopener">View Demo</a>
-                                    <a href="https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM" class="btn btn-outline-secondary" target="_blank" rel="noopener">View Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quixflow Case Study -->
-                    <div class="col-md-6">
-                        <div class="case-study-card h-100">
-                            <div class="card-body">
-                                <h3 class="case-study-title">Quixflow: AI-Powered Project Management</h3>
-                                <div class="case-study-meta">
-                                    <span class="badge bg-success">Completed 2024</span>
-                                    <span class="badge bg-info">Process Automation</span>
-                                </div>
-                                <div class="case-study-content mt-4">
-                                    <h4>Challenge</h4>
-                                    <p>Streamline project management workflows and reduce manual ticket handling in JIRA.</p>
-                                    
-                                    <h4>Solution</h4>
-                                    <p>Created an AI-powered voice command system for automated ticket management and workflow optimization.</p>
-                                    
-                                    <h4>Technical Implementation</h4>
-                                    <ul>
-                                        <li>Voice recognition system integration</li>
-                                        <li>Custom LLM fine-tuning for task understanding</li>
-                                        <li>JIRA API automation framework</li>
-                                        <li>Real-time task processing pipeline</li>
-                                    </ul>
-                                    
-                                    <h4>Results</h4>
-                                    <ul>
-                                        <li>70% reduction in ticket creation time</li>
-                                        <li>90% accuracy in task assignment</li>
-                                        <li>50% improvement in workflow efficiency</li>
-                                    </ul>
-                                </div>
-                                <div class="case-study-links mt-4">
-                                    <a href="https://quixflow-agile.vercel.app/" class="btn btn-outline-primary" target="_blank" rel="noopener">View Demo</a>
-                                    <a href="https://github.com/djpapzin/quixflow" class="btn btn-outline-secondary" target="_blank" rel="noopener">View Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- TAB: CONTACT -->
+<div class="tab-panel" id="tab-contact">
 
-                    <!-- NextSapien Facial Analysis Case Study -->
-                    <div class="col-md-6">
-                        <div class="case-study-card h-100">
-                            <div class="card-body">
-                                <h3 class="case-study-title">NextSapien: Advanced Facial Analysis System</h3>
-                                <div class="case-study-meta">
-                                    <span class="badge bg-success">Completed 2024</span>
-                                    <span class="badge bg-info">Computer Vision</span>
-                                </div>
-                                <div class="case-study-content mt-4">
-                                    <h4>Project Scope</h4>
-                                    <p>Develop a comprehensive facial analysis system for demographic insights and attribute recognition with high accuracy and real-time processing capabilities.</p>
-                                    
-                                    <h4>Technical Implementation</h4>
-                                    <ul>
-                                        <li>Integrated DeepFace for core facial analysis</li>
-                                        <li>Implemented custom facial attribute recognition models</li>
-                                        <li>Built real-time processing pipeline</li>
-                                        <li>Developed attribute correlation analysis</li>
-                                    </ul>
-                                    
-                                    <h4>Accuracy Metrics</h4>
-                                    <ul>
-                                        <li>98% accuracy in gender identification</li>
-                                        <li>94% accuracy in age estimation</li>
-                                        <li>96% accuracy in emotion detection</li>
-                                        <li>90% accuracy in facial attribute recognition</li>
-                                    </ul>
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Connect</p>
+  <h2>Get In Touch</h2>
+  <p>If you need AI that actually works — not slide decks, not demos, not "let's circle back" — drop me a line.</p>
+  <div class="availability">Available for work</div>
+  <form action="https://formspree.io/f/xpwplwjq" method="POST" style="max-width:500px;margin:2rem auto 0;text-align:left;">
+    <input type="text" name="name" placeholder="Your name" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
+    <input type="email" name="email" placeholder="Your email" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
+    <textarea name="message" placeholder="Your message" rows="4" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;resize:vertical;"></textarea>
+    <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+  </form>
+  <div class="contact-grid" style="margin-top: 2rem;">
+    <a href="mailto:l.fanampe@gmail.com" class="social-link">✉️ Email</a>
+    <a href="https://linkedin.com/in/djpapzin" target="_blank" class="social-link">💼 LinkedIn</a>
+    <a href="https://github.com/djpapzin" target="_blank" class="social-link">💻 GitHub</a>
+    <a href="tel:+27834837699" class="social-link">📱 +27 83 483 7699</a>
+  </div>
+</section>
 
-                                    <h4>Business Impact</h4>
-                                    <ul>
-                                        <li>50% reduction in manual demographic analysis time</li>
-                                        <li>Improved customer segmentation accuracy by 40%</li>
-                                        <li>Enhanced security verification processes</li>
-                                        <li>Real-time processing of up to 100 faces per second</li>
-                                    </ul>
-                                </div>
-                                <div class="case-study-links mt-4">
-                                    <a href="https://github.com/djpapzin/NextSapien-Facial-Analysis" class="btn btn-outline-secondary" target="_blank" rel="noopener">View Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div><!-- end tab-contact -->
 
-                    <!-- Case Management AI Case Study -->
-                    <div class="col-md-6">
-                        <div class="case-study-card h-100">
-                            <div class="card-body">
-                                <h3 class="case-study-title">Case Management AI: Intelligent Legal Document Processing</h3>
-                                <div class="case-study-meta">
-                                    <span class="badge bg-success">Completed 2024</span>
-                                    <span class="badge bg-info">NLP & Document Processing</span>
-                                </div>
-                                <div class="case-study-content mt-4">
-                                    <h4>Business Requirements</h4>
-                                    <p>Automate the processing and analysis of legal documents while improving accuracy and reducing manual review time for law firms.</p>
-                                    
-                                    <h4>ML Model Development</h4>
-                                    <ul>
-                                        <li>Custom NLP model for legal document classification</li>
-                                        <li>Named Entity Recognition for legal entities</li>
-                                        <li>Document summarization pipeline</li>
-                                        <li>Automated case relevance scoring</li>
-                                    </ul>
-                                    
-                                    <h4>Prediction Accuracy</h4>
-                                    <ul>
-                                        <li>97% accuracy in document classification</li>
-                                        <li>95% accuracy in entity extraction</li>
-                                        <li>92% accuracy in relevance scoring</li>
-                                        <li>90% accuracy in case outcome prediction</li>
-                                    </ul>
+<!-- FOOTER -->
+<footer>
+  <div class="neon-line"></div>
+  <p>&copy; 2026 Letlhogonolo Fanampe (DJ Papzin). Built with AI. Powered by beats.</p>
+</footer>
 
-                                    <h4>ROI Metrics</h4>
-                                    <ul>
-                                        <li>75% reduction in document processing time</li>
-                                        <li>60% cost savings in document review</li>
-                                        <li>85% faster case assignment</li>
-                                        <li>40% improvement in case prioritization</li>
-                                    </ul>
-                                </div>
-                                <div class="case-study-links mt-4">
-                                    <a href="#" class="btn btn-outline-secondary disabled">Private Repository</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>        
+<!-- AI CHATBOT -->
+<button class="chatbot-toggle" onclick="toggleChat()" aria-label="Chat with AI assistant">
+  🎧
+  <span class="badge" id="chat-badge"></span>
+</button>
+<div class="chatbot-window" id="chatbot">
+  <div class="chatbot-header">
+    <div class="avatar">🎧</div>
+    <div class="info">
+      <h4>DJ Papzin's Assistant</h4>
+      <span>● Online — Ask me anything</span>
+    </div>
+    <button class="close-btn" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chatbot-messages" id="chat-messages"></div>
+  <div class="chatbot-suggestions" id="chat-suggestions"></div>
+  <div class="chatbot-input">
+    <input type="text" id="chat-input" placeholder="Ask about my experience, skills, music..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
 
-        <section id="contact" class="py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">Let's Connect</h2>
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <form>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Your Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Your Email" required>
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="text-center mt-4">
-                    <a href="https://twitter.com/djpapzin" class="btn btn-outline-primary me-2" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                    <a href="https://linkedin.com/in/djpapzin" class="btn btn-outline-primary me-2" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/djpapzin" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </section>
-    </main>
+<script>
+// ─── PARTICLE BACKGROUND ───
+(function() {
+  const c = document.getElementById('particles');
+  const ctx = c.getContext('2d');
+  let w, h, particles = [];
+  function resize() { w = c.width = window.innerWidth; h = c.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      color: Math.random() > 0.5 ? 'rgba(0,240,255,0.3)' : 'rgba(255,0,170,0.3)'
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color; ctx.fill();
+    });
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 150) {
+          ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,240,255,${0.05 * (1 - d/150)})`;
+          ctx.lineWidth = 0.5; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
-    <footer class="bg-dark text-white py-3">
-        <div class="container text-center">
-            <p>&copy; 2024 DJ Papzin. All rights reserved.</p>
-        </div>
-    </footer>
+// ─── AUDIO VISUALIZER ───
+const vizCanvas = document.getElementById('visualizer');
+const vizCtx = vizCanvas.getContext('2d');
+let audioCtx, analyser, source, dataArray, animationId;
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="script.js"></script>
-    <script src="test-filtering.js"></script>
+function resizeViz() {
+  const rect = vizCanvas.parentElement.getBoundingClientRect();
+  vizCanvas.width = rect.width * window.devicePixelRatio;
+  vizCanvas.height = rect.height * window.devicePixelRatio;
+  vizCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+resizeViz();
+window.addEventListener('resize', resizeViz);
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 512;
+  analyser.smoothingTimeConstant = 0.8;
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+}
+
+function drawVisualizer() {
+  const w = vizCanvas.width / window.devicePixelRatio;
+  const h = vizCanvas.height / window.devicePixelRatio;
+  vizCtx.clearRect(0, 0, w, h);
+  analyser.getByteFrequencyData(dataArray);
+  const bars = dataArray.length;
+  const barW = w / bars * 1.5;
+  const gap = 1;
+
+  for (let i = 0; i < bars; i++) {
+    const val = dataArray[i] / 255;
+    const barH = val * h * 0.9;
+    const x = i * (barW + gap);
+    const y = h - barH;
+    const hue = (i / bars) * 60 + 170;
+    vizCtx.fillStyle = `hsla(${hue}, 100%, 60%, ${0.4 + val * 0.6})`;
+    vizCtx.fillRect(x, y, barW, barH);
+    vizCtx.fillStyle = `hsla(${hue}, 100%, 60%, ${0.05 + val * 0.1})`;
+    vizCtx.fillRect(x, h, barW, -barH * 0.3);
+  }
+  const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length / 255;
+  const gradient = vizCtx.createRadialGradient(w/2, h, 0, w/2, h, w * 0.6);
+  gradient.addColorStop(0, `rgba(0, 240, 255, ${avg * 0.15})`);
+  gradient.addColorStop(1, 'transparent');
+  vizCtx.fillStyle = gradient;
+  vizCtx.fillRect(0, 0, w, h);
+
+  animationId = requestAnimationFrame(drawVisualizer);
+}
+
+function startVisualizer(sourceNode) {
+  initAudio();
+  if (source) { try { source.disconnect(); } catch(e) {} }
+  source = sourceNode;
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+  if (animationId) cancelAnimationFrame(animationId);
+  drawVisualizer();
+}
+
+function startDemo() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.value = 110;
+  gain.gain.value = 0.3;
+
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.frequency.value = 2;
+  lfoGain.gain.value = 50;
+  lfo.connect(lfoGain);
+  lfoGain.connect(osc.frequency);
+  lfo.start();
+
+  const now = audioCtx.currentTime;
+  for (let bar = 0; bar < 16; bar++) {
+    const t = now + bar * 0.25;
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+  }
+  setInterval(() => {
+    const now = audioCtx.currentTime;
+    for (let bar = 0; bar < 16; bar++) {
+      const t = now + bar * 0.25;
+      gain.gain.setValueAtTime(0.3, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+    }
+  }, 4000);
+
+  osc.connect(gain);
+  gain.connect(analyser);
+  analyser.connect(audioCtx.destination);
+  osc.start();
+
+  if (animationId) cancelAnimationFrame(animationId);
+  drawVisualizer();
+  document.getElementById('audio-status').textContent = '🎵 Demo beat playing — drop your own track to override';
+}
+
+document.getElementById('audio-upload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    audioCtx.decodeAudioData(ev.target.result, function(buffer) {
+      const src = audioCtx.createBufferSource();
+      src.buffer = buffer; src.loop = true;
+      startVisualizer(src); src.start(0);
+      document.getElementById('audio-status').textContent = '🎵 Playing: ' + file.name;
+    });
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+function startMic() {
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const mic = audioCtx.createMediaStreamSource(stream);
+    mic.connect(analyser);
+    if (animationId) cancelAnimationFrame(animationId);
+    drawVisualizer();
+    document.getElementById('audio-status').textContent = '🎤 Listening to mic input...';
+  }).catch(() => {
+    document.getElementById('audio-status').textContent = '❌ Mic access denied';
+  });
+}
+
+document.body.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+document.body.addEventListener('drop', e => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('audio/')) return;
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    audioCtx.decodeAudioData(ev.target.result, function(buffer) {
+      const src = audioCtx.createBufferSource();
+      src.buffer = buffer; src.loop = true;
+      startVisualizer(src); src.start(0);
+      document.getElementById('audio-status').textContent = '🎵 Playing: ' + file.name;
+    });
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  const curr = window.scrollY;
+  if (curr > lastScroll && curr > 100) nav.style.transform = 'translateY(-100%)';
+  else nav.style.transform = 'translateY(0)';
+  lastScroll = curr;
+});
+
+// ─── TAB SWITCHING ───
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + name);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.dataset.tab === name) b.classList.add('active');
+  });
+  window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 60, behavior: 'smooth' });
+  // Resize visualizer when music tab opens
+  if (name === 'music' && typeof resizeViz === 'function') {
+    requestAnimationFrame(resizeViz);
+  }
+}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+
+// ─── AI CHATBOT (OpenRouter free models with fallback) ───
+const CHAT_API = '/.netlify/functions/code-search';
+const CHAT_FALLBACK = '/.netlify/functions/chat';
+
+const SUGGESTIONS = [
+  "What's your experience?",
+  "What skills do you have?",
+  "Show me his Python code",
+  "What RAG projects has he built?",
+  "Tell me about his music",
+  "What's in the Task Tracker?",
+  "How does the ID recognition work?",
+  "Are you available for hire?",
+];
+
+let chatHistory = [];
+
+function toggleChat() {
+  const w = document.getElementById('chatbot');
+  w.classList.toggle('open');
+  document.getElementById('chat-badge').style.display = 'none';
+  if (w.classList.contains('open') && !document.getElementById('chat-messages').children.length) {
+      botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
+    showSuggestions(SUGGESTIONS);
+  }
+}
+
+function botReply(text) {
+  const el = document.createElement('div');
+  el.className = 'msg bot';
+  el.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  document.getElementById('chat-messages').appendChild(el);
+  scrollToBottom();
+  setTimeout(() => {
+    el.innerHTML = text;
+    scrollToBottom();
+  }, 400);
+}
+
+function userMsg(text) {
+  const el = document.createElement('div');
+  el.className = 'msg user';
+  el.textContent = text;
+  document.getElementById('chat-messages').appendChild(el);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  const m = document.getElementById('chat-messages');
+  m.scrollTop = m.scrollHeight;
+}
+
+function showSuggestions(items) {
+  const c = document.getElementById('chat-suggestions');
+  c.innerHTML = '';
+  items.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'suggestion';
+    btn.textContent = s;
+    btn.onclick = () => { sendChat(s); };
+    c.appendChild(btn);
+  });
+}
+
+async function sendChat(text) {
+  const input = document.getElementById('chat-input');
+  const msg = text || input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  document.getElementById('chat-suggestions').innerHTML = '';
+  userMsg(msg);
+  chatHistory.push({ role: 'user', content: msg });
+
+  // Show typing indicator
+  const typingEl = document.createElement('div');
+  typingEl.className = 'msg bot';
+  typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  document.getElementById('chat-messages').appendChild(typingEl);
+  scrollToBottom();
+
+  try {
+    // Show thinking status
+    typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Searching codebase...</span>';
+
+    let resp = await fetch(CHAT_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+    });
+
+    // Fallback to regular chat if code-search fails
+    if (!resp.ok) {
+      typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Trying backup model...</span>';
+      resp = await fetch(CHAT_FALLBACK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+      });
+    }
+
+    const data = await resp.json();
+    typingEl.remove();
+
+    if (data.error) {
+      botReply("Sorry, I'm having a brain freeze 🧠❄️ Try again!");
+    } else {
+      let reply = data.reply;
+      // Show sources if available
+      if (data.sources && data.sources.length > 0) {
+        const srcLinks = data.sources
+          .filter(s => s.score > 5)
+          .slice(0, 3)
+          .map(s => `<a href="https://github.com/djpapzin/${s.repo}/blob/master/${s.path}" target="_blank" style="color:var(--neon-cyan);font-size:0.7rem;display:block;margin-top:4px;">📂 ${s.repo}/${s.path.split('/').pop()}</a>`)
+          .join('');
+        if (srcLinks) reply += `<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.75rem;color:var(--text-dim);">Source files:${srcLinks}</div>`;
+      }
+      botReply(reply);
+      chatHistory.push({ role: 'assistant', content: data.reply });
+    }
+  } catch (e) {
+    typingEl.remove();
+    botReply("Oops, connection issue. Try again! 🔄");
+  }
+
+  // Show follow-up suggestions
+  setTimeout(() => {
+    const followups = SUGGESTIONS.sort(() => Math.random() - 0.5).slice(0, 3);
+    showSuggestions(followups);
+  }, 1000);
+}
+
+// Show notification badge after 3 seconds
+setTimeout(() => { document.getElementById('chat-badge').style.display = 'block'; }, 3000);
+</script>
 </body>
 </html>
