@@ -1231,10 +1231,17 @@ function minimizeChat() {
   document.getElementById('chat-badge').style.display = 'none';
 }
 
+function resetChat() {
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-suggestions').innerHTML = '';
+  chatHistory = [];
+}
+
 function closeChat() {
   const w = document.getElementById('chatbot');
   w.classList.remove('open');
   w.classList.remove('minimized');
+  resetChat();
 }
 
 function toggleChat() {
