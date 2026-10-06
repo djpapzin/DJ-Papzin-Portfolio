@@ -29,7 +29,7 @@ async function requestReply(prompt, message, history = []) {
           method: 'POST', signal: AbortSignal.timeout(Math.min(15000, remaining)),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], max_tokens: 1000, temperature: 0.7,
-            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { enabled: false }, provider: { sort: 'latency' } } : {}),
+            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { enabled: false }, provider: { sort: 'throughput' } } : {}),
           }),
         });
         // Invalid credentials affect the entire provider, not just one model.
