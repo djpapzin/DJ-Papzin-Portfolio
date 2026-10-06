@@ -17,7 +17,7 @@ test('uses OpenAI without an OpenRouter key and keeps conversation history', asy
   process.env.CHAT_ALLOW_PAID_PROVIDERS = 'true';
   global.fetch = async (url, options) => {
     assert.equal(url,'https://api.openai.com/v1/chat/completions');
-    assert.equal(JSON.parse(options.body).messages[0].content,'Earlier answer');
+    assert.deepEqual(JSON.parse(options.body).messages,[{role:'system',content:'Prompt'},{role:'assistant',content:'Earlier answer'},{role:'user',content:'Question'}]);
     return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Reply'}}]})};
   };
   try { assert.equal((await requestReply('Prompt','Question',[{role:'assistant',content:'Earlier answer'}])).reply,'Reply'); }

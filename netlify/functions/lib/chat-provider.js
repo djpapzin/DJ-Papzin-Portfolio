@@ -28,14 +28,22 @@ async function requestReply(prompt, message, history = []) {
         const response = await fetch(provider.url, {
           method: 'POST', signal: AbortSignal.timeout(Math.min(15000, remaining)),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
-          body: JSON.stringify({ model, messages: [...history, { role: 'user', content: `${prompt}\n\nVisitor asks: ${message}` }], max_tokens: 500, temperature: 0.7 }),
+          body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], max_tokens: 1000, temperature: 0.7,
+            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { enabled: false }, provider: { sort: 'throughput' } } : {}),
+          }),
         });
         // Invalid credentials affect the entire provider, not just one model.
-        if ([401, 403].includes(response.status)) break;
+        if ([401, 403].includes(response.status)) {
+          console.warn('Chat provider rejected credentials', {provider: provider.key, status: response.status});
+          break;
+        }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
         if (response.ok && typeof reply === 'string' && reply.trim()) return { reply, model };
-      } catch { /* Try the next configured provider/model within the deadline. */ }
+        console.warn('Chat provider returned no usable reply', {provider: provider.key, status: response.status, finishReason: data.choices?.[0]?.finish_reason, errorCode: data.error?.code});
+      } catch (error) {
+        console.warn('Chat provider request failed', {provider: provider.key, kind: error.name});
+      }
     }
   }
   const error = new Error('Chat provider unavailable');
