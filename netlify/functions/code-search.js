@@ -1,3 +1,5 @@
+const { portfolioReply } = require('./lib/portfolio-reply');
+const { requestReply, parseConversation, jsonResponse } = require('./lib/chat-provider');
 // Netlify Function — Code search endpoint for the chatbot
 // Searches the pre-built code index using BM25-style keyword matching
 
@@ -155,15 +157,10 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { message } = JSON.parse(event.body);
-    if (!message) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Message required' }) };
-    }
-
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    if (!apiKey) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'API key not set' }) };
-    }
+    let conversation;
+    try { conversation = parseConversation(event.body); }
+    catch (error) { return jsonResponse(400, { error: error.message }); }
+    const { message, history } = conversation;
 
     // Search code index
     const search = searchCode(message);
@@ -177,100 +174,10 @@ ${search.context || 'No matching code found for this query.'}
 
 ABOUT HIS WORK: He builds multi-agent AI systems, RAG chatbots, NLP pipelines, and automation tools. His projects span FastAPI backends, LangChain integrations, Telegram bots, Streamlit apps, and more.`;
 
-    // Call LLM with model fallback (OpenRouter → OpenAI → Groq)
-    const OR_MODELS = [
-      'google/gemma-3-27b-it:free',
-      'meta-llama/llama-3.2-3b-instruct:free',
-      'google/gemma-3-12b-it:free',
-    ];
-
-    const OPENAI_MODELS = [
-      'gpt-4o-mini',
-      'gpt-3.5-turbo',
-    ];
-
-    const GROQ_MODELS = [
-      'llama-3.3-70b-versatile',
-      'llama-3.1-8b-instant',
-      'mixtral-8x7b-32768',
-    ];
-
-    let reply = null;
-    let lastError = null;
-
-    const chatMessages = [
-      { role: 'user', content: `${systemPrompt}\n\n---\n\nVisitor asks: ${message}` },
-    ];
-
-    // Try OpenRouter first
-    for (const model of OR_MODELS) {
-      try {
-        const llmResp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://djpapzin.com',
-            'X-Title': 'DJ Papzin Assistant',
-          },
-          body: JSON.stringify({ model, messages: chatMessages, max_tokens: 500, temperature: 0.7 }),
-        });
-        const llmData = await llmResp.json();
-        if (!llmResp.ok || llmData.error) throw new Error(llmData.error?.message || 'OR failed');
-        reply = llmData.choices?.[0]?.message?.content;
-        if (reply) break;
-      } catch (err) { lastError = err; continue; }
-    }
-
-    // Fallback to OpenAI
-    if (!reply) {
-      const openaiKey = process.env.OPENAI_API_KEY;
-      if (openaiKey) {
-        for (const model of OPENAI_MODELS) {
-          try {
-            const llmResp = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${openaiKey}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ model, messages: chatMessages, max_tokens: 500, temperature: 0.7 }),
-            });
-            const llmData = await llmResp.json();
-            if (!llmResp.ok || llmData.error) throw new Error(llmData.error?.message || 'OpenAI failed');
-            reply = llmData.choices?.[0]?.message?.content;
-            if (reply) break;
-          } catch (err) { lastError = err; continue; }
-        }
-      }
-    }
-
-    // Fallback to Groq
-    if (!reply) {
-      const groqKey = process.env.GROQ_API_KEY;
-      if (groqKey) {
-        for (const model of GROQ_MODELS) {
-          try {
-            const llmResp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${groqKey}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ model, messages: chatMessages, max_tokens: 500, temperature: 0.7 }),
-            });
-            const llmData = await llmResp.json();
-            if (!llmResp.ok || llmData.error) throw new Error(llmData.error?.message || 'Groq failed');
-            reply = llmData.choices?.[0]?.message?.content;
-            if (reply) break;
-          } catch (err) { lastError = err; continue; }
-        }
-      }
-    }
-
-    if (!reply) {
-      throw new Error(lastError?.message || 'All providers unavailable');
-    }
+    let result;
+    try { result = await requestReply(systemPrompt, message, history); }
+    catch { return jsonResponse(200, portfolioReply(message, history)); }
+    const { reply, model } = result;
 
     return {
       statusCode: 200,
@@ -279,15 +186,16 @@ ABOUT HIS WORK: He builds multi-agent AI systems, RAG chatbots, NLP pipelines, a
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        reply,
+        reply, model,
         sources: search.results || [],
         query_terms: message.toLowerCase().replace(/[^a-z0-9_ ]/g, '').split(/\s+/).filter(t => t.length >= 2),
       }),
     };
   } catch (err) {
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      statusCode: 503,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Chat is temporarily unavailable. Please use the email link to contact me.', code: err.code || 'PROVIDER_UNAVAILABLE' }),
     };
   }
 };

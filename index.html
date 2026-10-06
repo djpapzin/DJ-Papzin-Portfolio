@@ -973,7 +973,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
     <div class="avatar">🎧</div>
     <div class="info">
       <h4>DJ Papzin's Assistant</h4>
-      <span>● Online — Ask me anything</span>
+      <span>● Portfolio guide — Ask about my work</span>
     </div>
     <button class="min-btn" onclick="minimizeChat()" aria-label="Minimize chat">−</button>
     <button class="close-btn" onclick="closeChat()">✕</button>
@@ -1240,6 +1240,7 @@ const SUGGESTIONS = [
 ];
 
 let chatHistory = [];
+let chatBusy = false;
 
 function openChat() {
   const w = document.getElementById('chatbot');
@@ -1247,7 +1248,7 @@ function openChat() {
   w.classList.remove('minimized');
   document.getElementById('chat-badge').style.display = 'none';
   if (!document.getElementById('chat-messages').children.length) {
-    botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
+    botReply("Hey! I'm DJ Papzin's portfolio assistant. Ask about his experience, projects, skills, music, or how to get in touch! 🚀");
     showSuggestions(SUGGESTIONS);
   }
 }
@@ -1269,7 +1270,6 @@ function closeChat() {
   const w = document.getElementById('chatbot');
   w.classList.remove('open');
   w.classList.remove('minimized');
-  resetChat();
 }
 
 function toggleChat() {
@@ -1282,7 +1282,7 @@ document.addEventListener('click', (e) => {
   const w = document.getElementById('chatbot');
   const t = document.querySelector('.chatbot-toggle');
   if (!w.classList.contains('open')) return;
-  if (w.contains(e.target) || t.contains(e.target)) return;
+  if (e.composedPath().includes(w) || e.composedPath().includes(t)) return;
   minimizeChat();
 });
 
@@ -1330,7 +1330,9 @@ function showSuggestions(items) {
 async function sendChat(text) {
   const input = document.getElementById('chat-input');
   const msg = text || input.value.trim();
-  if (!msg) return;
+  if (!msg || chatBusy) return;
+  chatBusy = true;
+  const requestHistory = chatHistory.slice(-10);
   input.value = '';
   document.getElementById('chat-suggestions').innerHTML = '';
   userMsg(msg);
@@ -1348,28 +1350,32 @@ async function sendChat(text) {
     typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Searching codebase...</span>';
 
     let resp = await fetch(CHAT_API, {
+      signal: AbortSignal.timeout(25000),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+      body: JSON.stringify({ message: msg, history: requestHistory }),
     });
 
     // Fallback to regular chat if code-search fails
     if (!resp.ok) {
       typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Trying backup model...</span>';
       resp = await fetch(CHAT_FALLBACK, {
+        signal: AbortSignal.timeout(25000),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+        body: JSON.stringify({ message: msg, history: requestHistory }),
       });
     }
 
     const data = await resp.json();
     typingEl.remove();
 
-    if (data.error) {
-      botReply("Sorry, I'm having a brain freeze 🧠❄️ Try again!");
+    if (!resp.ok || data.error || typeof data.reply !== "string") {
+      chatHistory.pop();
+      botReply('Chat is temporarily unavailable. You can reach me at <a href="mailto:l.fanampe@gmail.com">l.fanampe@gmail.com</a>.');
     } else {
       let reply = data.reply;
+      if (data.mode === 'portfolio') reply += '<p style="font-size:0.75rem;margin-top:0.5rem;">Portfolio guide · prepared answers, not AI-generated</p>';
       // Show sources if available
       if (data.sources && data.sources.length > 0) {
         const srcLinks = data.sources
@@ -1384,8 +1390,13 @@ async function sendChat(text) {
     }
   } catch (e) {
     typingEl.remove();
-    botReply("Oops, connection issue. Try again! 🔄");
+    chatHistory.pop();
+    botReply(e.message === 'LOCAL_PREVIEW'
+      ? 'This local preview does not run the AI service. Chat is available on the deployed website once its provider key is configured. You can also <a href="mailto:l.fanampe@gmail.com">email me</a>.'
+      : 'Chat could not connect. Please try again or <a href="mailto:l.fanampe@gmail.com">email me</a>.');
   }
+
+  chatBusy = false;
 
   // Show follow-up suggestions
   setTimeout(() => {

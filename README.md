@@ -105,3 +105,11 @@
    ## License
 
    This project is open source and available under the [MIT License](LICENSE).
+
+## Portfolio chat
+
+The assistant works without an API key using prepared portfolio answers, visibly labelled as a portfolio guide. For free AI responses, create an OpenRouter account and set `OPENROUTER_API_KEY` in the Netlify project's environment variables (Functions scope), then redeploy. The model is `openrouter/free`; free model availability and usage limits vary. Do not put keys in the HTML, repository, or browser.
+
+Paid provider fallback is disabled by default. Only set `CHAT_ALLOW_PAID_PROVIDERS=true` if you intentionally want to enable the configured OpenAI or Groq providers. Closing the panel preserves the current conversation until the page reloads.
+
+Run backend checks with `node --test tests/chat.test.js`.
