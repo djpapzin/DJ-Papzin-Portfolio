@@ -17,7 +17,8 @@
   --neon-magenta: #ff00aa;
   --neon-purple: #8b5cf6;
   --text: #e0e0e8;
-  --text-dim: #6a6a7a;
+  --text-dim: #b4b4c4;
+  --nav-height: 72px;
   --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.1);
   --glow-magenta: 0 0 20px rgba(255, 0, 170, 0.4), 0 0 60px rgba(255, 0, 170, 0.1);
 }
@@ -35,7 +36,7 @@ body {
 /* ─── NAV ─── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 1.2rem 2rem;
+  padding: 0 2rem; height: var(--nav-height);
   display: flex; justify-content: space-between; align-items: center;
   background: rgba(10, 10, 15, 0.85);
   backdrop-filter: blur(20px);
@@ -56,11 +57,11 @@ nav .links a {
   transition: color 0.3s, text-shadow 0.3s;
 }
 nav .links a:hover { color: var(--neon-cyan); text-shadow: var(--glow-cyan); }
-nav .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+nav .hamburger { min-width: 44px; min-height: 44px; display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
 /* ─── TABS ─── */
 .tab-bar {
-  position: sticky; top: 60px; z-index: 90;
+  position: sticky; top: var(--nav-height); z-index: 90;
   display: flex; justify-content: center; gap: 0;
   background: rgba(10, 10, 15, 0.9);
   backdrop-filter: blur(20px);
@@ -386,8 +387,10 @@ footer .neon-line {
   .hero-title { letter-spacing: 3px; }
   .hero-sub { letter-spacing: 1px; font-size: 0.75rem; }
   #hero p[style*="letter-spacing: 3px"] { letter-spacing: 1px; font-size: 0.7rem; }
-  .tab-bar { overflow-x: auto; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
-  .tab-btn { flex-shrink: 0; padding: 0.8rem 1.2rem; font-size: 0.7rem; }
+  .tab-bar { position: static; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 0 1rem; }
+  .tab-btn { grid-column: span 2; min-height: 48px; padding: 0.8rem 0.25rem; font-size: 0.7rem; letter-spacing: 0.5px; }
+  .tab-btn:nth-child(4) { grid-column: 2 / span 2; }
+  nav { padding: 0 1rem; }
 }
 
 /* ─── AI CHATBOT ─── */
@@ -523,6 +526,16 @@ footer .neon-line {
 
 /* ─── PARTICLES ─── */
 #particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+/* Readable forms and keyboard navigation */
+#contact label { display: block; margin-bottom: 0.4rem; font-size: 0.95rem; font-weight: 600; }
+input::placeholder, textarea::placeholder { color: var(--text-dim); opacity: 1; }
+:focus-visible { outline: 2px solid var(--neon-cyan); outline-offset: 4px; }
+nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -535,14 +548,14 @@ footer .neon-line {
     <span style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;">LF</span>
     <span style="font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;">AI/ML Engineer</span>
   </div>
-  <ul class="links">
-    <li><a href="#" onclick="switchTab('home');this.closest('nav').classList.remove('open');return false">Home</a></li>
-    <li><a href="#" onclick="switchTab('experience');this.closest('nav').classList.remove('open');return false">Experience</a></li>
-    <li><a href="#" onclick="switchTab('projects');this.closest('nav').classList.remove('open');return false">Projects</a></li>
-    <li><a href="#" onclick="switchTab('music');this.closest('nav').classList.remove('open');return false">Music</a></li>
-    <li><a href="#" onclick="switchTab('contact');this.closest('nav').classList.remove('open');return false">Contact</a></li>
+  <ul class="links" id="main-navigation">
+    <li><a href="#" onclick="switchTab('home');return false">Home</a></li>
+    <li><a href="#" onclick="switchTab('experience');return false">Experience</a></li>
+    <li><a href="#" onclick="switchTab('projects');return false">Projects</a></li>
+    <li><a href="#" onclick="switchTab('music');return false">Music</a></li>
+    <li><a href="#" onclick="switchTab('contact');return false">Contact</a></li>
   </ul>
-  <button class="hamburger" onclick="this.parentElement.classList.toggle('open')">☰</button>
+  <button class="hamburger" aria-label="Open navigation" aria-controls="main-navigation" aria-expanded="false" onclick="toggleNavigation()">☰</button>
 </nav>
 
 <!-- HERO -->
@@ -584,7 +597,7 @@ footer .neon-line {
       <div class="stat-card"><div class="number">12+</div><div class="label">Years DJing</div></div>
       <div class="stat-card"><div class="number">8</div><div class="label">Years in a Lab</div></div>
       <div class="stat-card"><div class="number">3</div><div class="label">Hackathon Wins</div></div>
-      <div class="stat-card"><div class="number">0</div><div class="label">Regrets</div></div>
+      <div class="stat-card"><div class="number">4</div><div class="label">Years building with Python</div></div>
     </div>
   </div>
 </section>
@@ -926,9 +939,12 @@ footer .neon-line {
   <p>If you need AI that actually works — not slide decks, not demos, not "let's circle back" — drop me a line.</p>
   <div class="availability">Available for work</div>
   <form action="https://formspree.io/f/xpwplwjq" method="POST" style="max-width:500px;margin:2rem auto 0;text-align:left;">
-    <input type="text" name="name" placeholder="Your name" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
-    <input type="email" name="email" placeholder="Your email" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
-    <textarea name="message" placeholder="Your message" rows="4" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;resize:vertical;"></textarea>
+    <label for="contact-name">Your name</label>
+    <input type="text" name="name" id="contact-name" autocomplete="name" placeholder="Your name" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
+    <label for="contact-email">Your email</label>
+    <input type="email" name="email" id="contact-email" autocomplete="email" placeholder="Your email" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
+    <label for="contact-message">Your message</label>
+    <textarea name="message" id="contact-message" placeholder="Your message" rows="4" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;resize:vertical;"></textarea>
     <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
   </form>
   <div class="contact-grid" style="margin-top: 2rem;">
@@ -957,7 +973,7 @@ footer .neon-line {
     <div class="avatar">🎧</div>
     <div class="info">
       <h4>DJ Papzin's Assistant</h4>
-      <span>● Online — Ask me anything</span>
+      <span>● Portfolio guide — Ask about my work</span>
     </div>
     <button class="min-btn" onclick="minimizeChat()" aria-label="Minimize chat">−</button>
     <button class="close-btn" onclick="closeChat()">✕</button>
@@ -975,6 +991,8 @@ footer .neon-line {
 (function() {
   const c = document.getElementById('particles');
   const ctx = c.getContext('2d');
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let particleFrame;
   let w, h, particles = [];
   function resize() { w = c.width = window.innerWidth; h = c.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
@@ -989,7 +1007,7 @@ footer .neon-line {
   function draw() {
     ctx.clearRect(0, 0, w, h);
     particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
+      if (!motionPreference.matches) { p.x += p.vx; p.y += p.vy; }
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -1008,8 +1026,12 @@ footer .neon-line {
         }
       }
     }
-    requestAnimationFrame(draw);
+    if (!motionPreference.matches) particleFrame = requestAnimationFrame(draw);
   }
+  motionPreference.addEventListener('change', () => {
+    cancelAnimationFrame(particleFrame);
+    draw();
+  });
   draw();
 })();
 
@@ -1168,17 +1190,25 @@ document.body.addEventListener('drop', e => {
   reader.readAsArrayBuffer(file);
 });
 
-let lastScroll = 0;
-window.addEventListener('scroll', () => {
+function toggleNavigation(force) {
   const nav = document.getElementById('nav');
-  const curr = window.scrollY;
-  if (curr > lastScroll && curr > 100) nav.style.transform = 'translateY(-100%)';
-  else nav.style.transform = 'translateY(0)';
-  lastScroll = curr;
+  const open = typeof force === 'boolean' ? force : !nav.classList.contains('open');
+  nav.classList.toggle('open', open);
+  const button = nav.querySelector('.hamburger');
+  button.setAttribute('aria-expanded', String(open));
+  button.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+}
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && document.getElementById('nav').classList.contains('open')) {
+    toggleNavigation(false);
+    document.querySelector('.hamburger').focus();
+  }
 });
 
 // ─── TAB SWITCHING ───
 function switchTab(name) {
+  if (!document.getElementById('tab-' + name)) return;
+  toggleNavigation(false);
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   const panel = document.getElementById('tab-' + name);
@@ -1186,7 +1216,11 @@ function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach(b => {
     if (b.dataset.tab === name) b.classList.add('active');
   });
-  window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 60, behavior: 'smooth' });
+  const navHeight = document.getElementById('nav').offsetHeight;
+  const bar = document.querySelector('.tab-bar');
+  const target = window.matchMedia('(max-width: 768px)').matches ? bar : panel;
+  const offset = navHeight + (target === panel ? bar.offsetHeight : 0);
+  window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - offset, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   // Resize visualizer when music tab opens
   if (name === 'music' && typeof resizeViz === 'function') {
     requestAnimationFrame(resizeViz);
@@ -1212,6 +1246,7 @@ const SUGGESTIONS = [
 ];
 
 let chatHistory = [];
+let chatBusy = false;
 
 function openChat() {
   const w = document.getElementById('chatbot');
@@ -1219,7 +1254,7 @@ function openChat() {
   w.classList.remove('minimized');
   document.getElementById('chat-badge').style.display = 'none';
   if (!document.getElementById('chat-messages').children.length) {
-    botReply("Hey! I'm DJ Papzin's AI assistant. Ask me about his AI/ML work, code, DJ career, or how to get in touch! 🚀");
+    botReply("Hey! I'm DJ Papzin's portfolio assistant. Ask about his experience, projects, skills, music, or how to get in touch! 🚀");
     showSuggestions(SUGGESTIONS);
   }
 }
@@ -1241,7 +1276,6 @@ function closeChat() {
   const w = document.getElementById('chatbot');
   w.classList.remove('open');
   w.classList.remove('minimized');
-  resetChat();
 }
 
 function toggleChat() {
@@ -1254,7 +1288,7 @@ document.addEventListener('click', (e) => {
   const w = document.getElementById('chatbot');
   const t = document.querySelector('.chatbot-toggle');
   if (!w.classList.contains('open')) return;
-  if (w.contains(e.target) || t.contains(e.target)) return;
+  if (e.composedPath().includes(w) || e.composedPath().includes(t)) return;
   minimizeChat();
 });
 
@@ -1302,7 +1336,9 @@ function showSuggestions(items) {
 async function sendChat(text) {
   const input = document.getElementById('chat-input');
   const msg = text || input.value.trim();
-  if (!msg) return;
+  if (!msg || chatBusy) return;
+  chatBusy = true;
+  const requestHistory = chatHistory.slice(-10);
   input.value = '';
   document.getElementById('chat-suggestions').innerHTML = '';
   userMsg(msg);
@@ -1320,28 +1356,32 @@ async function sendChat(text) {
     typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Searching codebase...</span>';
 
     let resp = await fetch(CHAT_API, {
+      signal: AbortSignal.timeout(25000),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+      body: JSON.stringify({ message: msg, history: requestHistory }),
     });
 
     // Fallback to regular chat if code-search fails
     if (!resp.ok) {
       typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Trying backup model...</span>';
       resp = await fetch(CHAT_FALLBACK, {
+        signal: AbortSignal.timeout(25000),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) }),
+        body: JSON.stringify({ message: msg, history: requestHistory }),
       });
     }
 
     const data = await resp.json();
     typingEl.remove();
 
-    if (data.error) {
-      botReply("Sorry, I'm having a brain freeze 🧠❄️ Try again!");
+    if (!resp.ok || data.error || typeof data.reply !== "string") {
+      chatHistory.pop();
+      botReply('Chat is temporarily unavailable. You can reach me at <a href="mailto:l.fanampe@gmail.com">l.fanampe@gmail.com</a>.');
     } else {
       let reply = data.reply;
+      if (data.mode === 'portfolio') reply += '<p style="font-size:0.75rem;margin-top:0.5rem;">Portfolio guide · prepared answers, not AI-generated</p>';
       // Show sources if available
       if (data.sources && data.sources.length > 0) {
         const srcLinks = data.sources
@@ -1356,8 +1396,13 @@ async function sendChat(text) {
     }
   } catch (e) {
     typingEl.remove();
-    botReply("Oops, connection issue. Try again! 🔄");
+    chatHistory.pop();
+    botReply(e.message === 'LOCAL_PREVIEW'
+      ? 'This local preview does not run the AI service. Chat is available on the deployed website once its provider key is configured. You can also <a href="mailto:l.fanampe@gmail.com">email me</a>.'
+      : 'Chat could not connect. Please try again or <a href="mailto:l.fanampe@gmail.com">email me</a>.');
   }
+
+  chatBusy = false;
 
   // Show follow-up suggestions
   setTimeout(() => {
