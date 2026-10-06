@@ -37,3 +37,25 @@ test('both endpoints give clearly labelled portfolio answers without keys', asyn
 test('prepared guide does not invent answers to unrelated questions',()=>{
   assert.match(portfolioReply('What is the weather?').reply,/cannot answer general questions/);
 });
+test('prepared guide answers the built-in project prompts', () => {
+  assert.match(portfolioReply("What's in the Task Tracker?").reply, /FastAPI.*PostgreSQL/);
+  assert.match(portfolioReply('How does the ID recognition work?').reply, /OCR/);
+});
+test('follow-ups keep the latest topic after multiple subjects', () => {
+  const history = [{role:'user',content:'Experience?'},{role:'user',content:'Music?'},{role:'assistant',content:'Music answer'}];
+  assert.match(portfolioReply('Tell me more', history).reply, /DJing since 2012/);
+  history.push({role:'user',content:'Tell me more'});
+  assert.match(portfolioReply('What else?', history).reply, /DJing since 2012/);
+});
+test('code search fallback preserves search metadata', async () => {
+  const saved = {...process.env};
+  for (const key of ['OPENROUTER_API_KEY','OPENAI_API_KEY','GROQ_API_KEY']) delete process.env[key];
+  try {
+    const message = 'Show me his Python code';
+    const response = await search.handler({httpMethod:'POST',body:JSON.stringify({message})});
+    const data = JSON.parse(response.body);
+    assert.deepEqual(data.sources, search.searchCode(message).results || []);
+    assert.deepEqual(data.query_terms, ['show','me','his','python','code']);
+    assert.equal(data.mode, 'portfolio');
+  } finally { process.env = saved; }
+});

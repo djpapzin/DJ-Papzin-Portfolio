@@ -176,7 +176,11 @@ ABOUT HIS WORK: He builds multi-agent AI systems, RAG chatbots, NLP pipelines, a
 
     let result;
     try { result = await requestReply(systemPrompt, message, history); }
-    catch { return jsonResponse(200, portfolioReply(message, history)); }
+    catch { return jsonResponse(200, {
+      ...portfolioReply(message, history),
+      sources: search.results || [],
+      query_terms: message.toLowerCase().replace(/[^a-z0-9_ ]/g, '').split(/\s+/).filter(t => t.length >= 2),
+    }); }
     const { reply, model } = result;
 
     return {

@@ -991,6 +991,8 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
 (function() {
   const c = document.getElementById('particles');
   const ctx = c.getContext('2d');
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let particleFrame;
   let w, h, particles = [];
   function resize() { w = c.width = window.innerWidth; h = c.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
@@ -1005,7 +1007,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   function draw() {
     ctx.clearRect(0, 0, w, h);
     particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
+      if (!motionPreference.matches) { p.x += p.vx; p.y += p.vy; }
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -1024,8 +1026,12 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
         }
       }
     }
-    requestAnimationFrame(draw);
+    if (!motionPreference.matches) particleFrame = requestAnimationFrame(draw);
   }
+  motionPreference.addEventListener('change', () => {
+    cancelAnimationFrame(particleFrame);
+    draw();
+  });
   draw();
 })();
 
