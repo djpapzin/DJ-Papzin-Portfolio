@@ -93,8 +93,9 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
 
   // Score all files
   const namedProjects = matchingProjects(query);
-  const broadComparison = /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
-  const unnamedPeers = /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query) || (namedProjects.length < 2 && /\bhis\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query));
+  const applicationCollection = /\b(?:all|other)\s+(?:user|users|customer|customers|account|stored|saved)\s+(?:projects|repositories|repos)\b/i.test(query);
+  const broadComparison = !applicationCollection && /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|across|all (?:his|portfolio|of his))\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
+  const unnamedPeers = !applicationCollection && /\b(?:other|across|all (?:his|portfolio|of his))\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query) || (!applicationCollection && namedProjects.length < 2 && /\bhis\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query));
   const fullyNamedComparison = namedProjects.length >= 2 && !unnamedPeers;
   const useFullIndex = broadComparison && !fullyNamedComparison;
   const candidateFiles = namedProjects.length && !useFullIndex ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
@@ -153,10 +154,12 @@ const projectCatalog = require('./lib/project-catalog.json');
 const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 function matchingProjects(message) {
   const text = ` ${normalizedName(message)} `;
-  return projectCatalog.filter(project => project.names.some(name => {
+  const matches = projectCatalog.filter(project => project.names.some(name => {
     const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
     return new RegExp(`\\b${letters}\\b`).test(text);
   }));
+  if (matches.length < 2) return matches;
+  return matches.filter(project => !(project.repo === 'PapzinAI-Task-Tracker' && /\b(?:a|an|any|built in)\s+task\s*tracker\b/.test(text)) && !(project.names.includes('ID recognition') && /\b(?:a|an|any|built in)\s+id\s*recognition\b/.test(text)));
 }
 function identifiesProject(message) {
   return matchingProjects(message).length > 0;

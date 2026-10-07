@@ -308,3 +308,10 @@ test('prepared guide treats technical translated and outlier wording as unsuppor
   for (const question of ['How are translated database records stored?','How do outliers affect machine-learning models?']) assert.doesNotMatch(portfolioReply(question).reply,/RLHF|Kwantu|Next Sapien/);
   assert.match(portfolioReply('When did he work at Translated?').reply,/October 2024 to December 2024/);
 });
+
+test('application collections and indefinite feature names do not add unrelated repositories', () => {
+  const file=(repo,content)=>({repo,name:'api.py',path:'api.py',summary:'projects task tracker',content,keywords:['projects','task','tracker']});
+  const index={files:[file('PapzinAI-Task-Tracker','Task Tracker projects'),file('Arc-ZARDIAN','Arc-ZARDIAN task tracker projects')]};
+  assert.ok(search.searchCode('How does Task Tracker retrieve all user projects?',5,index).results.every(x=>x.repo==='PapzinAI-Task-Tracker'));
+  assert.ok(search.searchCode('Does Arc-ZARDIAN include a task tracker?',5,index).results.every(x=>x.repo==='Arc-ZARDIAN'));
+});
