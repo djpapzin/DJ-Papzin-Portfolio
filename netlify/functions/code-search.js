@@ -93,7 +93,7 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
 
   // Score all files
   const namedProjects = matchingProjects(query);
-  const broadComparison = /\b(compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
+  const broadComparison = /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
   const unnamedPeers = /\b(?:other|all|across|his)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
   const fullyNamedComparison = broadComparison && namedProjects.length >= 2 && !unnamedPeers;
   const useFullIndex = broadComparison && !fullyNamedComparison;
@@ -179,7 +179,8 @@ function isNewTopic(message) {
 }
 
 function codeQuery(message, history = []) {
-  if (isNewTopic(message)) return message;
+  const referentialComparison = /\b(it|its|that|this|they|their|those|them|these)\b/i.test(message) && /\b(compare|compared|comparison|versus|vs|differ|different|differences|similar|contrast)\b/i.test(message);
+  if (isNewTopic(message) && !referentialComparison) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.
   const previous = [...history].reverse().find(turn => turn.role === 'user' && isNewTopic(turn.content));

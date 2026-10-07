@@ -246,3 +246,17 @@ test('work performed at Next Sapien is distinct from its named Facial Analysis p
   assert.match(portfolioReply('What project did he build at Next Sapien?').reply,/ChatSnap-Extractor/);
   assert.match(portfolioReply('What technologies does the NextSapien Facial Analysis project use?').reply,/DeepFace/);
 });
+
+test('cross-turn comparisons retrieve both named subjects and listings include other projects', () => {
+  const history=[{role:'user',content:'Tell me about Task Tracker'}];
+  const query=search.codeQuery('How does it differ from Arc-ZARDIAN?',history);
+  assert.match(query,/Task Tracker/);
+  assert.match(query,/Arc-ZARDIAN/);
+  const file=(repo)=>({repo,name:'api.py',path:'api.py',summary:'FastAPI',content:`FastAPI database ${repo==='Arc-ZARDIAN'?'Arc-ZARDIAN':'Task Tracker'}`,keywords:['fastapi','database']});
+  const index={files:[file('PapzinAI-Task-Tracker'),file('Arc-ZARDIAN'),file('RAG-SQL-Chatbot')]};
+  const comparison=search.searchCode(query,5,index).results;
+  assert.ok(comparison.some(x=>x.repo==='PapzinAI-Task-Tracker'));
+  assert.ok(comparison.some(x=>x.repo==='Arc-ZARDIAN'));
+  assert.ok(comparison.every(x=>x.repo!=='RAG-SQL-Chatbot'));
+  for (const question of ['Which projects use FastAPI besides Task Tracker?', 'Which other projects use FastAPI apart from Task Tracker?']) assert.ok(search.searchCode(question,5,index).results.some(x=>x.repo==='RAG-SQL-Chatbot'));
+});
