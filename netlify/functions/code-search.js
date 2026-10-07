@@ -94,7 +94,10 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
   // Score all files
   const namedProjects = matchingProjects(query);
   const broadComparison = /\b(compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
-  const candidateFiles = namedProjects.length && !broadComparison ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
+  const unnamedPeers = /\b(?:other|all|across|his)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
+  const fullyNamedComparison = broadComparison && namedProjects.length >= 2 && !unnamedPeers;
+  const useFullIndex = broadComparison && !fullyNamedComparison;
+  const candidateFiles = namedProjects.length && !useFullIndex ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
   let scored = candidateFiles
     .map(file => ({ file, score: scoreFile(file, terms) }))
     .filter(s => s.score > 0)
@@ -103,7 +106,12 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
   // Apply relevancy filtering
   scored = filterResults(scored, terms);
 
-  // Slice after filtering
+  // A named comparison gets at least one matching file from each available side.
+  if (fullyNamedComparison) {
+    const representatives = namedProjects.map(project => scored.find(item => item.file.repo === project.repo)).filter(Boolean);
+    const unique = [...new Set(representatives)];
+    scored = [...unique, ...scored.filter(item => !unique.includes(item))];
+  }
   scored = scored.slice(0, maxResults);
 
   // Build context for LLM

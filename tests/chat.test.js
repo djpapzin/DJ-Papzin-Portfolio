@@ -219,3 +219,19 @@ test('NextSapien project questions use facial-analysis facts rather than the emp
     assert.doesNotMatch(portfolioReply(question).reply,/ChatSnap|December 2023/);
   }
 });
+test('explicitly named comparisons exclude unrelated files and retain both available sides', () => {
+  const file=(repo,name,content)=>({repo,name,path:name,content,summary:'',keywords:['database']});
+  const index={files:[...Array.from({length:6},(_,i)=>file('PapzinAI-Task-Tracker',`tasks${i}.py`,'database Task Tracker Task Tracker')),file('Arc-ZARDIAN','arc.py','database'),file('RAG-SQL-Chatbot','other.py','database Task Tracker Arc ZARDIAN')]};
+  const results=search.searchCode('Compare Task Tracker and Arc-ZARDIAN database choices',5,index).results;
+  assert.ok(results.some(item=>item.repo==='PapzinAI-Task-Tracker'));
+  assert.ok(results.some(item=>item.repo==='Arc-ZARDIAN'));
+  assert.ok(results.every(item=>['PapzinAI-Task-Tracker','Arc-ZARDIAN'].includes(item.repo)));
+});
+test('written conjunction aliases and prepared employer duration questions stay grounded', () => {
+  const history=[{role:'user',content:'Task Tracker?'}];
+  const question='What database does Papzin and Crew use?';
+  assert.equal(search.codeQuery(question,history),question);
+  const index={files:[{repo:'PapzinCrew-Music-Streaming-Platform',name:'db.py',path:'db.py',summary:'database',content:'database',keywords:['database']}]};
+  assert.equal(search.searchCode(question,5,index).results[0].repo,'PapzinCrew-Music-Streaming-Platform');
+  assert.match(portfolioReply('How long did he work at Translated?').reply,/Translated from October 2024 to December 2024/);
+});
