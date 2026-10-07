@@ -321,3 +321,11 @@ test('demonstratives modifying an explicit new project do not create a compariso
   for (const question of ['What does this Arc-ZARDIAN project do?','Tell me about that Truth Guard project']) assert.equal(search.codeQuery(question,history),question);
   assert.match(search.codeQuery('How does this compare with Arc-ZARDIAN?',history),/Task Tracker/);
 });
+
+test('Next Sapien implementation work is scoped to the known ChatSnap repository', () => {
+  const file=(repo,content)=>({repo,name:'main.py',path:'main.py',summary:'code build',content,keywords:['code','build']});
+  const index={files:[file('ChatSnap-Extractor','ChatSnap code'),file('NextSapien-Facial-Analysis','Next Sapien code build build')]};
+  const result=search.searchCode('What code did he build at Next Sapien?',5,index).results;
+  assert.ok(result.length>0);
+  assert.ok(result.every(x=>x.repo==='ChatSnap-Extractor'));
+});
