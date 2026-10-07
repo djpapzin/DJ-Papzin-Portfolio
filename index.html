@@ -307,6 +307,10 @@ section h2 {
 .project-card:hover { border-color: rgba(0,240,255,0.2); transform: translateY(-4px); }
 .project-card:hover::before { transform: scaleX(1); }
 .project-card .icon { font-size: 2rem; margin-bottom: 1rem; }
+.project-preview { display: block; width: 100%; height: 180px; object-fit: contain; background: #0b0b12; border-radius: 6px; margin-bottom: 1rem; }
+.project-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+.project-links a { color: var(--neon-cyan); font-size: 0.85rem; text-underline-offset: 4px; padding: 0.3rem 0; }
+.project-outcome { margin-top: 0.7rem; }
 .project-card h3 { font-family: 'Orbitron', monospace; font-size: 1.1rem; margin-bottom: 0.5rem; }
 .project-card p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
 .project-card .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
@@ -840,10 +844,14 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
       </div>
     </div>
     <div class="project-card">
-      <div class="icon">🛡️</div>
+      <img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard interface analysing a claim" loading="lazy" width="819" height="728">
       <h3>TruthGuard</h3>
       <p>Real-time fake news detection system using Llama 3. Content moderation tools to enhance platform reliability across multiple channels.</p>
-      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>What it does:</strong> Analyses a claim and displays a classification with a confidence score.</p>
+      <div class="project-links">
+        <a href="https://truth-guard-dusky.vercel.app/" target="_blank" rel="noopener noreferrer">Open demo ↗</a>
+        <a href="https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM" target="_blank" rel="noopener noreferrer">View source ↗</a>
+      </div>
       <div class="tags">
         <span class="tag">Llama 3</span>
         <span class="tag">NLP</span>
@@ -862,10 +870,14 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
       </div>
     </div>
     <div class="project-card">
-      <div class="icon">🎮</div>
+      <img class="project-preview" src="assets/visualpro.jpg" alt="VisualPro WebGPU hackathon demo presentation" loading="lazy" width="1161" height="653">
       <h3>VisualPro</h3>
       <p>WebGPU backend with 3D data visualization. API endpoints with Node.js, SQLite storage, Three.js rendering. WebGPU Hackathon winner.</p>
-      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>Outcome:</strong> First place at the WebGPU Hackathon.</p>
+      <div class="project-links">
+        <a href="https://lablab.ai/event/webgpu-hackathon/tender-ai/visualpro" target="_blank" rel="noopener noreferrer">Watch presentation ↗</a>
+        <a href="https://github.com/mudassirfayaz/WebGPU_Hack" target="_blank" rel="noopener noreferrer">View source ↗</a>
+      </div>
       <div class="tags">
         <span class="tag">WebGPU</span>
         <span class="tag">Node.js</span>
@@ -938,7 +950,9 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <h2>Get In Touch</h2>
   <p>If you need AI that actually works — not slide decks, not demos, not "let's circle back" — drop me a line.</p>
   <div class="availability">Available for work</div>
-  <form action="https://formspree.io/f/xpwplwjq" method="POST" style="max-width:500px;margin:2rem auto 0;text-align:left;">
+  <form name="contact" action="/contact-thanks.html" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:500px;margin:2rem auto 0;text-align:left;">
+    <input type="hidden" name="form-name" value="contact">
+    <p hidden><label>Leave this empty: <input name="bot-field"></label></p>
     <label for="contact-name">Your name</label>
     <input type="text" name="name" id="contact-name" autocomplete="name" placeholder="Your name" required style="width:100%;padding:0.8rem;margin-bottom:1rem;border-radius:4px;border:1px solid rgba(255,255,255,0.1);background:var(--surface);color:var(--text);font-family:Inter,sans-serif;font-size:0.9rem;">
     <label for="contact-email">Your email</label>
