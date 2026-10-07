@@ -135,3 +135,11 @@ test('implementation follow-ups retain the most recent project topic', () => {
   history.push({role:'user',content:'When did he start Python?'});
   assert.equal(search.codeQuery('Tell me more',history),'Tell me more');
 });
+test('all project names remain searchable and supported short follow-ups keep their subject', () => {
+  for (const name of ['Arc-ZARDIAN', 'RecallFlow', 'mindmate', 'Comment-Scope', 'ChatSnap-Extractor', 'RAG-SQL-Chatbot']) assert.equal(search.shouldSearchCode(`Tell me about ${name}`),true);
+  const history = [{role:'user',content:'What database does Arc-ZARDIAN use?'}];
+  assert.match(search.codeQuery('Can you explain?',history), /Arc-ZARDIAN/);
+  assert.match(search.codeQuery('And that?',history), /Arc-ZARDIAN/);
+  history.push({role:'user',content:'How is authentication handled?'});
+  assert.match(search.codeQuery('Tell me more',history), /Arc-ZARDIAN/);
+});

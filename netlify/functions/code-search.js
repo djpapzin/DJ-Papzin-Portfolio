@@ -140,11 +140,13 @@ Be specific — reference actual file names, function names, and implementation 
 }
 
 function shouldSearchCode(message) {
-  return /\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?)\b|how.*\b(work|built)\b|task tracker|papzinai|truthguard|visualpro|vocal thread|id recognition|papzin.*crew/i.test(message);
+  // Search every project by default; only clear biography questions skip retrieval.
+  if (/\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?|database|authentication|backend|frontend)\b|how.*\b(work|built)\b/i.test(message)) return true;
+  return !/\b(experience|skills?|contact|email|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b/i.test(message);
 }
 
 function codeQuery(message, history = []) {
-  const followUp = value => /\b(it|that|this|they|their|authentication|database|backend|frontend)\b|^(tell me more|more|what else)[?.! ]*$/i.test(value);
+  const followUp = value => /\b(it|that|this|they|their)\b|^(tell me more|more|what else|can you explain|and that)[?.! ]*$|^how (?:is|are) (?:authentication|database|backend|frontend)\b/i.test(value);
   if (followUp(message)) {
     const previous = [...history].reverse().find(turn => turn.role === 'user' && !followUp(turn.content));
     if (previous && shouldSearchCode(previous.content)) return `${previous.content}\n${message}`;
