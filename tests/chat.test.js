@@ -260,3 +260,14 @@ test('cross-turn comparisons retrieve both named subjects and listings include o
   assert.ok(comparison.every(x=>x.repo!=='RAG-SQL-Chatbot'));
   for (const question of ['Which projects use FastAPI besides Task Tracker?', 'Which other projects use FastAPI apart from Task Tracker?']) assert.ok(search.searchCode(question,5,index).results.some(x=>x.repo==='RAG-SQL-Chatbot'));
 });
+
+test('possessive named comparisons and integration follow-ups ground both projects', () => {
+  const file=(repo,content)=>({repo,name:'api.py',path:'api.py',summary:'database integration',content,keywords:['database','integration']});
+  const index={files:[file('PapzinAI-Task-Tracker','Task Tracker'),file('Arc-ZARDIAN','Arc-ZARDIAN'),...Array.from({length:6},()=>file('RAG-SQL-Chatbot','Task Tracker Arc-ZARDIAN Task Tracker Arc-ZARDIAN'))]};
+  for (const query of ['Compare his projects Task Tracker and Arc-ZARDIAN',search.codeQuery('Does it integrate with Arc-ZARDIAN?',[{role:'user',content:'Tell me about Task Tracker'}])]) {
+    const result=search.searchCode(query,5,index).results;
+    assert.ok(result.some(x=>x.repo==='PapzinAI-Task-Tracker'));
+    assert.ok(result.some(x=>x.repo==='Arc-ZARDIAN'));
+    assert.ok(result.every(x=>x.repo!=='RAG-SQL-Chatbot'));
+  }
+});
