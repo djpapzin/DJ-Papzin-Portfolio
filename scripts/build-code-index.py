@@ -15,28 +15,8 @@ from pathlib import Path
 from collections import Counter
 
 # ─── CONFIG ───
-REPOS = [
-    # Core projects
-    "PapzinAI-Task-Tracker",
-    "PapzinCrew-Music-Streaming-Platform",
-    "mindmate",
-    # AI/ML projects
-    "Arc-ZARDIAN",
-    "RecallFlow",
-    "rag-based-support-agent",
-    "RAG-PDF-Chatbot",
-    "RAG-SQL-Chatbot",
-    "TruthGuard-AI-Fake-News-Detection-with-LLM",
-    "ai-based-south-african-id-recognition",
-    "case-management-ai",
-    "mercor-airtable-pipeline",
-    # Creative / media
-    "Vocal-Thread",
-    "Comment-Scope",
-    "ChatSnap-Extractor",
-    # Tools
-    "mcp-browser-automation",
-]
+PROJECT_CATALOG = Path(__file__).parent.parent / 'netlify/functions/lib/project-catalog.json'
+REPOS = [item['repo'] for item in json.loads(PROJECT_CATALOG.read_text()) if item['repo']]
 
 GITHUB_USER = "djpapzin"
 CLONE_DIR = Path("/tmp/code-index-repos")

@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['openrouter/free'] },
+  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
   { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'] },
 ];
@@ -14,32 +14,30 @@ function parseConversation(body) {
   return { message: data.message.trim(), history };
 }
 async function requestReply(prompt, message, history = []) {
-  let configured = false;
+  const available = PROVIDERS.filter(provider => process.env[provider.key] && (provider.key === 'OPENROUTER_API_KEY' || process.env.CHAT_ALLOW_PAID_PROVIDERS === 'true'));
   const deadline = Date.now() + 20000;
-  for (const provider of PROVIDERS) {
-    if (provider.key !== 'OPENROUTER_API_KEY' && process.env.CHAT_ALLOW_PAID_PROVIDERS !== 'true') continue;
+  for (const [index, provider] of available.entries()) {
     const apiKey = process.env[provider.key];
-    if (!apiKey) continue;
-    configured = true;
+    // Reserve a fair share for each remaining provider when paid fallback is opted in.
+    const providerDeadline = Date.now() + Math.floor((deadline - Date.now()) / (available.length - index));
     for (const model of provider.models) {
-      const remaining = deadline - Date.now();
+      const remaining = providerDeadline - Date.now();
       if (remaining <= 0) break;
       try {
         const response = await fetch(provider.url, {
-          method: 'POST', signal: AbortSignal.timeout(Math.min(15000, remaining)),
+          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, Math.floor(remaining / (provider.models.length - provider.models.indexOf(model))))),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], max_tokens: 1000, temperature: 0.7,
-            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { enabled: false }, provider: { sort: 'throughput' } } : {}),
           }),
         });
         // Invalid credentials affect the entire provider, not just one model.
-        if ([401, 403].includes(response.status)) {
+        if (response.status === 401) {
           console.warn('Chat provider rejected credentials', {provider: provider.key, status: response.status});
           break;
         }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
-        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply, model };
+        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply: reply.trim(), model: data.model || model };
         console.warn('Chat provider returned no usable reply', {provider: provider.key, status: response.status, finishReason: data.choices?.[0]?.finish_reason, errorCode: data.error?.code});
       } catch (error) {
         console.warn('Chat provider request failed', {provider: provider.key, kind: error.name});
@@ -47,7 +45,7 @@ async function requestReply(prompt, message, history = []) {
     }
   }
   const error = new Error('Chat provider unavailable');
-  error.code = configured ? 'PROVIDER_UNAVAILABLE' : 'CHAT_NOT_CONFIGURED';
+  error.code = available.length ? 'PROVIDER_UNAVAILABLE' : 'CHAT_NOT_CONFIGURED';
   throw error;
 }
 module.exports = { requestReply, parseConversation, jsonResponse };
