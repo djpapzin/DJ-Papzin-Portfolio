@@ -346,3 +346,8 @@ test('comparisons with a technology keep the named project as the code source', 
   assert.ok(result.length>0);
   assert.ok(result.every(x=>x.repo==='PapzinAI-Task-Tracker'));
 });
+
+test('Kwantu build questions answer its recorded work and identity prompts skip code retrieval', () => {
+  assert.match(portfolioReply('What did he build at Kwantu?').reply,/LangChain.*Detectron2.*Telegram/);
+  for (const question of ['Who is DJ Papzin?','Where is he based?','Tell me about his background']) assert.equal(search.shouldSearchCode(question),false);
+});

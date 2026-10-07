@@ -178,7 +178,7 @@ function shouldSearchCode(message) {
   if (identifiesProject(message)) return true;
   // Search other technical questions by default; clear biography questions skip retrieval.
   if (/\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?|database|authentication|backend|frontend)\b|how.*\b(work|built)\b/i.test(message)) return true;
-  return !/\b(experience|skills?|contact|email|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b/i.test(message);
+  return !/\b(experience|background|identity|biography|location|skills?|contact|email|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b|\bwho is\b|\bwhere.*(?:based|live|located)\b/i.test(message);
 }
 
 function isNewTopic(message) {
