@@ -284,3 +284,10 @@ test('explicit facial-analysis implementation intent and professional Python dat
   assert.match(portfolioReply('When did he start using Python professionally?').reply,/professional Python.*December 2023/);
   assert.match(portfolioReply('When did he start learning Python?').reply,/2022/);
 });
+
+test('professional skills and technical uses of company-like words retain their intent', () => {
+  assert.match(portfolioReply('What professional Python skills does he have?').reply,/FastAPI.*LangChain/);
+  assert.match(portfolioReply('What professional Python projects has he built?').reply,/Task Tracker.*TruthGuard/);
+  assert.equal(search.shouldSearchCode('How long are translated database records stored?'),true);
+  assert.equal(search.shouldSearchCode('When did he work at Translated?'),false);
+});
