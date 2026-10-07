@@ -98,3 +98,24 @@ test('the website code-search endpoint includes biography facts in the AI prompt
     assert.deepEqual(JSON.parse(response.body).sources, []);
   } finally { global.fetch = original; process.env = saved; }
 });
+test('skills questions about learning are not milestone questions and explicit DJ intent works', () => {
+  assert.match(portfolioReply('Which Python technologies did he learn?').reply, /FastAPI/);
+  assert.match(portfolioReply('Is he a DJ?').reply, /2012/);
+  assert.match(portfolioReply('When did he become a DJ?').reply, /2012/);
+});
+test('slow free attempts reserve time for opted-in paid fallback', async () => {
+  const saved = {...process.env}; const original = global.fetch; const originalNow = Date.now;
+  let now = 100000; const urls = [];
+  Date.now = () => now;
+  process.env.OPENROUTER_API_KEY = 'free'; process.env.OPENAI_API_KEY = 'paid';
+  delete process.env.GROQ_API_KEY; process.env.CHAT_ALLOW_PAID_PROVIDERS = 'true';
+  global.fetch = async (url) => {
+    urls.push(url);
+    if (url.includes('openrouter')) { now += 5000; throw new Error('Timed out'); }
+    return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Paid backup'}}]})};
+  };
+  try {
+    assert.equal((await requestReply('Prompt','Question')).reply,'Paid backup');
+    assert.equal(urls.length,3);
+  } finally { global.fetch = original; Date.now = originalNow; process.env = saved; }
+});

@@ -14,19 +14,18 @@ function parseConversation(body) {
   return { message: data.message.trim(), history };
 }
 async function requestReply(prompt, message, history = []) {
-  let configured = false;
+  const available = PROVIDERS.filter(provider => process.env[provider.key] && (provider.key === 'OPENROUTER_API_KEY' || process.env.CHAT_ALLOW_PAID_PROVIDERS === 'true'));
   const deadline = Date.now() + 20000;
-  for (const provider of PROVIDERS) {
-    if (provider.key !== 'OPENROUTER_API_KEY' && process.env.CHAT_ALLOW_PAID_PROVIDERS !== 'true') continue;
+  for (const [index, provider] of available.entries()) {
     const apiKey = process.env[provider.key];
-    if (!apiKey) continue;
-    configured = true;
+    // Reserve a fair share for each remaining provider when paid fallback is opted in.
+    const providerDeadline = Date.now() + Math.floor((deadline - Date.now()) / (available.length - index));
     for (const model of provider.models) {
-      const remaining = deadline - Date.now();
+      const remaining = providerDeadline - Date.now();
       if (remaining <= 0) break;
       try {
         const response = await fetch(provider.url, {
-          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, remaining)),
+          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, Math.floor(remaining / (provider.models.length - provider.models.indexOf(model))))),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], max_tokens: 1000, temperature: 0.7,
           }),
@@ -46,7 +45,7 @@ async function requestReply(prompt, message, history = []) {
     }
   }
   const error = new Error('Chat provider unavailable');
-  error.code = configured ? 'PROVIDER_UNAVAILABLE' : 'CHAT_NOT_CONFIGURED';
+  error.code = available.length ? 'PROVIDER_UNAVAILABLE' : 'CHAT_NOT_CONFIGURED';
   throw error;
 }
 module.exports = { requestReply, parseConversation, jsonResponse };
