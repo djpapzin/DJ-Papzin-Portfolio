@@ -82,3 +82,18 @@ test('free chat retries another conversational model and reports the actual mode
     assert.equal(answer.reply, 'Started in 2022.'); assert.equal(answer.model,calls[1]);
   } finally { global.fetch = original; process.env = saved; }
 });
+test('the website code-search endpoint includes biography facts in the AI prompt', async () => {
+  const saved = {...process.env}; const original = global.fetch;
+  process.env.OPENROUTER_API_KEY = 'test';
+  global.fetch = async (_url, options) => {
+    const prompt = JSON.parse(options.body).messages[0].content;
+    assert.match(prompt, /Started learning Python in 2022/);
+    assert.match(prompt, /DJing since 2012/);
+    assert.match(prompt, /even when repository snippets do not mention them/);
+    return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Started in 2022.'}}]})};
+  };
+  try {
+    const response = await search.handler({httpMethod:'POST',body:JSON.stringify({message:'When did DJ Papzin start learning Python?'})});
+    assert.equal(JSON.parse(response.body).reply, 'Started in 2022.');
+  } finally { global.fetch = original; process.env = saved; }
+});
