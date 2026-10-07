@@ -187,7 +187,10 @@ function isNewTopic(message) {
 }
 
 function codeQuery(message, history = []) {
-  const referentialComparison = /\b(it|its|that|this|they|their|those|them|these)\b/i.test(message) && identifiesProject(message);
+  const named = matchingProjects(message);
+  const namedPatterns = named.flatMap(project => project.names).map(name => normalizedName(name).replace(/ /g, '').split('').join('\\s*')).join('|');
+  const referenceText = namedPatterns ? normalizedName(message).replace(new RegExp(`\\b(?:this|that|these|those)\\s+(?:the\\s+)?(?:${namedPatterns})\\b`, 'g'), '') : message;
+  const referentialComparison = /\b(it|its|that|this|they|their|those|them|these)\b/i.test(referenceText) && named.length > 0;
   if (isNewTopic(message) && !referentialComparison) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.

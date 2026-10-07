@@ -315,3 +315,9 @@ test('application collections and indefinite feature names do not add unrelated 
   assert.ok(search.searchCode('How does Task Tracker retrieve all user projects?',5,index).results.every(x=>x.repo==='PapzinAI-Task-Tracker'));
   assert.ok(search.searchCode('Does Arc-ZARDIAN include a task tracker?',5,index).results.every(x=>x.repo==='Arc-ZARDIAN'));
 });
+
+test('demonstratives modifying an explicit new project do not create a comparison', () => {
+  const history=[{role:'user',content:'Tell me about Task Tracker'}];
+  for (const question of ['What does this Arc-ZARDIAN project do?','Tell me about that Truth Guard project']) assert.equal(search.codeQuery(question,history),question);
+  assert.match(search.codeQuery('How does this compare with Arc-ZARDIAN?',history),/Task Tracker/);
+});
