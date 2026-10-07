@@ -93,7 +93,7 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
 
   // Score all files
   const namedProjects = matchingProjects(query);
-  const broadComparison = /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?|integrat(?:e|es|ion)|connect|interact|compatible)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
+  const broadComparison = /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
   const unnamedPeers = /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query) || (namedProjects.length < 2 && /\bhis\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query));
   const fullyNamedComparison = namedProjects.length >= 2 && !unnamedPeers;
   const useFullIndex = broadComparison && !fullyNamedComparison;

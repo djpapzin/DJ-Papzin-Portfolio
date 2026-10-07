@@ -291,3 +291,10 @@ test('professional skills and technical uses of company-like words retain their 
   assert.equal(search.shouldSearchCode('How long are translated database records stored?'),true);
   assert.equal(search.shouldSearchCode('When did he work at Translated?'),false);
 });
+
+test('single-project integrations stay scoped and employer-qualified dates use their own interval', () => {
+  const file=(repo,content)=>({repo,name:'api.py',path:'api.py',summary:'integration',content,keywords:['slack','integration']});
+  const index={files:[file('PapzinAI-Task-Tracker','Task Tracker Slack'),file('Arc-ZARDIAN','Slack Slack integrate integrate')]};
+  assert.ok(search.searchCode('Does Task Tracker integrate with Slack?',5,index).results.every(x=>x.repo==='PapzinAI-Task-Tracker'));
+  assert.match(portfolioReply('When did he use Python professionally at Kwantu?').reply,/Kwantu from October 2024 to April 2025/);
+});
