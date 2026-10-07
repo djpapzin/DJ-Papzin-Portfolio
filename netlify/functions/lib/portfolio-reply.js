@@ -5,10 +5,13 @@ function portfolioReply(message, history = []) {
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   let reply;
-  if (/next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
+  const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
+  if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
+    reply = nextSapienWork;
+  } else if (/next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
     reply = 'NextSapien Facial Analysis is a facial analysis project built with Python and DeepFace for facial attribute recognition. Its repository is github.com/djpapzin/NextSapien-Facial-Analysis.';
   } else if (/next\s*sapien/.test(topic)) {
-    reply = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
+    reply = nextSapienWork;
   } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated|project/.test(topic)) {

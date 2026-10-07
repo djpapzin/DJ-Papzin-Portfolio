@@ -235,3 +235,14 @@ test('written conjunction aliases and prepared employer duration questions stay 
   assert.equal(search.searchCode(question,5,index).results[0].repo,'PapzinCrew-Music-Streaming-Platform');
   assert.match(portfolioReply('How long did he work at Translated?').reply,/Translated from October 2024 to December 2024/);
 });
+test('personal-pronoun technical follow-ups keep the project while broad topics remain independent', () => {
+  const history=[{role:'user',content:'Tell me about Task Tracker'}];
+  assert.match(search.codeQuery('What did he use for authentication?',history),/Task Tracker/);
+  assert.match(search.codeQuery('How did he build it?',history),/Task Tracker/);
+  const question='What RAG projects has he built?';
+  assert.equal(search.codeQuery(question,history),question);
+});
+test('work performed at Next Sapien is distinct from its named Facial Analysis project', () => {
+  assert.match(portfolioReply('What project did he build at Next Sapien?').reply,/ChatSnap-Extractor/);
+  assert.match(portfolioReply('What technologies does the NextSapien Facial Analysis project use?').reply,/DeepFace/);
+});
