@@ -94,10 +94,10 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
   // Score all files
   const namedProjects = matchingProjects(query);
   const applicationCollection = /\b(?:all|other)\s+(?:user|users|customer|customers|account|stored|saved)\s+(?:projects|repositories|repos)\b/i.test(query);
-  const broadComparison = !applicationCollection && /\b(besides|apart from|in addition to|compar(?:e[sd]?|ing|isons?|ative)|versus|vs|differ(?:s|ed|ing|ent|ences?)?|contrast(?:s|ed|ing)?|similar(?:ity|ities)?)\b|\b(?:other|across|all (?:his|portfolio|of his))\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
   const unnamedPeers = !applicationCollection && /\b(?:other|across|all (?:his|portfolio|of his))\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query) || (!applicationCollection && namedProjects.length < 2 && /\bhis\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query));
   const fullyNamedComparison = namedProjects.length >= 2 && !unnamedPeers;
-  const useFullIndex = broadComparison && !fullyNamedComparison;
+  const peerListing = !applicationCollection && /\b(besides|apart from|in addition to)\b/i.test(query) && /\b(projects|repositories|repos)\b/i.test(query);
+  const useFullIndex = unnamedPeers || peerListing;
   const candidateFiles = namedProjects.length && !useFullIndex ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
   let scored = candidateFiles
     .map(file => ({ file, score: scoreFile(file, terms) }))

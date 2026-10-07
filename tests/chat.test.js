@@ -338,3 +338,11 @@ test('Next Sapien relationships keep explicitly named peers and Kwantu tools ans
   assert.ok(result.some(x=>x.repo==='PapzinAI-Task-Tracker'));
   assert.match(portfolioReply('What technologies did he use at Kwantu?').reply,/LangChain.*FastAPI.*Detectron2.*Tesseract/);
 });
+
+test('comparisons with a technology keep the named project as the code source', () => {
+  const file=(repo,content)=>({repo,name:'api.py',path:'api.py',summary:'Django',content,keywords:['django']});
+  const index={files:[file('PapzinAI-Task-Tracker','Task Tracker Django'),file('Arc-ZARDIAN','Django Django Django')]};
+  const result=search.searchCode('Compare Task Tracker with Django',5,index).results;
+  assert.ok(result.length>0);
+  assert.ok(result.every(x=>x.repo==='PapzinAI-Task-Tracker'));
+});
