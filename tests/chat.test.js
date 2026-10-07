@@ -395,3 +395,13 @@ test('VisualPro award questions identify its documented event rather than the ge
   assert.match(portfolioReply('Tell me about his hackathon wins').reply, /VisualPro won the WebGPU Hackathon/);
   assert.doesNotMatch(portfolioReply('Tell me about his hackathon wins').reply, /three/);
 });
+
+test('VisualPro fallback recognises plural awards and keeps technical hackathon questions on projects', () => {
+  for (const question of ["Tell me about VisualPro's wins", 'Which awards did VisualPro receive?']) {
+    assert.match(portfolioReply(question).reply, /first place at the WebGPU Hackathon/);
+  }
+  for (const question of ['What technologies did VisualPro use in the hackathon?', 'How was VisualPro built for the hackathon?']) {
+    assert.match(portfolioReply(question).reply, /WebGPU visualisation/);
+    assert.doesNotMatch(portfolioReply(question).reply, /first place/);
+  }
+});
