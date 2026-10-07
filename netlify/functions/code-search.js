@@ -93,7 +93,7 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
 
   // Score all files
   const namedProjects = matchingProjects(query);
-  const broadComparison = /\b(other|all|across|compare|comparison|versus|vs)\b/i.test(query);
+  const broadComparison = /\b(compare|comparison|versus|vs)\b|\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b/i.test(query);
   const candidateFiles = namedProjects.length && !broadComparison ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
   let scored = candidateFiles
     .map(file => ({ file, score: scoreFile(file, terms) }))
