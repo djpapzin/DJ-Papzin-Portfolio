@@ -174,7 +174,8 @@ function matchingProjects(message) {
     const explicitName = name.replace(/[^a-zA-Z0-9]/g, '').split('').join('\\s*');
     const strongName = new RegExp(`\\b${explicitName}\\b`).test(message.replace(/[^a-zA-Z0-9]+/g,' '));
     const relatedName = new RegExp(`\\b(?:and|with|from|than|versus|vs)\\s+(?:the\\s+)?${normalizedName(name).replace(/ /g,'').split('').join('\\s*')}\\b`, 'i').test(text);
-    return strongName || relatedName;
+    const explicitIdentifier = name.includes('-') && message.toLowerCase().includes(name.toLowerCase());
+    return !project.descriptive || explicitIdentifier || strongName || relatedName;
   }));
   return contextualMatches.filter(project => !(project.repo === 'PapzinAI-Task-Tracker' && /\b(?:a|an|any|built in)\s+task\s*tracker\b/.test(text)) && !(project.names.includes('ID recognition') && /\b(?:a|an|any|built in)\s+id\s*recognition\b/.test(text)));
 }

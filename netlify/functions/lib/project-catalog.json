@@ -4,7 +4,8 @@
     "names": [
       "PapzinAI-Task-Tracker",
       "Task Tracker"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "PapzinCrew-Music-Streaming-Platform",
@@ -37,19 +38,22 @@
     "repo": "rag-based-support-agent",
     "names": [
       "rag-based-support-agent"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "RAG-PDF-Chatbot",
     "names": [
       "RAG-PDF-Chatbot"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "RAG-SQL-Chatbot",
     "names": [
       "RAG-SQL-Chatbot"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "TruthGuard-AI-Fake-News-Detection-with-LLM",
@@ -64,13 +68,15 @@
       "ai-based-south-african-id-recognition",
       "ID recognition",
       "SA ID Recognition"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "case-management-ai",
     "names": [
       "case-management-ai"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "mercor-airtable-pipeline",
@@ -83,13 +89,15 @@
     "names": [
       "Vocal-Thread",
       "Vocal Thread"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "Comment-Scope",
     "names": [
       "Comment-Scope"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": "ChatSnap-Extractor",
@@ -102,7 +110,8 @@
     "repo": "mcp-browser-automation",
     "names": [
       "mcp-browser-automation"
-    ]
+    ],
+    "descriptive": true
   },
   {
     "repo": null,

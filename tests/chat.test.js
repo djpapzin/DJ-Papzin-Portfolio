@@ -381,3 +381,11 @@ test('runtime timing and descriptive feature aliases do not become portfolio mil
   assert.ok(search.searchCode('Does Arc-ZARDIAN limit comment scope?',5,index).results.every(x=>x.repo==='Arc-ZARDIAN'));
   assert.ok(search.searchCode('Compare Arc-ZARDIAN and Comment-Scope',5,index).results.some(x=>x.repo==='Comment-Scope'));
 });
+
+test('lowercase explicit identifiers remain scoped while generic feature wording stays excluded', () => {
+  const file=(repo,content)=>({repo,name:'app.py',path:'app.py',summary:'comment scope',content,keywords:['comment','scope']});
+  const index={files:[file('Arc-ZARDIAN','arc-zardian comment scope'),file('Comment-Scope','comment scope')]};
+  const result=search.searchCode('Does arc-zardian limit comment scope?',5,index).results;
+  assert.ok(result.length>0);
+  assert.ok(result.every(x=>x.repo==='Arc-ZARDIAN'));
+});
