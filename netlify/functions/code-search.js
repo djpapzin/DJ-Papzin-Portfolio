@@ -139,17 +139,24 @@ ${userQuestion}
 Be specific — reference actual file names, function names, and implementation details from the code. If the code doesn't contain the answer, say so honestly.`;
 }
 
+const projectCatalog = require('./lib/project-catalog.json');
+const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+function identifiesProject(message) {
+  const text = ` ${normalizedName(message)} `;
+  return projectCatalog.some(project => project.names.some(name => text.includes(` ${normalizedName(name)} `)));
+}
 function shouldSearchCode(message) {
-  // Search every project by default; only clear biography questions skip retrieval.
+  if (identifiesProject(message)) return true;
+  // Search other technical questions by default; clear biography questions skip retrieval.
   if (/\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?|database|authentication|backend|frontend)\b|how.*\b(work|built)\b/i.test(message)) return true;
   return !/\b(experience|skills?|contact|email|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b/i.test(message);
 }
 
 function codeQuery(message, history = []) {
-  const followUp = value => /\b(it|that|this|they|their)\b|^(tell me more|more|what else|can you explain|and that)[?.! ]*$|^how (?:is|are) (?:authentication|database|backend|frontend)\b/i.test(value);
+  const followUp = value => !identifiesProject(value) && /\b(it|that|this|they|their)\b|^(tell me more|more|what else|can you explain|and that)[?.! ]*$|^how (?:is|are) (?:authentication|database|backend|frontend)\b/i.test(value);
   if (followUp(message)) {
     const previous = [...history].reverse().find(turn => turn.role === 'user' && !followUp(turn.content));
-    if (previous && shouldSearchCode(previous.content)) return `${previous.content}\n${message}`;
+    if (previous) return `${previous.content}\n${message}`;
   }
   return message;
 }

@@ -133,7 +133,8 @@ test('implementation follow-ups retain the most recent project topic', () => {
     assert.match(search.codeQuery(question, history), /PapzinAI/);
   }
   history.push({role:'user',content:'When did he start Python?'});
-  assert.equal(search.codeQuery('Tell me more',history),'Tell me more');
+  assert.equal(search.shouldSearchCode(search.codeQuery('Tell me more',history)),false);
+  assert.doesNotMatch(search.codeQuery('Tell me more',history), /PapzinAI/);
 });
 test('all project names remain searchable and supported short follow-ups keep their subject', () => {
   for (const name of ['Arc-ZARDIAN', 'RecallFlow', 'mindmate', 'Comment-Scope', 'ChatSnap-Extractor', 'RAG-SQL-Chatbot']) assert.equal(search.shouldSearchCode(`Tell me about ${name}`),true);
@@ -142,4 +143,11 @@ test('all project names remain searchable and supported short follow-ups keep th
   assert.match(search.codeQuery('And that?',history), /Arc-ZARDIAN/);
   history.push({role:'user',content:'How is authentication handled?'});
   assert.match(search.codeQuery('Tell me more',history), /Arc-ZARDIAN/);
+});
+test('explicit project names override biography words and pronouns', () => {
+  assert.equal(search.shouldSearchCode('What skills does Arc-ZARDIAN use?'),true);
+  assert.equal(search.shouldSearchCode('How does Papzin & Crew stream music?'),true);
+  for (const question of ['What is this Task Tracker?', 'What does this Arc-ZARDIAN project do?']) {
+    assert.match(search.codeQuery('Can you explain?',[{role:'user',content:question}]), /Task Tracker|Arc-ZARDIAN/);
+  }
 });
