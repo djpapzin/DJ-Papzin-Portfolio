@@ -298,3 +298,8 @@ test('single-project integrations stay scoped and employer-qualified dates use t
   assert.ok(search.searchCode('Does Task Tracker integrate with Slack?',5,index).results.every(x=>x.repo==='PapzinAI-Task-Tracker'));
   assert.match(portfolioReply('When did he use Python professionally at Kwantu?').reply,/Kwantu from October 2024 to April 2025/);
 });
+
+test('Python project timeline questions answer the milestone rather than the project catalog', () => {
+  for (const question of ['When did he start building Python projects?','How long has he built projects with Python?']) assert.match(portfolioReply(question).reply,/2022/);
+  assert.match(portfolioReply('What Python projects has he built?').reply,/Task Tracker.*TruthGuard/);
+});

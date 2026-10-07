@@ -16,7 +16,7 @@ function portfolioReply(message, history = []) {
     reply = 'He began learning Python in 2022. His recorded professional Python work includes building ChatSnap-Extractor at Next Sapien from December 2023 to January 2024.';
   } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
-  } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated|project/.test(topic)) {
+  } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
