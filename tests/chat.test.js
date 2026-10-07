@@ -271,3 +271,10 @@ test('possessive named comparisons and integration follow-ups ground both projec
     assert.ok(result.every(x=>x.repo!=='RAG-SQL-Chatbot'));
   }
 });
+
+test('employer milestone questions skip repository snippets while implementation questions search', () => {
+  for (const employer of ['Translated','Outlier','Kwantu','Next Sapien','Afrisam']) {
+    for (const question of [`When did he work at ${employer}?`,`How long did he work at ${employer}?`,`When did he join ${employer}?`]) assert.equal(search.shouldSearchCode(question),false);
+  }
+  assert.equal(search.shouldSearchCode('What code did he build at Next Sapien?'),true);
+});
