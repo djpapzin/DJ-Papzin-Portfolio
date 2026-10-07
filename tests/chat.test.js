@@ -401,7 +401,16 @@ test('VisualPro fallback recognises plural awards and keeps technical hackathon 
     assert.match(portfolioReply(question).reply, /first place at the WebGPU Hackathon/);
   }
   for (const question of ['What technologies did VisualPro use in the hackathon?', 'How was VisualPro built for the hackathon?']) {
-    assert.match(portfolioReply(question).reply, /WebGPU visualisation/);
-    assert.doesNotMatch(portfolioReply(question).reply, /first place/);
+    assert.match(portfolioReply(question).reply, /WebGPU and Three\.js for 3D data visualisation/);
+    assert.match(portfolioReply(question).reply, /Node\.js API endpoints and SQLite storage/);
+  }
+});
+
+test('VisualPro overview covers first-place wording and technical questions with winner descriptors', () => {
+  for (const question of ['Did VisualPro place first at the WebGPU Hackathon?', 'Was VisualPro first at the WebGPU Hackathon?', 'What technologies did the VisualPro hackathon winner use?', 'How was the award-winning VisualPro project built?']) {
+    const reply = portfolioReply(question).reply;
+    assert.match(reply, /first place at the WebGPU Hackathon/);
+    assert.match(reply, /WebGPU and Three\.js/);
+    assert.match(reply, /Node\.js API endpoints and SQLite storage/);
   }
 });
