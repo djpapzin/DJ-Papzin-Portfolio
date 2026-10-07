@@ -155,11 +155,14 @@ const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').
 function matchingProjects(message) {
   const text = ` ${normalizedName(message)} `;
   const nextSapienWork = /\b(?:at|for|with)\s+next\s*sapien\b/i.test(message) && /\b(code|project|projects|build|built|implementation|system|tool)\b/i.test(message) && !/facial|deepface|when|how long|dates?|duration|years?|months?/i.test(message);
-  if (nextSapienWork) return projectCatalog.filter(project => project.repo === 'ChatSnap-Extractor');
   const matches = projectCatalog.filter(project => project.names.some(name => {
     const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
     return new RegExp(`\\b${letters}\\b`).test(text);
   }));
+  if (nextSapienWork) {
+    const chatSnap = projectCatalog.find(project => project.repo === 'ChatSnap-Extractor');
+    if (!matches.includes(chatSnap)) matches.push(chatSnap);
+  }
   if (matches.length < 2) return matches;
   return matches.filter(project => !(project.repo === 'PapzinAI-Task-Tracker' && /\b(?:a|an|any|built in)\s+task\s*tracker\b/.test(text)) && !(project.names.includes('ID recognition') && /\b(?:a|an|any|built in)\s+id\s*recognition\b/.test(text)));
 }

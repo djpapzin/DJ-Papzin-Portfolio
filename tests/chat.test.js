@@ -329,3 +329,12 @@ test('Next Sapien implementation work is scoped to the known ChatSnap repository
   assert.ok(result.length>0);
   assert.ok(result.every(x=>x.repo==='ChatSnap-Extractor'));
 });
+
+test('Next Sapien relationships keep explicitly named peers and Kwantu tools answer duties', () => {
+  const file=(repo,content)=>({repo,name:'api.py',path:'api.py',summary:'project integration',content,keywords:['project','integration']});
+  const index={files:[file('ChatSnap-Extractor','ChatSnap project'),file('PapzinAI-Task-Tracker','Task Tracker project')]};
+  const result=search.searchCode('Does the project he built at Next Sapien integrate with Task Tracker?',5,index).results;
+  assert.ok(result.some(x=>x.repo==='ChatSnap-Extractor'));
+  assert.ok(result.some(x=>x.repo==='PapzinAI-Task-Tracker'));
+  assert.match(portfolioReply('What technologies did he use at Kwantu?').reply,/LangChain.*FastAPI.*Detectron2.*Tesseract/);
+});
