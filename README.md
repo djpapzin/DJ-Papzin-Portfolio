@@ -114,7 +114,7 @@
 
 ## Portfolio chat
 
-The assistant works without an API key using prepared portfolio answers, visibly labelled as a portfolio guide. For free AI responses, create an OpenRouter account and set `OPENROUTER_API_KEY` in the Netlify project's environment variables (Functions scope), then redeploy. The model is `openrouter/free`; free model availability and usage limits vary. Do not put keys in the HTML, repository, or browser.
+The assistant works without an API key using prepared portfolio answers, visibly labelled as a portfolio guide. For free AI responses, create an OpenRouter account and set `OPENROUTER_API_KEY` in the Netlify project's environment variables (Functions scope), then redeploy. The assistant tries `google/gemma-4-26b-a4b-it:free`, then `liquid/lfm-2.5-2.6b:free`, within a bounded request budget. Free model availability and usage limits vary; when neither responds, the prepared portfolio guide answers instead. Both endpoints share the same biography facts. Do not put keys in the HTML, repository, or browser.
 
 Paid provider fallback is disabled by default. Only set `CHAT_ALLOW_PAID_PROVIDERS=true` if you intentionally want to enable the configured OpenAI or Groq providers. Closing the panel preserves the current conversation until the page reloads.
 
