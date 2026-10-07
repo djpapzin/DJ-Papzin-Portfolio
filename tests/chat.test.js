@@ -211,5 +211,11 @@ test('difference phrasing retrieves unnamed peer projects for comparisons', () =
     {repo:'PapzinAI-Task-Tracker',name:'tasks.py',path:'tasks.py',summary:'database tasks',content:'Task Tracker database',keywords:['task','tracker']},
     {repo:'RAG-SQL-Chatbot',name:'rag.py',path:'rag.py',summary:'RAG database',content:'RAG database',keywords:['rag']},
   ]};
-  for (const message of ['How does Task Tracker differ from his RAG projects?', 'What are the differences between Task Tracker and his RAG projects?']) assert.ok(search.searchCode(message,5,index).results.some(file=>file.repo==='RAG-SQL-Chatbot'));
+  for (const message of ['How does Task Tracker differ from his RAG projects?', 'What are the differences between Task Tracker and his RAG projects?', 'How is Task Tracker similar to his RAG projects?', 'How is Task Tracker compared with his RAG projects?']) assert.ok(search.searchCode(message,5,index).results.some(file=>file.repo==='RAG-SQL-Chatbot'));
+});
+test('NextSapien project questions use facial-analysis facts rather than the employment answer', () => {
+  for (const question of ['What technologies does the NextSapien Facial Analysis project use?', 'Tell me about the NextSapien project']) {
+    assert.match(portfolioReply(question).reply,/Python and DeepFace/);
+    assert.doesNotMatch(portfolioReply(question).reply,/ChatSnap|December 2023/);
+  }
 });
