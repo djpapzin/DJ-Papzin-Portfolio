@@ -123,3 +123,15 @@ test('direct project prompts search real code while biography questions skip irr
   for (const question of ["What's in the Task Tracker?", 'Tell me about PapzinAI', 'What RAG projects has he built?', 'How does the ID recognition work?']) assert.equal(search.shouldSearchCode(question),true);
   for (const question of ['When did DJ Papzin start learning Python?', 'What skills do you have?', 'When did he start DJing?']) assert.equal(search.shouldSearchCode(question),false);
 });
+test('Python certificate and employer durations do not invent learning dates', () => {
+  assert.match(portfolioReply('When did he earn his Python certificate?').reply, /does not provide its date/);
+  assert.match(portfolioReply('How long did he use Python at Kwantu?').reply, /October 2024 to April 2025/);
+});
+test('implementation follow-ups retain the most recent project topic', () => {
+  const history = [{role:'user',content:'Tell me about PapzinAI'}];
+  for (const question of ['How is authentication handled?', 'Does it support authentication?', 'How does it work?']) {
+    assert.match(search.codeQuery(question, history), /PapzinAI/);
+  }
+  history.push({role:'user',content:'When did he start Python?'});
+  assert.equal(search.codeQuery('Tell me more',history),'Tell me more');
+});

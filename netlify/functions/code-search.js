@@ -143,6 +143,15 @@ function shouldSearchCode(message) {
   return /\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?)\b|how.*\b(work|built)\b|task tracker|papzinai|truthguard|visualpro|vocal thread|id recognition|papzin.*crew/i.test(message);
 }
 
+function codeQuery(message, history = []) {
+  const followUp = value => /\b(it|that|this|they|their|authentication|database|backend|frontend)\b|^(tell me more|more|what else)[?.! ]*$/i.test(value);
+  if (followUp(message)) {
+    const previous = [...history].reverse().find(turn => turn.role === 'user' && !followUp(turn.content));
+    if (previous && shouldSearchCode(previous.content)) return `${previous.content}\n${message}`;
+  }
+  return message;
+}
+
 exports.handler = async (event) => {
   // CORS
   if (event.httpMethod === 'OPTIONS') {
@@ -168,7 +177,8 @@ exports.handler = async (event) => {
     const { message, history } = conversation;
 
     // Search code index
-    const search = shouldSearchCode(message) ? searchCode(message) : { results: [], context: '' };
+    const query = codeQuery(message, history);
+    const search = shouldSearchCode(query) ? searchCode(query) : { results: [], context: '' };
 
     // Build system prompt with code context
     const systemPrompt = `${SYSTEM_PROMPT}
@@ -211,3 +221,5 @@ ${search.context || 'No matching code found for this query.'}`;
 exports.searchCode = searchCode;
 
 exports.shouldSearchCode = shouldSearchCode;
+
+exports.codeQuery = codeQuery;

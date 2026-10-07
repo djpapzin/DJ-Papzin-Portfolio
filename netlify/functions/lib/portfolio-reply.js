@@ -5,7 +5,9 @@ function portfolioReply(message, history = []) {
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   let reply;
-  if (/python/.test(topic) && /\bwhen\b|\bsince\b|\bhow long\b|\bhow many years\b|\b(?:what|which) year\b|\bstart(?:ed)? (?:learning|using|with) python\b|\bstart date\b/.test(topic)) {
+  if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
+    reply = 'His portfolio lists a Python certificate, but does not provide its date.';
+  } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated|project/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022. His professional AI work began in 2024.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
@@ -17,7 +19,7 @@ function portfolioReply(message, history = []) {
     reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its description and repository link.';
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
     reply = 'His projects include PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
-  } else if (/experience|years|career|background|work history|worked|work experience/.test(topic)) {
+  } else if (/experience|years|career|background|work history|worked|work experience|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022. His AI work includes RLHF training at Outlier.ai in 2024, AI prompt evaluation at Translated in 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
   } else if (/skill|python|stack|technology|technologies|rag|langchain|nlp/.test(topic)) {
     reply = 'His skills include Python, FastAPI, Django, React, LangChain, TensorFlow, Keras, NLP, OpenCV, OCR, Docker, Git, and Linux. His work covers RAG chatbots, multi-agent systems, and automation.';
