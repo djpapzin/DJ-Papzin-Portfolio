@@ -389,3 +389,9 @@ test('lowercase explicit identifiers remain scoped while generic feature wording
   assert.ok(result.length>0);
   assert.ok(result.every(x=>x.repo==='Arc-ZARDIAN'));
 });
+
+test('VisualPro award questions identify its documented event rather than the generic project list', () => {
+  assert.match(portfolioReply('Which hackathon did VisualPro win?').reply, /first place at the WebGPU Hackathon/);
+  assert.match(portfolioReply('Tell me about his hackathon wins').reply, /VisualPro won the WebGPU Hackathon/);
+  assert.doesNotMatch(portfolioReply('Tell me about his hackathon wins').reply, /three/);
+});
