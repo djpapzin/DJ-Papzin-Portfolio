@@ -278,3 +278,9 @@ test('employer milestone questions skip repository snippets while implementation
   }
   assert.equal(search.shouldSearchCode('What code did he build at Next Sapien?'),true);
 });
+
+test('explicit facial-analysis implementation intent and professional Python dates stay distinct', () => {
+  assert.equal(search.shouldSearchCode('What was his experience implementing the NextSapien Facial Analysis project?'),true);
+  assert.match(portfolioReply('When did he start using Python professionally?').reply,/professional Python.*December 2023/);
+  assert.match(portfolioReply('When did he start learning Python?').reply,/2022/);
+});

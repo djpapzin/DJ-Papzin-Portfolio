@@ -164,7 +164,8 @@ function identifiesProject(message) {
 function shouldSearchCode(message) {
   const employer = /\b(translated|outlier|kwantu|afrisam|next\s*sapien)\b/i.test(message);
   const employmentDates = /\b(when|how long|dates?|duration|years?|months?|join(?:ed)?|employment|career|work history|experience)\b/i.test(message);
-  if (employer && employmentDates) return false;
+  const explicitProject = matchingProjects(message).some(project => project.repo !== 'NextSapien-Facial-Analysis') || /next\s*sapien[\s-]+facial[\s-]+analysis/i.test(message);
+  if (employer && employmentDates && !explicitProject) return false;
   if (identifiesProject(message)) return true;
   // Search other technical questions by default; clear biography questions skip retrieval.
   if (/\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?|database|authentication|backend|frontend)\b|how.*\b(work|built)\b/i.test(message)) return true;
