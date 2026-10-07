@@ -373,3 +373,11 @@ test('a model-specific forbidden response retries the next free model', async ()
   try { assert.equal((await requestReply('Prompt','Question')).reply,'Reply'); assert.equal(calls,2); }
   finally { process.env=saved; global.fetch=original; }
 });
+
+test('runtime timing and descriptive feature aliases do not become portfolio milestones or peers', () => {
+  for (const question of ['When does the Python backend refresh its cache?','When is the Python API available?']) assert.doesNotMatch(portfolioReply(question).reply,/2022/);
+  const file=(repo,content)=>({repo,name:'app.py',path:'app.py',summary:'comment scope',content,keywords:['comment','scope']});
+  const index={files:[file('Arc-ZARDIAN','Arc-ZARDIAN comment scope'),file('Comment-Scope','Comment-Scope comment scope')]};
+  assert.ok(search.searchCode('Does Arc-ZARDIAN limit comment scope?',5,index).results.every(x=>x.repo==='Arc-ZARDIAN'));
+  assert.ok(search.searchCode('Compare Arc-ZARDIAN and Comment-Scope',5,index).results.some(x=>x.repo==='Comment-Scope'));
+});
