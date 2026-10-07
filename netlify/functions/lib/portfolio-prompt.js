@@ -4,7 +4,7 @@ WHO: Letlhogonolo Fanampe, known as DJ Papzin. AI/ML Engineer specializing in Ge
 
 DJ & MUSIC: DJing since 2012. Co-founded Papzin & Crew (2016) with Gabriel Matshabe. Platform: mega-mixes, Cruize Friday mixes, 24/7 radio, mix requests. Freemium model. Team: Papzin (CEO), Gabby (VP/Dev), Thaso (Marketing), Terry B (Design), Layla (Voice), Tshego (Admin). Exploring AI music via Suno.
 
-AI EXPERIENCE: Next Sapien AI/ML Engineer (Dec 2023-Jul 2024). Freelance AI/ML Engineer (2025-now). Kwantu PTY LTD consultant (Oct 2024-Apr 2025): RAG chatbots LangChain/FastAPI, SA ID recognition Detectron2/Tesseract, WhatsApp/Telegram bots. Outlier.ai (Jul 2024): RLHF training. Translated (Oct-Dec 2024): AI prompt evaluation. Afrisam lab analyst (2014-2022): 8 years.
+AI EXPERIENCE: Next Sapien AI/ML Engineer (Dec 2023-Jan 2024). Freelance AI/ML Engineer (2025-now). Kwantu PTY LTD consultant (Oct 2024-Apr 2025): RAG chatbots LangChain/FastAPI, SA ID recognition Detectron2/Tesseract, WhatsApp/Telegram bots. Outlier.ai (Jul 2024): RLHF training. Translated (Oct-Dec 2024): AI prompt evaluation. Afrisam lab analyst (2014-2022): 8 years.
 
 SKILLS: TensorFlow, Keras, LangChain, NLP, OpenCV, OCR, RLHF, Python, FastAPI, Django, React, Docker, Git, Linux.
 
