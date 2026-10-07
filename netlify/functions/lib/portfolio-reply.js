@@ -6,7 +6,7 @@ function portfolioReply(message, history = []) {
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   let reply;
   if (/python/.test(topic) && /when|start|since|how long|years|learn/.test(topic)) {
-    reply = 'Letlhogonolo started learning Python in 2022 — about four years ago. His professional AI work began in 2024.';
+    reply = 'Letlhogonolo started learning Python in 2022. His professional AI work began in 2024.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
   } else if (/music|djing|mix|crew|radio/.test(topic) && !/project|experience|who/.test(topic)) {
