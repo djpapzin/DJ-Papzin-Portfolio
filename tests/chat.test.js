@@ -351,3 +351,9 @@ test('Kwantu build questions answer its recorded work and identity prompts skip 
   assert.match(portfolioReply('What did he build at Kwantu?').reply,/LangChain.*Detectron2.*Telegram/);
   for (const question of ['Who is DJ Papzin?','Where is he based?','Tell me about his background']) assert.equal(search.shouldSearchCode(question),false);
 });
+
+test('Python startup questions do not get a learning date and phone requests skip code', () => {
+  for (const question of ['How does he start the Python backend?','How is the Python server started?','How do I restart Python?']) assert.doesNotMatch(portfolioReply(question).reply,/2022/);
+  assert.match(portfolioReply('When did he start learning Python?').reply,/2022/);
+  for (const question of ['What is his phone number?','How can I reach him?']) assert.equal(search.shouldSearchCode(question),false);
+});
