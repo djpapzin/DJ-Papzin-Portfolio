@@ -31,7 +31,7 @@ async function requestReply(prompt, message, history = []) {
           }),
         });
         // Invalid credentials affect the entire provider, not just one model.
-        if ([401, 403].includes(response.status)) {
+        if (response.status === 401) {
           console.warn('Chat provider rejected credentials', {provider: provider.key, status: response.status});
           break;
         }

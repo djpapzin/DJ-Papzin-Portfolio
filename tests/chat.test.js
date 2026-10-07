@@ -357,3 +357,19 @@ test('Python startup questions do not get a learning date and phone requests ski
   assert.match(portfolioReply('When did he start learning Python?').reply,/2022/);
   for (const question of ['What is his phone number?','How can I reach him?']) assert.equal(search.shouldSearchCode(question),false);
 });
+
+test('generic technical music-platform questions search the streaming repository', () => {
+  const file=(repo)=>({repo,name:'app.py',path:'app.py',summary:'music technology stack',content:'music technology stack',keywords:['technology','stack']});
+  const index={files:[file('PapzinCrew-Music-Streaming-Platform'),file('Arc-ZARDIAN')]};
+  for (const question of ['What technology powers his music streaming platform?','What stack does his music site use?']) {
+    assert.equal(search.shouldSearchCode(question),true);
+    assert.ok(search.searchCode(question,5,index).results.every(x=>x.repo==='PapzinCrew-Music-Streaming-Platform'));
+  }
+});
+test('a model-specific forbidden response retries the next free model', async () => {
+  const saved={...process.env}; const original=global.fetch; let calls=0;
+  process.env.OPENROUTER_API_KEY='test'; delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  global.fetch=async()=>++calls===1?{ok:false,status:403,json:async()=>({error:{code:403}})}:{ok:true,status:200,json:async()=>({choices:[{message:{content:'Reply'}}]})};
+  try { assert.equal((await requestReply('Prompt','Question')).reply,'Reply'); assert.equal(calls,2); }
+  finally { process.env=saved; global.fetch=original; }
+});

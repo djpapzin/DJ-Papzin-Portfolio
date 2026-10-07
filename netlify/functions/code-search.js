@@ -159,6 +159,11 @@ function matchingProjects(message) {
     const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
     return new RegExp(`\\b${letters}\\b`).test(text);
   }));
+  const musicPlatform = /\bmusic\b/i.test(message) && /\b(platform|site|streaming)\b/i.test(message) && /\b(technology|technologies|stack|code|implementation|backend|frontend|database|framework)\b/i.test(message);
+  if (musicPlatform) {
+    const crew = projectCatalog.find(project => project.repo === 'PapzinCrew-Music-Streaming-Platform');
+    if (!matches.includes(crew)) matches.push(crew);
+  }
   if (nextSapienWork) {
     const chatSnap = projectCatalog.find(project => project.repo === 'ChatSnap-Extractor');
     if (!matches.includes(chatSnap)) matches.push(chatSnap);
