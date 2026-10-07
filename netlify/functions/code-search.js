@@ -161,8 +161,15 @@ function shouldSearchCode(message) {
 }
 
 function isNewTopic(message) {
-  return identifiesProject(message) || !shouldSearchCode(message) || /\b(projects|repositories|portfolio|he|his|letlhogonolo|papzin)\b/i.test(message);
+  if (identifiesProject(message) || !shouldSearchCode(message) || /\b(projects|repositories|portfolio|he|his|letlhogonolo|papzin)\b/i.test(message)) return true;
+  if (/\b(it|its|that|this|they|their|those|them|these)\b|^(tell me more|more|what else|can you explain|and that)[?.! ]*$/i.test(message)) return false;
+  // Named technologies establish a new subject unless the question explicitly
+  // refers back to the preceding subject with a pronoun (handled above).
+  if (/\b(docker|rag|python|fastapi|django|react|langchain|tensorflow|keras|nlp|opencv)\b/i.test(message)) return true;
+  const technicalFollowUp = /^(what|which|how|does|is|are|can|why|where)\b/i.test(message) && /\b(authentication|database|backend|frontend|framework|requests?|deployment|storage|language|security|testing)\b/i.test(message);
+  return !technicalFollowUp;
 }
+
 function codeQuery(message, history = []) {
   if (isNewTopic(message)) return message;
   // Subject-less technical questions retain the latest named project. A new

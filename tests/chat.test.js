@@ -193,3 +193,13 @@ test('spaced and compact project names identify a new topic independently of cap
   const index={files:[{repo:'TruthGuard-AI-Fake-News-Detection-with-LLM',name:'detect.py',path:'detect.py',summary:'fake news',content:'detect fake news',keywords:['fake','news']}]};
   assert.equal(search.searchCode('How does Truth Guard detect fake news?',5,index).results[0].repo,'TruthGuard-AI-Fake-News-Detection-with-LLM');
 });
+test('standalone topic switches never inherit an earlier named project', () => {
+  const history=[{role:'user',content:'Tell me about Task Tracker'}];
+  for (const message of ['Explain Docker','Tell me about RAG','What is the weather?','What database does Django use?']) {
+    assert.equal(search.codeQuery(message,history),message);
+    const followUp=search.codeQuery('Can you explain?',[...history,{role:'user',content:message}]);
+    assert.match(followUp,new RegExp(message.replace(/[?.]/g,'')));
+    assert.doesNotMatch(followUp,/Task Tracker/);
+  }
+  assert.match(search.codeQuery('Does it use Docker?',history),/Task Tracker/);
+});
