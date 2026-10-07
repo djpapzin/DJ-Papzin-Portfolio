@@ -80,8 +80,7 @@ function filterResults(scoredFiles, queryTerms) {
   return scoredFiles;
 }
 
-function searchCode(query, maxResults = 5) {
-  const index = loadIndex();
+function searchCode(query, maxResults = 5, index = loadIndex()) {
   if (!index) return { error: 'Code index not available' };
 
   // Tokenize query
@@ -93,7 +92,9 @@ function searchCode(query, maxResults = 5) {
   if (terms.length === 0) return { results: [], context: '' };
 
   // Score all files
-  let scored = index.files
+  const namedProjects = matchingProjects(query);
+  const candidateFiles = namedProjects.length ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
+  let scored = candidateFiles
     .map(file => ({ file, score: scoreFile(file, terms) }))
     .filter(s => s.score > 0)
     .sort((a, b) => b.score - a.score);
@@ -141,9 +142,12 @@ Be specific — reference actual file names, function names, and implementation 
 
 const projectCatalog = require('./lib/project-catalog.json');
 const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-function identifiesProject(message) {
+function matchingProjects(message) {
   const text = ` ${normalizedName(message)} `;
-  return projectCatalog.some(project => project.names.some(name => text.includes(` ${normalizedName(name)} `)));
+  return projectCatalog.filter(project => project.names.some(name => text.includes(` ${normalizedName(name)} `)));
+}
+function identifiesProject(message) {
+  return matchingProjects(message).length > 0;
 }
 function shouldSearchCode(message) {
   if (identifiesProject(message)) return true;

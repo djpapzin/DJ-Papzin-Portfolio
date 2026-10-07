@@ -158,3 +158,12 @@ test('subject-less technical questions inherit the latest project without specia
   assert.match(search.codeQuery('What authentication method is used?',history),/Arc-ZARDIAN/);
   assert.doesNotMatch(search.codeQuery('What authentication method is used?',history),/Task Tracker/);
 });
+test('named project retrieval cannot cite another project with stronger generic keyword matches', () => {
+  const index = {files:[
+    {repo:'PapzinAI-Task-Tracker',name:'tasks.py',path:'tasks.py',summary:'Task storage',content:'PostgreSQL database tasks',keywords:['database']},
+    {repo:'Arc-ZARDIAN',name:'database.py',path:'database.py',summary:'database database tasks',content:'database database database database',keywords:['database','task','tracker']},
+  ]};
+  const results = search.searchCode('What database does Task Tracker use?',5,index).results;
+  assert.equal(results.length,1); assert.equal(results[0].repo,'PapzinAI-Task-Tracker');
+  assert.deepEqual(search.searchCode('What database does VisualPro use?',5,index).results,[]);
+});
