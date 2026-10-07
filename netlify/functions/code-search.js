@@ -153,12 +153,11 @@ function shouldSearchCode(message) {
 }
 
 function codeQuery(message, history = []) {
-  const followUp = value => !identifiesProject(value) && /\b(it|that|this|they|their)\b|^(tell me more|more|what else|can you explain|and that)[?.! ]*$|^how (?:is|are) (?:authentication|database|backend|frontend)\b/i.test(value);
-  if (followUp(message)) {
-    const previous = [...history].reverse().find(turn => turn.role === 'user' && !followUp(turn.content));
-    if (previous) return `${previous.content}\n${message}`;
-  }
-  return message;
+  if (identifiesProject(message) || !shouldSearchCode(message)) return message;
+  // Subject-less technical questions retain the latest named project. A new
+  // biography topic also forms a boundary, so an older project is not revived.
+  const previous = [...history].reverse().find(turn => turn.role === 'user' && (identifiesProject(turn.content) || !shouldSearchCode(turn.content)));
+  return previous ? `${previous.content}\n${message}` : message;
 }
 
 exports.handler = async (event) => {

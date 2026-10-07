@@ -151,3 +151,10 @@ test('explicit project names override biography words and pronouns', () => {
     assert.match(search.codeQuery('Can you explain?',[{role:'user',content:question}]), /Task Tracker|Arc-ZARDIAN/);
   }
 });
+test('subject-less technical questions inherit the latest project without special phrasing', () => {
+  const history = [{role:'user',content:'Tell me about Task Tracker'}];
+  for (const question of ['What authentication method is used?', 'Which framework handles requests?', 'What database is used?', 'Can you explain?']) assert.match(search.codeQuery(question,history), /Task Tracker/);
+  history.push({role:'user',content:'Tell me about Arc-ZARDIAN'});
+  assert.match(search.codeQuery('What authentication method is used?',history),/Arc-ZARDIAN/);
+  assert.doesNotMatch(search.codeQuery('What authentication method is used?',history),/Task Tracker/);
+});
