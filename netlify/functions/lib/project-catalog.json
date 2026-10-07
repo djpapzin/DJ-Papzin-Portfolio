@@ -3,7 +3,6 @@
     "repo": "PapzinAI-Task-Tracker",
     "names": [
       "PapzinAI-Task-Tracker",
-      "PapzinAI",
       "Task Tracker"
     ]
   },
@@ -114,6 +113,12 @@
     "repo": null,
     "names": [
       "TalentFlow Bot"
+    ]
+  },
+  {
+    "repo": null,
+    "names": [
+      "PapzinAI"
     ]
   }
 ]

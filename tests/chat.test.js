@@ -172,3 +172,18 @@ test('new broad portfolio questions do not inherit a prior project', () => {
   for (const question of ['What RAG projects has he built?', 'Tell me about his RAG work', 'What repositories does he have?']) assert.equal(search.codeQuery(question,history),question);
   assert.doesNotMatch(portfolioReply('When did he start learning Python?').reply,/professional AI work began/);
 });
+test('broad project topics remain the subject for their immediate follow-ups', () => {
+  const history = [{role:'user',content:'Tell me about Task Tracker'},{role:'user',content:'What RAG projects has he built?'}];
+  const query = search.codeQuery('How are they implemented?',history);
+  assert.match(query,/RAG projects/); assert.doesNotMatch(query,/Task Tracker/);
+});
+test('PapzinAI is distinct from Task Tracker and comparison queries can retrieve both sides', () => {
+  const index = {files:[
+    {repo:'PapzinAI-Task-Tracker',name:'tasks.py',path:'tasks.py',summary:'tasks database',content:'Task Tracker database',keywords:['task','tracker','database']},
+    {repo:'RAG-SQL-Chatbot',name:'rag.py',path:'rag.py',summary:'RAG database',content:'RAG database',keywords:['rag','database']},
+  ]};
+  assert.deepEqual(search.searchCode('How does PapzinAI orchestrate agents?',5,index).results,[]);
+  const results = search.searchCode('Compare Task Tracker with his other RAG projects',5,index).results;
+  assert.ok(results.some(file=>file.repo==='PapzinAI-Task-Tracker'));
+  assert.ok(results.some(file=>file.repo==='RAG-SQL-Chatbot'));
+});

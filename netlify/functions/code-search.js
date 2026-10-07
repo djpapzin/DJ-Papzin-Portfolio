@@ -93,7 +93,8 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
 
   // Score all files
   const namedProjects = matchingProjects(query);
-  const candidateFiles = namedProjects.length ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
+  const broadComparison = /\b(other|all|across|compare|comparison|versus|vs)\b/i.test(query);
+  const candidateFiles = namedProjects.length && !broadComparison ? index.files.filter(file => namedProjects.some(project => project.repo === file.repo)) : index.files;
   let scored = candidateFiles
     .map(file => ({ file, score: scoreFile(file, terms) }))
     .filter(s => s.score > 0)
@@ -156,11 +157,14 @@ function shouldSearchCode(message) {
   return !/\b(experience|skills?|contact|email|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b/i.test(message);
 }
 
+function isNewTopic(message) {
+  return identifiesProject(message) || !shouldSearchCode(message) || /\b(projects|repositories|portfolio|he|his|letlhogonolo|papzin)\b/i.test(message);
+}
 function codeQuery(message, history = []) {
-  if (identifiesProject(message) || !shouldSearchCode(message) || /\b(projects|repositories|portfolio|he|his|letlhogonolo|papzin)\b/i.test(message)) return message;
+  if (isNewTopic(message)) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.
-  const previous = [...history].reverse().find(turn => turn.role === 'user' && (identifiesProject(turn.content) || !shouldSearchCode(turn.content)));
+  const previous = [...history].reverse().find(turn => turn.role === 'user' && isNewTopic(turn.content));
   return previous ? `${previous.content}\n${message}` : message;
 }
 
