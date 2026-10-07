@@ -30,6 +30,8 @@ function portfolioReply(message, history = []) {
     reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its workflow overview, or contact him to discuss the implementation.';
   } else if (employerContext && /kwantu/.test(topic) && /technolog|stack|tools?|duties|responsibilit|what.*(?:do|did|work|built|use)/.test(topic) && !/when|how long|dates?|duration|years?|months?/.test(topic)) {
     reply = 'At Kwantu, he built RAG chatbots using LangChain and FastAPI, SA ID recognition using Detectron2 and Tesseract, and WhatsApp/Telegram bots.';
+  } else if (/\bvisualpro\b/.test(topic)) {
+    reply = 'VisualPro won first place at the WebGPU Hackathon. It uses WebGPU and Three.js for 3D data visualisation, with Node.js API endpoints and SQLite storage. Open its project card for the presentation and source code.';
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
     reply = 'His projects include PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
   } else if (/experience|years|career|background|work history|worked|work experience/.test(topic) || employerContext) {
