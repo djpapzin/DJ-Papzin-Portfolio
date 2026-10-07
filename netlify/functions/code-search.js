@@ -164,7 +164,8 @@ exports.handler = async (event) => {
     const { message, history } = conversation;
 
     // Search code index
-    const search = searchCode(message);
+    const wantsCode = /\b(code|repository|repositories|repo|implementation|source|api|function|files?)\b|how.*\b(work|built)\b/i.test(message);
+    const search = wantsCode ? searchCode(message) : { results: [], context: '' };
 
     // Build system prompt with code context
     const systemPrompt = `${SYSTEM_PROMPT}

@@ -95,5 +95,6 @@ test('the website code-search endpoint includes biography facts in the AI prompt
   try {
     const response = await search.handler({httpMethod:'POST',body:JSON.stringify({message:'When did DJ Papzin start learning Python?'})});
     assert.equal(JSON.parse(response.body).reply, 'Started in 2022.');
+    assert.deepEqual(JSON.parse(response.body).sources, []);
   } finally { global.fetch = original; process.env = saved; }
 });
