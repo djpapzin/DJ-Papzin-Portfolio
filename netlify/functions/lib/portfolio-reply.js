@@ -4,6 +4,7 @@ function portfolioReply(message, history = []) {
   const isFollowUp = value => /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/.test(value.trim());
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
+  const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   let reply;
   const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
   if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
@@ -28,7 +29,7 @@ function portfolioReply(message, history = []) {
     reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its description and repository link.';
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
     reply = 'His projects include PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
-  } else if (/experience|years|career|background|work history|worked|work experience|kwantu|outlier|translated/.test(topic)) {
+  } else if (/experience|years|career|background|work history|worked|work experience/.test(topic) || employerContext) {
     reply = 'Letlhogonolo started learning Python in 2022. His AI work includes computer vision at Next Sapien from December 2023 to January 2024, RLHF training at Outlier.ai from July 2024 to 2025, AI prompt evaluation at Translated from October 2024 to December 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
   } else if (/skill|python|stack|technology|technologies|rag|langchain|nlp/.test(topic)) {
     reply = 'His skills include Python, FastAPI, Django, React, LangChain, TensorFlow, Keras, NLP, OpenCV, OCR, Docker, Git, and Linux. His work covers RAG chatbots, multi-agent systems, and automation.';

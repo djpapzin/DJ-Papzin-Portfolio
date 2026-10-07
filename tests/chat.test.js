@@ -303,3 +303,8 @@ test('Python project timeline questions answer the milestone rather than the pro
   for (const question of ['When did he start building Python projects?','How long has he built projects with Python?']) assert.match(portfolioReply(question).reply,/2022/);
   assert.match(portfolioReply('What Python projects has he built?').reply,/Task Tracker.*TruthGuard/);
 });
+
+test('prepared guide treats technical translated and outlier wording as unsupported questions', () => {
+  for (const question of ['How are translated database records stored?','How do outliers affect machine-learning models?']) assert.doesNotMatch(portfolioReply(question).reply,/RLHF|Kwantu|Next Sapien/);
+  assert.match(portfolioReply('When did he work at Translated?').reply,/October 2024 to December 2024/);
+});
