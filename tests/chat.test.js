@@ -187,3 +187,9 @@ test('PapzinAI is distinct from Task Tracker and comparison queries can retrieve
   assert.ok(results.some(file=>file.repo==='PapzinAI-Task-Tracker'));
   assert.ok(results.some(file=>file.repo==='RAG-SQL-Chatbot'));
 });
+test('spaced and compact project names identify a new topic independently of capitalization', () => {
+  const history = [{role:'user',content:'Tell me about Task Tracker'}];
+  for (const question of ['How does Truth Guard work?', 'How does Recall Flow work?', 'How does truthguard work?', 'Tell me about Papzin AI']) assert.equal(search.codeQuery(question,history),question);
+  const index={files:[{repo:'TruthGuard-AI-Fake-News-Detection-with-LLM',name:'detect.py',path:'detect.py',summary:'fake news',content:'detect fake news',keywords:['fake','news']}]};
+  assert.equal(search.searchCode('How does Truth Guard detect fake news?',5,index).results[0].repo,'TruthGuard-AI-Fake-News-Detection-with-LLM');
+});

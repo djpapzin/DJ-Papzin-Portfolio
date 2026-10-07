@@ -145,7 +145,10 @@ const projectCatalog = require('./lib/project-catalog.json');
 const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 function matchingProjects(message) {
   const text = ` ${normalizedName(message)} `;
-  return projectCatalog.filter(project => project.names.some(name => text.includes(` ${normalizedName(name)} `)));
+  return projectCatalog.filter(project => project.names.some(name => {
+    const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
+    return new RegExp(`\\b${letters}\\b`).test(text);
+  }));
 }
 function identifiesProject(message) {
   return matchingProjects(message).length > 0;
