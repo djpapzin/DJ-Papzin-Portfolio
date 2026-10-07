@@ -175,6 +175,7 @@ def build_index():
 
         try:
             repo_dir = clone_repo(repo_name)
+            revision = subprocess.run(["git", "-C", str(repo_dir), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
         except Exception as e:
             print(f"  ERROR cloning: {e}")
             continue
@@ -215,6 +216,7 @@ def build_index():
                 # Build file entry
                 file_entry = {
                     "repo": repo_name,
+                    "revision": revision,
                     "path": str(rel_path),
                     "name": fname,
                     "ext": fpath.suffix,
@@ -232,6 +234,7 @@ def build_index():
         # Store repo summary
         index["repos"][repo_name] = {
             "name": repo_name,
+            "revision": revision,
             "readme": readme_content[:1500],
             "file_count": len(repo_files),
             "file_types": dict(Counter(f["ext"] for f in repo_files)),
