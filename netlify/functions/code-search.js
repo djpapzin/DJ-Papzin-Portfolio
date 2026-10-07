@@ -139,6 +139,10 @@ ${userQuestion}
 Be specific — reference actual file names, function names, and implementation details from the code. If the code doesn't contain the answer, say so honestly.`;
 }
 
+function shouldSearchCode(message) {
+  return /\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?)\b|how.*\b(work|built)\b|task tracker|papzinai|truthguard|visualpro|vocal thread|id recognition|papzin.*crew/i.test(message);
+}
+
 exports.handler = async (event) => {
   // CORS
   if (event.httpMethod === 'OPTIONS') {
@@ -164,8 +168,7 @@ exports.handler = async (event) => {
     const { message, history } = conversation;
 
     // Search code index
-    const wantsCode = /\b(code|repository|repositories|repo|implementation|source|api|function|files?)\b|how.*\b(work|built)\b/i.test(message);
-    const search = wantsCode ? searchCode(message) : { results: [], context: '' };
+    const search = shouldSearchCode(message) ? searchCode(message) : { results: [], context: '' };
 
     // Build system prompt with code context
     const systemPrompt = `${SYSTEM_PROMPT}
@@ -206,3 +209,5 @@ ${search.context || 'No matching code found for this query.'}`;
 
 // Export for testing
 exports.searchCode = searchCode;
+
+exports.shouldSearchCode = shouldSearchCode;

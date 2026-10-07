@@ -119,3 +119,7 @@ test('slow free attempts reserve time for opted-in paid fallback', async () => {
     assert.equal(urls.length,3);
   } finally { global.fetch = original; Date.now = originalNow; process.env = saved; }
 });
+test('direct project prompts search real code while biography questions skip irrelevant files', () => {
+  for (const question of ["What's in the Task Tracker?", 'Tell me about PapzinAI', 'What RAG projects has he built?', 'How does the ID recognition work?']) assert.equal(search.shouldSearchCode(question),true);
+  for (const question of ['When did DJ Papzin start learning Python?', 'What skills do you have?', 'When did he start DJing?']) assert.equal(search.shouldSearchCode(question),false);
+});
