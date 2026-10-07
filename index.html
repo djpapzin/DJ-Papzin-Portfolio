@@ -104,8 +104,8 @@ nav .hamburger { min-width: 44px; min-height: 44px; display: none; background: n
 
 .hero-title {
   font-family: 'Orbitron', monospace;
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 900; letter-spacing: 8px;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  font-weight: 900; letter-spacing: 3px;
   text-align: center; position: relative;
   animation: glitch 8s infinite;
 }
@@ -540,6 +540,20 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+.hero-description { max-width: 620px; text-align: center; line-height: 1.6; margin: 1rem auto; color: var(--text-dim); }
+#featured-work { padding-top: 3rem; padding-bottom: 2rem; }
+.workflow-preview { min-height: 150px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; gap: 1rem; background: linear-gradient(135deg, #141b2c, #201329); color: var(--neon-cyan); line-height: 1.8; border-radius: 6px; margin-bottom: 1rem; }
+.workflow-preview span { color: var(--text-dim); font-size: .7rem; text-transform: uppercase; letter-spacing: 2px; }
+.case-study { margin: 1rem 0; line-height: 1.6; }
+.case-study summary { cursor: pointer; color: var(--neon-cyan); }
+.project-contact { border: 0; background: none; padding: 0; color: var(--neon-cyan); font: inherit; font-size: .8rem; cursor: pointer; text-decoration: none; }
+.project-card .btn { margin-top: 1rem; font-size: .7rem; }
+.msg.bot { overflow-wrap: anywhere; }
+.msg.bot p + p { margin-top: .7rem; }
+.chat-sources { margin-top: .7rem; border-top: 1px solid #333; padding-top: .5rem; font-size: .75rem; }
+.chat-sources a { display: block; color: var(--neon-cyan); margin-top: .4rem; }
+.chat-mode { font-size: .75rem; color: var(--text-dim); }
 </style>
 </head>
 <body>
@@ -567,9 +581,11 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <p style="font-family: 'Orbitron', monospace; font-size: 0.8rem; letter-spacing: 6px; color: var(--neon-cyan); text-transform: uppercase; margin-bottom: 0.5rem;">Letlhogonolo Fanampe</p>
   <h1 class="hero-title"><span class="main-text">AI/ML Engineer</span></h1>
   <p class="hero-sub">Generative AI &bull; NLP &bull; LLMs</p>
+  <p class="hero-description">I build AI assistants, automation and APIs that turn complex workflows into tools people can use.</p>
   <p style="color: var(--text-dim); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-top: 0.6rem; text-align: center;"><strong style="color: var(--neon-magenta);">DJ Papzin</strong> &bull; Builder &bull; DJ since 2012</p>
   <div class="hero-cta">
     <button class="btn btn-primary" onclick="switchTab('projects')">See What I've Built</button>
+    <button class="btn btn-outline" onclick="switchTab('contact')">Let’s work together</button>
     <button class="btn btn-outline" onclick="switchTab('music')">Hear the Music</button>
   </div>
 </section>
@@ -586,6 +602,15 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
 <!-- TAB: HOME -->
 <div class="tab-panel active" id="tab-home">
 
+<section id="featured-work">
+  <p class="section-label">Selected work</p><h2>Ideas into working tools</h2>
+  <div class="projects-grid">
+<article class="project-card"><img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard project preview" loading="lazy"><h3>TruthGuard</h3><p>Claim analysis with a classification and confidence score.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-truthguard')">Explore project</button></article>
+<article class="project-card"><img class="project-preview" src="assets/visualpro.jpg" alt="VisualPro project preview" loading="lazy"><h3>VisualPro</h3><p>WebGPU data visualisation. First place at the WebGPU Hackathon.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-visualpro')">Explore project</button></article>
+<article class="project-card"><div class="workflow-preview" aria-label="Workflow overview">YouTube comments → Analysis → Audio</div><h3>Vocal Thread</h3><p>YouTube audience feedback turned into spoken summaries.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-vocal-thread')">Explore project</button></article>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about">
   <p class="section-label">Who</p>
@@ -600,7 +625,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
     <div class="about-stats">
       <div class="stat-card"><div class="number">2012</div><div class="label">DJing since</div></div>
       <div class="stat-card"><div class="number">8</div><div class="label">Years in a Lab</div></div>
-      <div class="stat-card"><div class="number">3</div><div class="label">Hackathon Wins</div></div>
+      <div class="stat-card"><div class="number">1</div><div class="label">WebGPU Hackathon win</div></div>
       <div class="stat-card"><div class="number">4</div><div class="label">Years building with Python</div></div>
     </div>
   </div>
@@ -666,7 +691,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
 <!-- HACKATHON WINS -->
 <section id="wins">
   <p class="section-label">Proof</p>
-  <h2>Hackathon Wins & Certs</h2>
+  <h2>Hackathons & Recognition</h2>
   <div class="projects-grid">
     <div class="project-card">
       <div class="icon">🏆</div>
@@ -810,10 +835,11 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <p class="section-label">Work</p>
   <h2>Projects</h2>
   <div class="projects-grid">
-    <div class="project-card">
-      <div class="icon">📻</div>
+    <div class="project-card" id="project-papzin-crew">
+      <div class="workflow-preview"><span>Workflow overview</span>Mixes → Streaming → Listeners</div>
       <h3>Papzin & Crew</h3>
       <p>DJ platform connecting Mega-Mixers with music lovers. Freemium streaming, Cruize Friday mixes, custom mix requests, and 24/7 online radio. Co-founded in 2016.</p>
+      <p class="project-outcome"><strong>What it does:</strong> Connects Mega-Mixers with listeners through streaming and custom mix requests.</p>
       <a href="https://github.com/djpapzin/PapzinCrew-Music-Streaming-Platform" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
       <div class="tags">
         <span class="tag">Music</span>
@@ -821,29 +847,32 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
         <span class="tag accent">Co-Founder</span>
       </div>
     </div>
-    <div class="project-card">
-      <div class="icon">📋</div>
+    <div class="project-card" id="project-task-tracker">
+      <div class="workflow-preview"><span>Workflow overview</span>Task → State checks → PostgreSQL</div>
       <h3>Task Tracker</h3>
       <p>AI-powered task management with FastAPI, PostgreSQL, and state-machine enforcement for engineering workflows. Powers PapzinAI operations.</p>
-      <a href="https://github.com/djpapzin/PapzinAI-Task-Tracker" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>What it does:</strong> Enforces task transitions for engineering workflows.</p>
+      <details class="case-study"><summary>Read project overview</summary><p>Enforces task transitions for engineering workflows. FastAPI exposes the task workflow while PostgreSQL stores its state. State-machine checks govern transitions; the project supports PapzinAI operations.</p></details>
+      <button class="project-contact" onclick="switchTab('contact')">Discuss this project →</button>
       <div class="tags">
         <span class="tag">FastAPI</span>
         <span class="tag">PostgreSQL</span>
         <span class="tag">Python</span>
       </div>
     </div>
-    <div class="project-card">
-      <div class="icon">🎤</div>
+    <div class="project-card" id="project-vocal-thread">
+      <div class="workflow-preview"><span>Workflow overview</span>YouTube comments → Analysis → Audio</div>
       <h3>Vocal Thread</h3>
       <p>AI-powered web app converting YouTube comments into engaging audio. Sentiment analysis and "Chat with Comments" feature. Built for the ElevenLabs AI Audio Challenge.</p>
-      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>What it does:</strong> Turns audience feedback into spoken summaries.</p>
+      <a href="https://github.com/djpapzin/Vocal-Thread" target="_blank" rel="noopener noreferrer" class="project-contact">View source ↗</a>
       <div class="tags">
         <span class="tag">ElevenLabs</span>
         <span class="tag">Gemini</span>
         <span class="tag accent">Hackathon</span>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" id="project-truthguard">
       <img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard interface analysing a claim" loading="lazy" width="819" height="728">
       <h3>TruthGuard</h3>
       <p>Real-time fake news detection system using Llama 3. Content moderation tools to enhance platform reliability across multiple channels.</p>
@@ -858,18 +887,20 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
         <span class="tag">Python</span>
       </div>
     </div>
-    <div class="project-card">
-      <div class="icon">🤖</div>
+    <div class="project-card" id="project-papzin-ai">
+      <div class="workflow-preview"><span>Workflow overview</span>Request → Agents → Workflow</div>
       <h3>PapzinAI</h3>
       <p>Multi-agent AI system orchestrating autonomous coding agents — Hermes, OpenClaw, and custom workflows for automated development.</p>
-      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>What it does:</strong> Coordinates coding agents and automated development workflows.</p>
+      <details class="case-study"><summary>Read project overview</summary><p>Coordinates coding agents and automated development workflows. Hermes, OpenClaw and custom workflows form the orchestration described here. The focus is connecting coding agents with repeatable development operations.</p></details>
+      <button class="project-contact" onclick="switchTab('contact')">Discuss this project →</button>
       <div class="tags">
         <span class="tag">Agents</span>
         <span class="tag">Automation</span>
-        <span class="tag">Open Source</span>
+        <span class="tag">Workflows</span>
       </div>
     </div>
-    <div class="project-card">
+    <div class="project-card" id="project-visualpro">
       <img class="project-preview" src="assets/visualpro.jpg" alt="VisualPro WebGPU hackathon demo presentation" loading="lazy" width="1161" height="653">
       <h3>VisualPro</h3>
       <p>WebGPU backend with 3D data visualization. API endpoints with Node.js, SQLite storage, Three.js rendering. WebGPU Hackathon winner.</p>
@@ -884,11 +915,13 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
         <span class="tag accent">Winner</span>
       </div>
     </div>
-    <div class="project-card">
-      <div class="icon">💼</div>
+    <div class="project-card" id="project-talentflow">
+      <div class="workflow-preview"><span>Workflow overview</span>Candidate → Screening → Interview</div>
       <h3>TalentFlow Bot</h3>
       <p>Smart recruitment assistant handling candidate screening, interview scheduling, and feedback collection. NLP-powered HR automation.</p>
-      <a href="https://github.com/djpapzin" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;text-decoration:none;">↗ GitHub</a>
+      <p class="project-outcome"><strong>What it does:</strong> Brings screening, interview scheduling and feedback into one workflow.</p>
+      <details class="case-study"><summary>Read project overview</summary><p>Brings screening, interview scheduling and feedback into one workflow. NLP supports candidate screening, followed by interview scheduling and feedback collection. Contact me for implementation details or to discuss a similar workflow.</p></details>
+      <button class="project-contact" onclick="switchTab('contact')">Discuss this project →</button>
       <div class="tags">
         <span class="tag">NLP</span>
         <span class="tag">Automation</span>
@@ -1000,6 +1033,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   </div>
 </div>
 
+<script src="assets/chat-renderer.js"></script>
 <script>
 // ─── PARTICLE BACKGROUND ───
 (function() {
@@ -1220,7 +1254,7 @@ document.addEventListener('keydown', event => {
 });
 
 // ─── TAB SWITCHING ───
-function switchTab(name) {
+function switchTab(name, targetId) {
   if (!document.getElementById('tab-' + name)) return;
   toggleNavigation(false);
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1232,8 +1266,8 @@ function switchTab(name) {
   });
   const navHeight = document.getElementById('nav').offsetHeight;
   const bar = document.querySelector('.tab-bar');
-  const target = window.matchMedia('(max-width: 768px)').matches ? bar : panel;
-  const offset = navHeight + (target === panel ? bar.offsetHeight : 0);
+  const target = (targetId && panel.querySelector('#' + targetId)) || (window.matchMedia('(max-width: 768px)').matches ? bar : panel);
+  const offset = navHeight + (target !== bar ? bar.offsetHeight : 0);
   window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - offset, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   // Resize visualizer when music tab opens
   if (name === 'music' && typeof resizeViz === 'function') {
@@ -1310,14 +1344,14 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeChat();
 });
 
-function botReply(text) {
+function botReply(text, options = {}) {
   const el = document.createElement('div');
   el.className = 'msg bot';
   el.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
   document.getElementById('chat-messages').appendChild(el);
   scrollToBottom();
   setTimeout(() => {
-    el.innerHTML = text;
+    PortfolioChat.renderReply(el, text, options);
     scrollToBottom();
   }, 400);
 }
@@ -1392,28 +1426,17 @@ async function sendChat(text) {
 
     if (!resp.ok || data.error || typeof data.reply !== "string") {
       chatHistory.pop();
-      botReply('Chat is temporarily unavailable. You can reach me at <a href="mailto:l.fanampe@gmail.com">l.fanampe@gmail.com</a>.');
+      botReply('Chat is temporarily unavailable. You can reach me by email.', { contact: true });
     } else {
-      let reply = data.reply;
-      if (data.mode === 'portfolio') reply += '<p style="font-size:0.75rem;margin-top:0.5rem;">Portfolio guide · prepared answers, not AI-generated</p>';
-      // Show sources if available
-      if (data.sources && data.sources.length > 0) {
-        const srcLinks = data.sources
-          .filter(s => s.score > 5)
-          .slice(0, 3)
-          .map(s => `<a href="https://github.com/djpapzin/${s.repo}/blob/master/${s.path}" target="_blank" style="color:var(--neon-cyan);font-size:0.7rem;display:block;margin-top:4px;">📂 ${s.repo}/${s.path.split('/').pop()}</a>`)
-          .join('');
-        if (srcLinks) reply += `<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.08);font-size:0.75rem;color:var(--text-dim);">Source files:${srcLinks}</div>`;
-      }
-      botReply(reply);
+      botReply(data.reply, { mode: data.mode, sources: data.sources });
       chatHistory.push({ role: 'assistant', content: data.reply });
     }
   } catch (e) {
     typingEl.remove();
     chatHistory.pop();
     botReply(e.message === 'LOCAL_PREVIEW'
-      ? 'This local preview does not run the AI service. Chat is available on the deployed website once its provider key is configured. You can also <a href="mailto:l.fanampe@gmail.com">email me</a>.'
-      : 'Chat could not connect. Please try again or <a href="mailto:l.fanampe@gmail.com">email me</a>.');
+      ? 'This local preview does not run the AI service. Chat is available on the deployed website once its provider key is configured. You can also email me.'
+      : 'Chat could not connect. Please try again or email me.', { contact: true });
   }
 
   chatBusy = false;

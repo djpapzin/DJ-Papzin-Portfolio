@@ -130,6 +130,7 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
     results: scored.map(s => ({
       repo: s.file.repo,
       path: s.file.path,
+      revision: s.file.revision || index.repos?.[s.file.repo]?.revision,
       score: s.score,
       summary: s.file.summary?.slice(0, 200) || '',
     })),

@@ -25,9 +25,9 @@ function portfolioReply(message, history = []) {
   } else if (/music|\bdj\b|djing|mix|crew|radio/.test(topic.replace(/\bdj papzin\b/g, '')) && !/project|experience|who/.test(topic)) {
     reply = 'DJ Papzin has been DJing since 2012 and co-founded Papzin & Crew in 2016. The platform features mega-mixes, Cruize Friday mixes, online radio, and custom mix requests. Open the Music section to explore his music.';
   } else if (/task tracker/.test(topic)) {
-    reply = 'Task Tracker is a task management project built with FastAPI and PostgreSQL. Open Projects for its description and repository link.';
+    reply = 'Task Tracker is a task management project built with FastAPI and PostgreSQL. Open Projects for its workflow overview, or contact him to discuss the implementation.';
   } else if (/id recognition/.test(topic)) {
-    reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its description and repository link.';
+    reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its workflow overview, or contact him to discuss the implementation.';
   } else if (employerContext && /kwantu/.test(topic) && /technolog|stack|tools?|duties|responsibilit|what.*(?:do|did|work|built|use)/.test(topic) && !/when|how long|dates?|duration|years?|months?/.test(topic)) {
     reply = 'At Kwantu, he built RAG chatbots using LangChain and FastAPI, SA ID recognition using Detectron2 and Tesseract, and WhatsApp/Telegram bots.';
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
@@ -39,7 +39,7 @@ function portfolioReply(message, history = []) {
   } else if (/education|study|diploma|qualification|certif/.test(topic)) {
     reply = 'He holds a Diploma in Analytical Chemistry from Tshwane University of Technology, with additional certificates in LangChain, Python, and system administration.';
   } else if (/hackathon|win|award/.test(topic)) {
-    reply = 'His portfolio lists three hackathon wins, including a WebGPU Hackathon win for VisualPro. See Experience and Projects for the details shown on this website.';
+    reply = 'VisualPro won the WebGPU Hackathon. His portfolio also includes participation in other AI hackathons. See Experience and Projects for the details shown on this website.';
   } else {
     reply = 'I can help you explore this portfolio. Ask about experience, skills, projects, music, education, or how to contact Letlhogonolo. I use prepared portfolio information and cannot answer general questions without an AI provider.';
   }
