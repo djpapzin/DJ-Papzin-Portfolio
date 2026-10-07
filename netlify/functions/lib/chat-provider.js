@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['google/gemma-4-26b-a4b-it:free', 'liquid/lfm-2.5-2.6b:free'] },
+  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
   { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'] },
 ];
