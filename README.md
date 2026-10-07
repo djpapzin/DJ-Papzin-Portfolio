@@ -4,6 +4,12 @@
 
    ## About Me
 
+   ## Contact form deployment
+
+   The contact form uses Netlify Forms. Before deploying to a new Netlify project, enable **Forms → Enable form detection**, then deploy the site so Netlify registers the `contact` form. Configure **Form submission notifications → Email notification** for the intended inbox; form storage alone does not enable email delivery.
+
+   For `djpapzin-portfolio`, form detection and email notifications to `l.fanampe@gmail.com` were enabled on 7 October 2026. A labelled preview submission was stored and its notification arrived in that inbox. The old Formspree endpoint returned “Form not found” and is no longer used. After deploying, submit a labelled test and verify both the confirmation page and inbox delivery.
+
    I'm Letlhogonolo Fanampe (DJ Papzin), an innovative AI/ML Engineer specializing in Computer Vision and Natural Language Processing. With a proven track record of developing and enhancing sophisticated algorithms and applications, I'm passionate about leveraging cutting-edge technologies to solve complex problems.
 
    ## Projects
