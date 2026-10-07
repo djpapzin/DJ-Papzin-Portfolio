@@ -167,3 +167,8 @@ test('named project retrieval cannot cite another project with stronger generic 
   assert.equal(results.length,1); assert.equal(results[0].repo,'PapzinAI-Task-Tracker');
   assert.deepEqual(search.searchCode('What database does VisualPro use?',5,index).results,[]);
 });
+test('new broad portfolio questions do not inherit a prior project', () => {
+  const history = [{role:'user',content:'Tell me about Task Tracker'}];
+  for (const question of ['What RAG projects has he built?', 'Tell me about his RAG work', 'What repositories does he have?']) assert.equal(search.codeQuery(question,history),question);
+  assert.doesNotMatch(portfolioReply('When did he start learning Python?').reply,/professional AI work began/);
+});

@@ -8,7 +8,7 @@ function portfolioReply(message, history = []) {
   if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated|project/.test(topic)) {
-    reply = 'Letlhogonolo started learning Python in 2022. His professional AI work began in 2024.';
+    reply = 'Letlhogonolo started learning Python in 2022.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
   } else if (/music|\bdj\b|djing|mix|crew|radio/.test(topic.replace(/\bdj papzin\b/g, '')) && !/project|experience|who/.test(topic)) {

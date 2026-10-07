@@ -157,7 +157,7 @@ function shouldSearchCode(message) {
 }
 
 function codeQuery(message, history = []) {
-  if (identifiesProject(message) || !shouldSearchCode(message)) return message;
+  if (identifiesProject(message) || !shouldSearchCode(message) || /\b(projects|repositories|portfolio|he|his|letlhogonolo|papzin)\b/i.test(message)) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.
   const previous = [...history].reverse().find(turn => turn.role === 'user' && (identifiesProject(turn.content) || !shouldSearchCode(turn.content)));
