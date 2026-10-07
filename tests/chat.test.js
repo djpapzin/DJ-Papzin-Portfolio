@@ -59,3 +59,26 @@ test('code search fallback preserves search metadata', async () => {
     assert.equal(data.mode, 'portfolio');
   } finally { process.env = saved; }
 });
+test('date questions answer the requested milestone even when DJ Papzin is named', () => {
+  for (const question of ['When did DJ Papzin start learning Python?', 'How many years has he used Python?', 'Python since when?']) {
+    assert.match(portfolioReply(question).reply, /2022/);
+  }
+  assert.match(portfolioReply('What are DJ Papzin skills?').reply, /FastAPI/);
+});
+test('free chat retries another conversational model and reports the actual model', async () => {
+  const saved = {...process.env}; const original = global.fetch; const calls = [];
+  process.env.OPENROUTER_API_KEY = 'test'; process.env.OPENAI_API_KEY = 'paid-test';
+  delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  global.fetch = async (url, options) => {
+    const body = JSON.parse(options.body); calls.push(body.model);
+    assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
+    assert.ok(body.model.endsWith(':free'));
+    assert.equal(options.signal.aborted, false);
+    return calls.length === 1 ? {ok:false,status:503,json:async()=>({error:{code:503}})} : {ok:true,status:200,json:async()=>({model:body.model,choices:[{message:{content:' Started in 2022. '}}]})};
+  };
+  try {
+    const answer = await requestReply('Prompt','When did he start Python?');
+    assert.equal(calls.length, 2); assert.notEqual(calls[0],calls[1]);
+    assert.equal(answer.reply, 'Started in 2022.'); assert.equal(answer.model,calls[1]);
+  } finally { global.fetch = original; process.env = saved; }
+});

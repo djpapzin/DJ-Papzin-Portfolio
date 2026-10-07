@@ -5,9 +5,11 @@ function portfolioReply(message, history = []) {
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   let reply;
-  if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
+  if (/python/.test(topic) && /when|start|since|how long|years|learn/.test(topic)) {
+    reply = 'Letlhogonolo started learning Python in 2022 — about four years ago. His professional AI work began in 2024.';
+  } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
-  } else if (/music|dj|mix|crew|radio/.test(topic) && !/project|experience|who/.test(topic)) {
+  } else if (/music|djing|mix|crew|radio/.test(topic) && !/project|experience|who/.test(topic)) {
     reply = 'DJ Papzin has been DJing since 2012 and co-founded Papzin & Crew in 2016. The platform features mega-mixes, Cruize Friday mixes, online radio, and custom mix requests. Open the Music section to explore his music.';
   } else if (/task tracker/.test(topic)) {
     reply = 'Task Tracker is a task management project built with FastAPI and PostgreSQL. Open Projects for its description and repository link.';

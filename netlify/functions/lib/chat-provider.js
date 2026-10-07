@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['openrouter/free'] },
+  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['google/gemma-4-26b-a4b-it:free', 'liquid/lfm-2.5-2.6b:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
   { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'] },
 ];
@@ -26,7 +26,7 @@ async function requestReply(prompt, message, history = []) {
       if (remaining <= 0) break;
       try {
         const response = await fetch(provider.url, {
-          method: 'POST', signal: AbortSignal.timeout(Math.min(15000, remaining)),
+          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, remaining)),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], max_tokens: 1000, temperature: 0.7,
             ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { enabled: false }, provider: { sort: 'throughput' } } : {}),
@@ -39,7 +39,7 @@ async function requestReply(prompt, message, history = []) {
         }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
-        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply, model };
+        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply: reply.trim(), model: data.model || model };
         console.warn('Chat provider returned no usable reply', {provider: provider.key, status: response.status, finishReason: data.choices?.[0]?.finish_reason, errorCode: data.error?.code});
       } catch (error) {
         console.warn('Chat provider request failed', {provider: provider.key, kind: error.name});
