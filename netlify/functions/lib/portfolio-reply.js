@@ -5,7 +5,9 @@ function portfolioReply(message, history = []) {
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   let reply;
-  if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
+  if (/next\s*sapien/.test(topic)) {
+    reply = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
+  } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (/python/.test(topic) && /start|began|begin|since|how long|how many years|when.*learn|learn.*when/.test(topic) && !/certif|kwantu|outlier|translated|project/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
@@ -20,7 +22,7 @@ function portfolioReply(message, history = []) {
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
     reply = 'His projects include PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
   } else if (/experience|years|career|background|work history|worked|work experience|kwantu|outlier|translated/.test(topic)) {
-    reply = 'Letlhogonolo started learning Python in 2022. His AI work includes RLHF training at Outlier.ai in 2024, AI prompt evaluation at Translated in 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
+    reply = 'Letlhogonolo started learning Python in 2022. His AI work includes computer vision at Next Sapien from December 2023 to January 2024, RLHF training at Outlier.ai in 2024, AI prompt evaluation at Translated in 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
   } else if (/skill|python|stack|technology|technologies|rag|langchain|nlp/.test(topic)) {
     reply = 'His skills include Python, FastAPI, Django, React, LangChain, TensorFlow, Keras, NLP, OpenCV, OCR, Docker, Git, and Linux. His work covers RAG chatbots, multi-agent systems, and automation.';
   } else if (/education|study|diploma|qualification|certif/.test(topic)) {

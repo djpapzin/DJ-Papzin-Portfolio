@@ -203,3 +203,13 @@ test('standalone topic switches never inherit an earlier named project', () => {
   }
   assert.match(search.codeQuery('Does it use Docker?',history),/Task Tracker/);
 });
+test('prepared answers include the Next Sapien interval directly and in the overall timeline', () => {
+  for (const message of ['When did he work at Next Sapien?', 'Tell me about his Next Sapien experience', 'What is his experience?']) assert.match(portfolioReply(message).reply,/Next Sapien.*December 2023 to January 2024/);
+});
+test('difference phrasing retrieves unnamed peer projects for comparisons', () => {
+  const index = {files:[
+    {repo:'PapzinAI-Task-Tracker',name:'tasks.py',path:'tasks.py',summary:'database tasks',content:'Task Tracker database',keywords:['task','tracker']},
+    {repo:'RAG-SQL-Chatbot',name:'rag.py',path:'rag.py',summary:'RAG database',content:'RAG database',keywords:['rag']},
+  ]};
+  for (const message of ['How does Task Tracker differ from his RAG projects?', 'What are the differences between Task Tracker and his RAG projects?']) assert.ok(search.searchCode(message,5,index).results.some(file=>file.repo==='RAG-SQL-Chatbot'));
+});
