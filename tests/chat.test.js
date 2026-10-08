@@ -414,3 +414,10 @@ test('VisualPro overview covers first-place wording and technical questions with
     assert.match(reply, /Node\.js API endpoints and SQLite storage/);
   }
 });
+
+test('new project fallback explains the recovery boundary and demo setup requirements', () => {
+  const handoff = portfolioReply('Tell me about Agent Handoff Kit').reply;
+  assert.match(handoff, /local database, not external APIs/);
+  assert.match(portfolioReply('Tell me about AgentOps Mobile Command Center').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('What does ChatSnap-Extractor do?').reply, /messages, timestamps and emojis/);
+});

@@ -137,5 +137,20 @@
       "NextSapien-Facial-Analysis",
       "NextSapien Facial Analysis"
     ]
+  },
+  {
+    "repo": "agent-handoff-kit",
+    "names": [
+      "agent-handoff-kit",
+      "Agent Handoff Kit"
+    ]
+  },
+  {
+    "repo": "agentops-mobile-command-center",
+    "names": [
+      "agentops-mobile-command-center",
+      "AgentOps Mobile Command Center",
+      "AgentOps"
+    ]
   }
 ]
