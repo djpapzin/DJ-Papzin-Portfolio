@@ -8,7 +8,10 @@ function portfolioReply(message, history = []) {
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let reply;
   const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
-  if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
+  if (/\bchatsnap(?:-extractor)?\b/.test(topic)) {
+    reply = 'ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
+
+  } else if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
     reply = nextSapienWork;
   } else if (/next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
     reply = 'NextSapien Facial Analysis is a facial analysis project built with Python and DeepFace for facial attribute recognition. Its repository is github.com/djpapzin/NextSapien-Facial-Analysis.';
@@ -26,10 +29,8 @@ function portfolioReply(message, history = []) {
     reply = 'DJ Papzin has been DJing since 2012 and co-founded Papzin & Crew in 2016. The platform features mega-mixes, Cruize Friday mixes, online radio, and custom mix requests. Open the Music section to explore his music.';
   } else if (/\bagent[ -]handoff[ -]kit\b/.test(topic)) {
     reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
-  } else if (/\bagentops\b|\bagentops-mobile-command-center\b/.test(topic)) {
+  } else if (/\bagent[ -]?ops\b/.test(topic)) {
     reply = 'AgentOps Mobile Command Center connects Telegram commands and a FastAPI dashboard to a SQLite run log for supervising agent workflows, model routing and approvals. Demo mode works without provider credentials; live integrations require configuration. Open its Projects card for the recorded demo and repository.';
-  } else if (/\bchatsnap(?:-extractor)?\b/.test(topic)) {
-    reply = 'ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
   } else if (/task tracker/.test(topic)) {
     reply = 'Task Tracker is a task management project built with FastAPI and PostgreSQL. Open Projects for its workflow overview, or contact him to discuss the implementation.';
   } else if (/id recognition/.test(topic)) {

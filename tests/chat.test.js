@@ -421,3 +421,8 @@ test('new project fallback explains the recovery boundary and demo setup require
   assert.match(portfolioReply('Tell me about AgentOps Mobile Command Center').reply, /live integrations require configuration/);
   assert.match(portfolioReply('What does ChatSnap-Extractor do?').reply, /messages, timestamps and emojis/);
 });
+
+ test('named project answers take precedence over employer context and accept spaced Agent Ops', () => {
+  assert.match(portfolioReply('What technologies did he use for ChatSnap-Extractor at Next Sapien?').reply, /Django, YOLO and PaddleOCR/);
+  assert.match(portfolioReply('How does Agent Ops work?').reply, /FastAPI dashboard/);
+});
