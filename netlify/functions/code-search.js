@@ -1,3 +1,4 @@
+const { namesAgentOps } = require('./lib/agentops-name');
 const { SYSTEM_PROMPT } = require('./lib/portfolio-prompt');
 const { portfolioReply } = require('./lib/portfolio-reply');
 const { requestReply, parseConversation, jsonResponse } = require('./lib/chat-provider');
@@ -156,7 +157,7 @@ const normalizedName = value => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').
 function matchingProjects(message) {
   const text = ` ${normalizedName(message)} `;
   const nextSapienWork = /\b(?:at|for|with)\s+next\s*sapien\b/i.test(message) && /\b(code|project|projects|build|built|implementation|system|tool)\b/i.test(message) && !/facial|deepface|when|how long|dates?|duration|years?|months?/i.test(message);
-  const matches = projectCatalog.filter(project => project.names.some(name => {
+  const matches = projectCatalog.filter(project => (project.repo !== 'agentops-mobile-command-center' || namesAgentOps(message)) && project.names.some(name => {
     const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
     return new RegExp(`\\b${letters}\\b`).test(text);
   }));

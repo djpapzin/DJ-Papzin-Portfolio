@@ -434,3 +434,11 @@ test('named project queries preserve availability, dates and Telegram implementa
   const index = { files: [{repo:'agentops-mobile-command-center',name:'commands.py',path:'telegram/commands.py',summary:'Telegram commands',content:'AgentOps commands implementation Telegram',keywords:['agentops','commands']}] };
   assert.equal(search.searchCode('How are AgentOps commands implemented?',5,index).results.length,1);
 });
+
+test('short recovery name and contextual agent ops wording resolve to the intended project', () => {
+ assert.match(portfolioReply('How does Agent Handoff work?').reply, /durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('How are agent ops handled in PapzinAI?').reply, /AgentOps Mobile Command Center connects/);
+ const index={files:[{repo:'agent-handoff-kit',name:'worker.py',path:'worker.py',summary:'Agent Handoff recovery',content:'Agent Handoff durable worker',keywords:['handoff']},{repo:'agentops-mobile-command-center',name:'main.py',path:'main.py',summary:'agent ops',content:'agent ops handled',keywords:['agent','ops']}]};
+ assert.equal(search.searchCode('How does Agent Handoff work?',5,index).results[0].repo,'agent-handoff-kit');
+ assert.equal(search.searchCode('How are agent ops handled in PapzinAI?',5,index).results.length,0);
+});
