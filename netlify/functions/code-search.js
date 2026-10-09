@@ -105,7 +105,7 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
     .sort((a, b) => b.score - a.score);
 
   // Apply relevancy filtering
-  scored = filterResults(scored, terms);
+  if (!namedProjects.length || useFullIndex) scored = filterResults(scored, terms);
 
   // A named comparison gets at least one matching file from each available side.
   if (fullyNamedComparison) {

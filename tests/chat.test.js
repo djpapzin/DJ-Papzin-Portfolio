@@ -426,3 +426,11 @@ test('new project fallback explains the recovery boundary and demo setup require
   assert.match(portfolioReply('What technologies did he use for ChatSnap-Extractor at Next Sapien?').reply, /Django, YOLO and PaddleOCR/);
   assert.match(portfolioReply('How does Agent Ops work?').reply, /FastAPI dashboard/);
 });
+
+test('named project queries preserve availability, dates and Telegram implementation evidence', () => {
+  assert.match(portfolioReply('Is the Agent Handoff Kit demo available?').reply, /durable checkpoint/);
+  assert.match(portfolioReply('Is AgentOps Mobile Command Center available?').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('When did he build Chat Snap Extractor at Next Sapien?').reply, /December 2023 to January 2024/);
+  const index = { files: [{repo:'agentops-mobile-command-center',name:'commands.py',path:'telegram/commands.py',summary:'Telegram commands',content:'AgentOps commands implementation Telegram',keywords:['agentops','commands']}] };
+  assert.equal(search.searchCode('How are AgentOps commands implemented?',5,index).results.length,1);
+});
