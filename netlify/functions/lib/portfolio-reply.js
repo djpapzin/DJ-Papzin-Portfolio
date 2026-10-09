@@ -1,4 +1,4 @@
-const { namesAgentOps } = require('./agentops-name');
+const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
@@ -24,7 +24,7 @@ function portfolioReply(message, history = []) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (pythonMilestone && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
-  } else if (/\bagent[ -]handoff(?:[ -]kit)?\b/.test(topic)) {
+  } else if (namesAgentHandoff(topic)) {
     reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
   } else if (namesAgentOps(topic)) {
     reply = 'AgentOps Mobile Command Center connects Telegram commands and a FastAPI dashboard to a SQLite run log for supervising agent workflows, model routing and approvals. Demo mode works without provider credentials; live integrations require configuration. Open its Projects card for the recorded demo and repository.';

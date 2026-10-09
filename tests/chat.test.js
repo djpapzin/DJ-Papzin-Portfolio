@@ -442,3 +442,13 @@ test('short recovery name and contextual agent ops wording resolve to the intend
  assert.equal(search.searchCode('How does Agent Handoff work?',5,index).results[0].repo,'agent-handoff-kit');
  assert.equal(search.searchCode('How are agent ops handled in PapzinAI?',5,index).results.length,0);
 });
+
+test('feature mentions do not hijack a named project subject', () => {
+ assert.match(portfolioReply('Does AgentOps have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('Does Agent Ops have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI support agent handoff?').reply,/Agent Handoff Kit is/);
+ const {namesAgentOps,namesAgentHandoff}=require('../netlify/functions/lib/agentops-name');
+ assert.equal(namesAgentOps('How are agent ops handled in PapzinAI?'),false);
+ assert.equal(namesAgentHandoff('Does PapzinAI support agent handoff?'),false);
+ assert.equal(namesAgentHandoff('How does Agent Handoff work?'),true);
+});

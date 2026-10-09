@@ -1,12 +1,22 @@
 const catalog = require('./project-catalog.json');
-function namesAgentOps(message) {
-  if (/\bagent[ -]?ops[ -]mobile[ -]command[ -]center\b/i.test(message)) return true;
-  if (!/\bagent[ -]?ops\b/i.test(message)) return false;
-  const text = message.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
-  const otherProject = catalog.some(project => project.repo !== 'agentops-mobile-command-center' && project.names.some(name => {
-    const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
-    return new RegExp(`\\b${letters}\\b`).test(text);
-  }));
-  return !otherProject || /\b(compare|versus|vs|integrate|connect|interact|and|with)\b/i.test(message);
+function shortNameIsSubject(message, repo, pattern) {
+ const text = message.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+ const subject = text.match(pattern);
+ if (!subject) return false;
+ return !catalog.some(project => project.repo !== repo && project.names.some(name => {
+  const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
+  const other = text.match(new RegExp(`\\b${letters}\\b`));
+  if (!other) return false;
+  if (/\b(compare|versus|vs|integrate|connect|interact)\b/i.test(text)) return false;
+  return other.index < subject.index || /\b(?:in|of|for)\s+$/.test(text.slice(0,other.index));
+ }));
 }
-module.exports = { namesAgentOps };
+function namesAgentOps(message) {
+ if (/\bagentops\b|\bagent[ -]?ops[ -]mobile[ -]command[ -]center\b/i.test(message)) return true;
+ return shortNameIsSubject(message,'agentops-mobile-command-center',/\bagent ops\b/);
+}
+function namesAgentHandoff(message) {
+ if (/\bagent[ -]handoff[ -]kit\b/i.test(message)) return true;
+ return shortNameIsSubject(message,'agent-handoff-kit',/\bagent handoff\b/);
+}
+module.exports = { namesAgentOps, namesAgentHandoff };
