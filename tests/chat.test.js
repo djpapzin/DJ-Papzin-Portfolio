@@ -452,3 +452,9 @@ test('feature mentions do not hijack a named project subject', () => {
  assert.equal(namesAgentHandoff('Does PapzinAI support agent handoff?'),false);
  assert.equal(namesAgentHandoff('How does Agent Handoff work?'),true);
 });
+
+test('recovery alias normalization does not mistake relational feature wording for a project', () => {
+ assert.match(portfolioReply('How does AgentHandoffKit work?').reply,/durable checkpoint/);
+ assert.match(portfolioReply('Tell me about AgentHandoff').reply,/durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI integrate agent handoff support?').reply,/Agent Handoff Kit is/);
+});
