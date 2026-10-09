@@ -836,6 +836,31 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <p class="section-label">Work</p>
   <h2>Projects</h2>
   <div class="projects-grid">
+    <article class="project-card" id="project-agent-handoff">
+      <img class="project-preview" src="assets/agent-handoff.png" alt="Agent Handoff Kit recovery demo" loading="lazy">
+      <h3>Agent Handoff Kit</h3>
+      <p>A Python and SQLite recovery prototype: interrupt one worker and let a replacement resume from its last durable checkpoint.</p>
+      <p class="project-outcome"><strong>Demo:</strong> Real worker processes, a saved receipt and a replay check. Its duplicate-suppression guarantee applies to the local database, not external APIs.</p>
+      <div class="project-links"><a href="https://handoff.djpapzin.com/" target="_blank" rel="noopener noreferrer">Run demo ↗</a><a href="https://github.com/djpapzin/agent-handoff-kit" target="_blank" rel="noopener noreferrer">View source ↗</a></div>
+      <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">Recovery prototype</span></div>
+    </article>
+    <article class="project-card" id="project-agentops">
+      <img class="project-preview" src="assets/agentops.png" alt="AgentOps command dashboard showing routing, system health and approvals" loading="lazy">
+      <h3>AgentOps Mobile Command Center</h3>
+      <p>A Telegram-first control room for supervising agent workflows: goals, status, model routing and review summaries.</p>
+      <p class="project-outcome"><strong>What it does:</strong> Connects a FastAPI dashboard and Telegram commands to a SQLite run log. Demo mode works without provider credentials; live integrations require configuration.</p>
+      <div class="project-links"><a href="https://github.com/djpapzin/agentops-mobile-command-center/blob/main/assets/agentops-demo-live-screenshots.mp4" target="_blank" rel="noopener noreferrer">Watch demo ↗</a><a href="https://github.com/djpapzin/agentops-mobile-command-center" target="_blank" rel="noopener noreferrer">View source ↗</a></div>
+      <div class="tags"><span class="tag">FastAPI</span><span class="tag">Telegram</span><span class="tag">Agent workflows</span></div>
+    </article>
+    <article class="project-card" id="project-chatsnap">
+      <img class="project-preview" src="assets/chatsnap.png" alt="ChatSnap example converting a sample chat screenshot into structured message data" loading="lazy" width="1211" height="673">
+      <h3>ChatSnap-Extractor</h3>
+      <p>A Django-based computer-vision tool that extracts messages, timestamps and emojis from chat screenshots using YOLO and PaddleOCR.</p>
+      <p class="project-outcome"><strong>What it does:</strong> Turns an uploaded screenshot into structured message data through an extraction API. The repository includes sample inputs and outputs.</p>
+      <div class="project-links"><a href="https://github.com/djpapzin/ChatSnap-Extractor/blob/main/screenshots/demo.png" target="_blank" rel="noopener noreferrer">See example ↗</a><a href="https://github.com/djpapzin/ChatSnap-Extractor" target="_blank" rel="noopener noreferrer">View source ↗</a></div>
+      <div class="tags"><span class="tag">Computer vision</span><span class="tag">Django</span><span class="tag">OCR</span></div>
+    </article>
+
     <div class="project-card" id="project-papzin-crew">
       <div class="workflow-preview"><span>Workflow overview</span>Mixes → Streaming → Listeners</div>
       <h3>Papzin & Crew</h3>

@@ -414,3 +414,47 @@ test('VisualPro overview covers first-place wording and technical questions with
     assert.match(reply, /Node\.js API endpoints and SQLite storage/);
   }
 });
+
+test('new project fallback explains the recovery boundary and demo setup requirements', () => {
+  const handoff = portfolioReply('Tell me about Agent Handoff Kit').reply;
+  assert.match(handoff, /local database, not external APIs/);
+  assert.match(portfolioReply('Tell me about AgentOps Mobile Command Center').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('What does ChatSnap-Extractor do?').reply, /messages, timestamps and emojis/);
+});
+
+ test('named project answers take precedence over employer context and accept spaced Agent Ops', () => {
+  assert.match(portfolioReply('What technologies did he use for ChatSnap-Extractor at Next Sapien?').reply, /Django, YOLO and PaddleOCR/);
+  assert.match(portfolioReply('How does Agent Ops work?').reply, /FastAPI dashboard/);
+});
+
+test('named project queries preserve availability, dates and Telegram implementation evidence', () => {
+  assert.match(portfolioReply('Is the Agent Handoff Kit demo available?').reply, /durable checkpoint/);
+  assert.match(portfolioReply('Is AgentOps Mobile Command Center available?').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('When did he build Chat Snap Extractor at Next Sapien?').reply, /December 2023 to January 2024/);
+  const index = { files: [{repo:'agentops-mobile-command-center',name:'commands.py',path:'telegram/commands.py',summary:'Telegram commands',content:'AgentOps commands implementation Telegram',keywords:['agentops','commands']}] };
+  assert.equal(search.searchCode('How are AgentOps commands implemented?',5,index).results.length,1);
+});
+
+test('short recovery name and contextual agent ops wording resolve to the intended project', () => {
+ assert.match(portfolioReply('How does Agent Handoff work?').reply, /durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('How are agent ops handled in PapzinAI?').reply, /AgentOps Mobile Command Center connects/);
+ const index={files:[{repo:'agent-handoff-kit',name:'worker.py',path:'worker.py',summary:'Agent Handoff recovery',content:'Agent Handoff durable worker',keywords:['handoff']},{repo:'agentops-mobile-command-center',name:'main.py',path:'main.py',summary:'agent ops',content:'agent ops handled',keywords:['agent','ops']}]};
+ assert.equal(search.searchCode('How does Agent Handoff work?',5,index).results[0].repo,'agent-handoff-kit');
+ assert.equal(search.searchCode('How are agent ops handled in PapzinAI?',5,index).results.length,0);
+});
+
+test('feature mentions do not hijack a named project subject', () => {
+ assert.match(portfolioReply('Does AgentOps have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('Does Agent Ops have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI support agent handoff?').reply,/Agent Handoff Kit is/);
+ const {namesAgentOps,namesAgentHandoff}=require('../netlify/functions/lib/agentops-name');
+ assert.equal(namesAgentOps('How are agent ops handled in PapzinAI?'),false);
+ assert.equal(namesAgentHandoff('Does PapzinAI support agent handoff?'),false);
+ assert.equal(namesAgentHandoff('How does Agent Handoff work?'),true);
+});
+
+test('recovery alias normalization does not mistake relational feature wording for a project', () => {
+ assert.match(portfolioReply('How does AgentHandoffKit work?').reply,/durable checkpoint/);
+ assert.match(portfolioReply('Tell me about AgentHandoff').reply,/durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI integrate agent handoff support?').reply,/Agent Handoff Kit is/);
+});
