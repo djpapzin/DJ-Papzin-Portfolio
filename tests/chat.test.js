@@ -533,3 +533,14 @@ test('difference wording and leading possessives retain both comparison projects
  assert.match(reply,/AgentOps Mobile Command Center:/);
  assert.match(reply,/Agent Handoff Kit:/);
 });
+
+test('project relationships distinguish features, identifiers and prior subjects', () => {
+ const matching=require('../netlify/functions/lib/project-matching').matchingProjects;
+ assert.deepEqual(matching('Does AgentOps integrate case management AI features?').map(p=>p.repo),['agentops-mobile-command-center']);
+ assert.deepEqual(matching('Compare AgentOps with PapzinAI-Task-Tracker').map(p=>p.repo),['PapzinAI-Task-Tracker','agentops-mobile-command-center']);
+ const reply=portfolioReply('How does AgentOps relate to it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.match(reply,/ChatSnap:/);
+ assert.match(reply,/does not establish an integration/);
+ const index={files:[{repo:'agentops-mobile-command-center',name:'README.md',keywords:['agentops'],path:'README.md',content:'AgentOps Telegram commands',summary:'AgentOps Telegram commands'},{repo:'ChatSnap-Extractor',name:'README.md',keywords:['chatsnap'],path:'README.md',content:'ChatSnap project',summary:'ChatSnap project'}]};
+ assert.ok(search.searchCode('Compare AgentOps with his other projects',5,index).results.some(f=>f.repo==='agentops-mobile-command-center'));
+});

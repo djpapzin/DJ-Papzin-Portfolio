@@ -12,7 +12,7 @@ function portfolioReply(message, history = []) {
     namesAgentOps(topic) && 'AgentOps Mobile Command Center',
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
-  if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|work together/.test(topic)) {
+  if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|relat|work together/.test(topic)) {
     namedNewProjects = matchingProjects(topic).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   }
   if (namedNewProjects.length > 1) {
@@ -28,7 +28,7 @@ function portfolioReply(message, history = []) {
       const answer = known[name] || (supported ? portfolioReply(name).reply : 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.');
       return `${name}: ${/His projects include|I can help you explore/.test(answer) ? 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.' : answer}`;
     }).join('\n\n');
-    const boundary = /integrat|connect|interact|work together/.test(topic) ? '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.' : '';
+    const boundary = /integrat|connect|interact|relat|work together/.test(topic) ? '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.' : '';
     return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
   }
   let reply;

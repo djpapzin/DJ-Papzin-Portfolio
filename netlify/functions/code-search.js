@@ -107,10 +107,13 @@ function searchCode(query, maxResults = 5, index = loadIndex()) {
     .sort((a, b) => b.score - a.score);
 
   // Apply relevancy filtering
-  if (!namedProjects.length || useFullIndex) scored = filterResults(scored, terms);
+  if (!namedProjects.length || useFullIndex) {
+    const relevant = new Set(filterResults(scored, terms));
+    scored = scored.filter(item => relevant.has(item) || namedProjects.some(project => project.repo === item.file.repo));
+  }
 
   // A named comparison gets at least one matching file from each available side.
-  if (fullyNamedComparison) {
+  if (fullyNamedComparison || (unnamedPeers && namedProjects.length)) {
     const representatives = namedProjects.map(project => scored.find(item => item.file.repo === project.repo)).filter(Boolean);
     const unique = [...new Set(representatives)];
     scored = [...unique, ...scored.filter(item => !unique.includes(item))];
