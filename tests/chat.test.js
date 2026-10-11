@@ -610,3 +610,10 @@ test('person availability differs from project demo availability', () => {
  assert.match(portfolioReply('Is he available to work on AgentOps?').reply,/l.fanampe@gmail.com/);
  assert.doesNotMatch(portfolioReply('Is the AgentOps demo available?').reply,/l.fanampe@gmail.com/);
 });
+
+test('portfolio nouns, explicit email requests and project dates retain intent', () => {
+ for(const message of ['What does AgentOps use in addition to Telegram?','What is AgentOps built with apart from FastAPI?']) assert.doesNotMatch(portfolioReply(message).reply,/Other portfolio projects/);
+ for(const message of ['Can I email him about the AgentOps API?','What email should I use to ask about the AgentOps implementation?']) assert.match(portfolioReply(message).reply,/l.fanampe@gmail.com/);
+ assert.match(portfolioReply('Is Agent Handoff Kit used by AgentOps?').reply,/does not establish an integration/);
+ for(const message of ['When did he build AgentOps in Python?','When was Agent Handoff Kit built with Python?']) assert.doesNotMatch(portfolioReply(message).reply,/learning Python in 2022/);
+});

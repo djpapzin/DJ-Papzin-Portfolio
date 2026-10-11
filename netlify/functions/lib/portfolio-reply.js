@@ -5,7 +5,7 @@ const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
   const topic = codeQuery(message, history).toLowerCase();
-  const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire)\s+(?:him|her|you|letlhogonolo|dj papzin)\b/.test(text));
+  const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire|email|phone|call)\s+(?:him|her|you|letlhogonolo|dj papzin)\b|\bwhat\s+(?:email|phone)(?:\s+address|\s+number)?\s+(?:should|can|do)\s+i\s+use\b/.test(text));
   if (contactIntent || /\b(?:he|you|letlhogonolo|dj papzin)\s+(?:is\s+|are\s+)?available\b|\bavailability\s+(?:of|for)\s+(?:him|you|letlhogonolo|dj papzin)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
@@ -16,7 +16,7 @@ function portfolioReply(message, history = []) {
   ].filter(Boolean);
   if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.repo === 'ChatSnap-Extractor' ? project.repo : project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   const applicationCollection = /\b(?:all|other)\s+(?:user|users|customer|customers|account|stored|saved)\s+(?:projects|repositories|repos)\b/i.test(topic);
-  if (namedNewProjects.length && !applicationCollection && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
+  if (namedNewProjects.length && !applicationCollection && /\b(projects|repositories|repos)\b/.test(topic) && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
     const peers = ['Agent Handoff Kit','AgentOps Mobile Command Center','ChatSnap-Extractor','PapzinAI','Task Tracker','TruthGuard','Vocal Thread','VisualPro','Papzin & Crew'].filter(name => !namedNewProjects.includes(name));
     return { reply: `${portfolioReply(namedNewProjects.length > 1 ? `Compare ${namedNewProjects.join(' and ')}` : namedNewProjects[0]).reply}\n\nOther portfolio projects include ${peers.join(', ')}. The prepared guide cannot perform a detailed comparison across unnamed projects. Name the projects you want to compare, or inspect their repository links in Projects.`, mode:'portfolio', model:'portfolio-guide' };
   }
@@ -33,7 +33,7 @@ function portfolioReply(message, history = []) {
       const answer = known[name] || (supported ? portfolioReply(name).reply : 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.');
       return `${name}: ${/His projects include|I can help you explore/.test(answer) ? 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.' : answer}`;
     }).join('\n\n');
-    const boundary = /integrat|connect|interact|relat|work together|work with|depend|\buse\b/.test(topic) ? '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.' : '';
+    const boundary = '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.';
     return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
   }
   let reply;
@@ -47,11 +47,11 @@ function portfolioReply(message, history = []) {
     reply = 'NextSapien Facial Analysis is a facial analysis project built with Python and DeepFace for facial attribute recognition. Its repository is github.com/djpapzin/NextSapien-Facial-Analysis.';
   } else if (!namedNewProjects.length && /next\s*sapien/.test(topic)) {
     reply = nextSapienWork;
-  } else if (pythonMilestone && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
+  } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
     reply = 'He began learning Python in 2022. His recorded professional Python work includes building ChatSnap-Extractor at Next Sapien from December 2023 to January 2024.';
   } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
-  } else if (pythonMilestone && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
+  } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
   } else if (namedNewProjects.includes('Agent Handoff Kit')) {
     reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
