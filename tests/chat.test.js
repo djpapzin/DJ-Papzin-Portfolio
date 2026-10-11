@@ -643,3 +643,9 @@ test('comma-separated project lists retain trailing short aliases', () => {
  assert.match(portfolioReply('Tell me about ChatSnap, Agent Ops').reply,/AgentOps Mobile Command Center:/);
  assert.match(portfolioReply('Tell me about AgentOps, Agent Handoff').reply,/Agent Handoff Kit:/);
 });
+
+test('relational endpoints retain trailing short project names', () => {
+ assert.match(portfolioReply('How is ChatSnap related to Agent Ops?').reply,/AgentOps Mobile Command Center:/);
+ assert.match(portfolioReply('Is ChatSnap built on Agent Handoff?').reply,/Agent Handoff Kit:/);
+ assert.match(portfolioReply('Does ChatSnap depend on Agent Handoff?').reply,/does not establish an integration/);
+});
