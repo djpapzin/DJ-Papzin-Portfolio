@@ -626,3 +626,10 @@ test('generic implementation questions and non-project history remain unsupporte
  assert.match(reply,/cannot answer general questions/);
  }
 });
+
+test('conditional self-reference does not revive a previous project', () => {
+ const history=[{role:'user',content:'Tell me about ChatSnap'}];
+ assert.equal(search.codeQuery('Can AgentOps recover if it crashes?',history),'Can AgentOps recover if it crashes?');
+ assert.doesNotMatch(portfolioReply('Can AgentOps recover if it crashes?',history).reply,/ChatSnap/);
+ assert.match(portfolioReply('How does AgentOps compare to it?',history).reply,/ChatSnap-Extractor:/);
+});

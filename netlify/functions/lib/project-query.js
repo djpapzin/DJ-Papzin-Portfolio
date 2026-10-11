@@ -33,7 +33,7 @@ function codeQuery(message, history = []) {
   const normalized = normalizedName(message);
   const firstNamed = namedPatterns ? normalized.search(new RegExp(`\\b(?:${namedPatterns})\\b`)) : -1;
   const leadingPossessive = firstNamed >= 0 && /\b(its|their)\b/i.test(normalized.slice(0,firstNamed));
-  const referentialComparison = (leadingPossessive || /\b(it|that|this|they|those|them|these)\b/i.test(referenceText.replace(/\b(?:is|was|would) it (?:possible|necessary|easy|hard|safe|worth)\b|\bdoes it make sense\b/gi, ''))) && named.length > 0;
+  const referentialComparison = (leadingPossessive || /\b(it|that|this|they|those|them|these)\b/i.test(referenceText.replace(/\b(?:is|was|would) it (?:possible|necessary|easy|hard|safe|worth)\b|\bdoes it make sense\b|\b(?:if|when|while|because|once|after|before|unless|as)\s+(?:it|they)\b/gi, ''))) && named.length > 0;
   if (isNewTopic(message) && !referentialComparison) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.
