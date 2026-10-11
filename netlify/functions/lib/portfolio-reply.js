@@ -7,6 +7,16 @@ function portfolioReply(message, history = []) {
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
+  const namedNewProjects = [
+    namesAgentHandoff(topic) && 'Agent Handoff Kit',
+    namesAgentOps(topic) && 'AgentOps Mobile Command Center',
+    /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
+  ].filter(Boolean);
+  if (namedNewProjects.length > 1) {
+    const facts = namedNewProjects.map(name => portfolioReply(name).reply).join('\n\n');
+    const boundary = /integrat|connect|interact|work together/.test(topic) ? '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.' : '';
+    return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
+  }
   let reply;
   const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
   if (/\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic)) {

@@ -463,3 +463,10 @@ test('short project subjects survive for complements', () => {
  assert.match(portfolioReply('How does Agent Ops work for PapzinAI?').reply,/AgentOps Mobile Command Center connects/);
  assert.match(portfolioReply('How does Agent Handoff work for PapzinAI?').reply,/durable checkpoint/);
 });
+
+test('multi-project fallback explains both projects without inventing an integration', () => {
+ const reply=portfolioReply('How does AgentOps integrate with Agent Handoff Kit?').reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.match(reply,/durable checkpoint/);
+ assert.match(reply,/does not establish an integration/);
+});
