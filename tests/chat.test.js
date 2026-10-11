@@ -480,3 +480,9 @@ test('mixed comparisons retain older project facts', () => {
  assert.match(agents,/Hermes, OpenClaw/);
  assert.match(portfolioReply('Compare AgentOps with TruthGuard').reply,/Llama 3/);
 });
+
+test('comparison expansion shares source-search feature disambiguation', () => {
+ const reply=portfolioReply('Does AgentOps integrate a task tracker?').reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.doesNotMatch(reply,/Task Tracker:|PostgreSQL|does not establish an integration/);
+});

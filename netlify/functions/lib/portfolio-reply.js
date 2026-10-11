@@ -1,3 +1,4 @@
+const { matchingProjects } = require('./project-matching');
 const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
 function portfolioReply(message, history = []) {
@@ -13,11 +14,7 @@ function portfolioReply(message, history = []) {
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
   if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|work together/.test(topic)) {
-    const text = topic.replace(/[^a-z0-9]+/g, ' ');
-    namedNewProjects = require('./project-catalog.json').filter(project => project.names.some(name => {
-      const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
-      return new RegExp(`\\b${letters}\\b`).test(text);
-    })).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
+    namedNewProjects = matchingProjects(topic).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   }
   if (namedNewProjects.length > 1) {
     const facts = namedNewProjects.map(name => {
