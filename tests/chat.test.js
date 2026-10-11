@@ -478,4 +478,5 @@ test('mixed comparisons retain older project facts', () => {
  const agents=portfolioReply('How does Agent Handoff differ from PapzinAI?').reply;
  assert.match(agents,/durable checkpoint/);
  assert.match(agents,/Hermes, OpenClaw/);
+ assert.match(portfolioReply('Compare AgentOps with TruthGuard').reply,/Llama 3/);
 });

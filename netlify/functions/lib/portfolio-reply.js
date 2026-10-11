@@ -17,7 +17,7 @@ function portfolioReply(message, history = []) {
     namedNewProjects = require('./project-catalog.json').filter(project => project.names.some(name => {
       const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
       return new RegExp(`\\b${letters}\\b`).test(text);
-    })).map(project => project.names.find(name => name.includes(' ')) || project.names[0]);
+    })).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   }
   if (namedNewProjects.length > 1) {
     const facts = namedNewProjects.map(name => {
