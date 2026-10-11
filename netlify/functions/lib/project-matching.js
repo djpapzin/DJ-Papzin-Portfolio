@@ -30,9 +30,10 @@ function matchingProjects(message) {
   const contextualMatches = matches.filter(project => project.names.some(name => {
     const explicitName = name.replace(/[^a-zA-Z0-9]/g, '').split('').join('\\s*');
     const strongName = new RegExp(`\\b${explicitName}\\b`).test(message.replace(/[^a-zA-Z0-9]+/g,' '));
+    const explicitIntroduction = new RegExp(`\\b(?:about|compare|describe|explain|between)\\s+(?:the\\s+)?${explicitName}\\b`, 'i').test(text);
     const relatedName = new RegExp(`\\b(?:compare|compared|comparison of|and|with|from|than|versus|vs)\\s+(?:the\\s+)?${normalizedName(name).replace(/ /g,'').split('').join('\\s*')}\\b`, 'i').test(text);
     const explicitIdentifier = name.includes('-') && message.toLowerCase().includes(name.toLowerCase());
-    return !project.descriptive || explicitIdentifier || strongName || relatedName;
+    return !project.descriptive || explicitIdentifier || strongName || explicitIntroduction || relatedName;
   }));
   return contextualMatches.filter(project => !(project.repo === 'PapzinAI-Task-Tracker' && /\b(?:a|an|any|built in)\s+task\s*tracker\b/.test(text)) && !(project.names.includes('ID recognition') && /\b(?:a|an|any|built in)\s+id\s*recognition\b/.test(text)));
 }

@@ -552,3 +552,15 @@ test('ordinary multi-project requests include every explicit subject', () => {
  assert.match(reply,/TruthGuard:/);
  }
 });
+
+test('broad peer requests state fallback limits and project lists ignore casing', () => {
+ for(const message of ['Compare AgentOps with his other projects','What other projects are there besides Agent Handoff?']) {
+ assert.match(portfolioReply(message).reply,/Other portfolio projects include/);
+ assert.match(portfolioReply(message).reply,/cannot perform a detailed comparison across unnamed projects/);
+ }
+ const matching=require('../netlify/functions/lib/project-matching').matchingProjects;
+ for(const message of ['Tell me about Case Management AI and AgentOps','Tell me about Comment Scope and AgentOps']) {
+ assert.equal(matching(message).length,2);
+ assert.match(portfolioReply(message).reply,/prepared guide does not have a detailed overview/);
+ }
+});

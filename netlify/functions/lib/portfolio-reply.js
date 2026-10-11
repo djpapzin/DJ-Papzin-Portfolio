@@ -12,6 +12,10 @@ function portfolioReply(message, history = []) {
     namesAgentOps(topic) && 'AgentOps Mobile Command Center',
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
+  if (namedNewProjects.length && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
+    const peers = ['Agent Handoff Kit','AgentOps Mobile Command Center','ChatSnap-Extractor','PapzinAI','Task Tracker','TruthGuard','Vocal Thread','VisualPro','Papzin & Crew'].filter(name => !namedNewProjects.includes(name));
+    return { reply: `${portfolioReply(namedNewProjects[0]).reply}\n\nOther portfolio projects include ${peers.join(', ')}. The prepared guide cannot perform a detailed comparison across unnamed projects. Name the projects you want to compare, or inspect their repository links in Projects.`, mode:'portfolio', model:'portfolio-guide' };
+  }
   if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|relat|work together|\band\b|\bboth\b|\balso\b|[,;]/.test(topic)) {
     namedNewProjects = matchingProjects(topic).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   }
