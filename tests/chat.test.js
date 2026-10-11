@@ -414,3 +414,238 @@ test('VisualPro overview covers first-place wording and technical questions with
     assert.match(reply, /Node\.js API endpoints and SQLite storage/);
   }
 });
+
+test('new project fallback explains the recovery boundary and demo setup requirements', () => {
+  const handoff = portfolioReply('Tell me about Agent Handoff Kit').reply;
+  assert.match(handoff, /local database, not external APIs/);
+  assert.match(portfolioReply('Tell me about AgentOps Mobile Command Center').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('What does ChatSnap-Extractor do?').reply, /messages, timestamps and emojis/);
+});
+
+ test('named project answers take precedence over employer context and accept spaced Agent Ops', () => {
+  assert.match(portfolioReply('What technologies did he use for ChatSnap-Extractor at Next Sapien?').reply, /Django, YOLO and PaddleOCR/);
+  assert.match(portfolioReply('How does Agent Ops work?').reply, /FastAPI dashboard/);
+});
+
+test('named project queries preserve availability, dates and Telegram implementation evidence', () => {
+  assert.match(portfolioReply('Is the Agent Handoff Kit demo available?').reply, /durable checkpoint/);
+  assert.match(portfolioReply('Is AgentOps Mobile Command Center available?').reply, /live integrations require configuration/);
+  assert.match(portfolioReply('When did he build Chat Snap Extractor at Next Sapien?').reply, /December 2023 to January 2024/);
+  const index = { files: [{repo:'agentops-mobile-command-center',name:'commands.py',path:'telegram/commands.py',summary:'Telegram commands',content:'AgentOps commands implementation Telegram',keywords:['agentops','commands']}] };
+  assert.equal(search.searchCode('How are AgentOps commands implemented?',5,index).results.length,1);
+});
+
+test('short recovery name and contextual agent ops wording resolve to the intended project', () => {
+ assert.match(portfolioReply('How does Agent Handoff work?').reply, /durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('How are agent ops handled in PapzinAI?').reply, /AgentOps Mobile Command Center connects/);
+ const index={files:[{repo:'agent-handoff-kit',name:'worker.py',path:'worker.py',summary:'Agent Handoff recovery',content:'Agent Handoff durable worker',keywords:['handoff']},{repo:'agentops-mobile-command-center',name:'main.py',path:'main.py',summary:'agent ops',content:'agent ops handled',keywords:['agent','ops']}]};
+ assert.equal(search.searchCode('How does Agent Handoff work?',5,index).results[0].repo,'agent-handoff-kit');
+ assert.equal(search.searchCode('How are agent ops handled in PapzinAI?',5,index).results.length,0);
+});
+
+test('feature mentions do not hijack a named project subject', () => {
+ assert.match(portfolioReply('Does AgentOps have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('Does Agent Ops have a Task Tracker?').reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI support agent handoff?').reply,/Agent Handoff Kit is/);
+ const {namesAgentOps,namesAgentHandoff}=require('../netlify/functions/lib/agentops-name');
+ assert.equal(namesAgentOps('How are agent ops handled in PapzinAI?'),false);
+ assert.equal(namesAgentHandoff('Does PapzinAI support agent handoff?'),false);
+ assert.equal(namesAgentHandoff('How does Agent Handoff work?'),true);
+});
+
+test('recovery alias normalization does not mistake relational feature wording for a project', () => {
+ assert.match(portfolioReply('How does AgentHandoffKit work?').reply,/durable checkpoint/);
+ assert.match(portfolioReply('Tell me about AgentHandoff').reply,/durable checkpoint/);
+ assert.doesNotMatch(portfolioReply('Does PapzinAI integrate agent handoff support?').reply,/Agent Handoff Kit is/);
+});
+
+test('short project subjects survive for complements', () => {
+ assert.match(portfolioReply('How does Agent Ops work for PapzinAI?').reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('How does Agent Handoff work for PapzinAI?').reply,/durable checkpoint/);
+});
+
+test('multi-project fallback explains both projects without inventing an integration', () => {
+ const reply=portfolioReply('How does AgentOps integrate with Agent Handoff Kit?').reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.match(reply,/durable checkpoint/);
+ assert.match(reply,/does not establish an integration/);
+});
+
+test('mixed comparisons retain older project facts', () => {
+ const tasks=portfolioReply('Compare AgentOps with Task Tracker').reply;
+ assert.match(tasks,/FastAPI dashboard/);
+ assert.match(tasks,/PostgreSQL/);
+ const agents=portfolioReply('How does Agent Handoff differ from PapzinAI?').reply;
+ assert.match(agents,/durable checkpoint/);
+ assert.match(agents,/Hermes, OpenClaw/);
+ assert.match(portfolioReply('Compare AgentOps with TruthGuard').reply,/Llama 3/);
+});
+
+test('comparison expansion shares source-search feature disambiguation', () => {
+ const reply=portfolioReply('Does AgentOps integrate a task tracker?').reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.doesNotMatch(reply,/Task Tracker:|PostgreSQL|does not establish an integration/);
+});
+
+test('referential comparisons retain the prior project in prepared answers', () => {
+ const reply=portfolioReply('How does it compare to Agent Handoff?', [{role:'user',content:'Tell me about AgentOps'}]).reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.match(reply,/durable checkpoint/);
+});
+
+ test('shorthand subjects and relational endpoints retain project identity', () => {
+ for (const name of ['Agent Handoff','Agent Ops']) {
+ assert.match(portfolioReply(`${name} for PapzinAI`).reply, /recovery prototype|Mobile Command Center connects/);
+ const reply=portfolioReply(`Can PapzinAI connect to ${name}?`).reply;
+ assert.match(reply,/PapzinAI:/);
+ assert.match(reply,/does not establish an integration/);
+ }
+ assert.doesNotMatch(portfolioReply('Compare AgentOps with RAG-PDF-Chatbot').reply,/His skills include/);
+ });
+
+test('ChatSnap comparison keeps its prepared implementation facts', () => {
+ assert.match(portfolioReply('Compare ChatSnap with AgentOps').reply,/Django, YOLO and PaddleOCR/);
+});
+
+test('generic follow-up preserves resolved comparison subjects and music facts', () => {
+ const reply=portfolioReply('Tell me more',[{role:'user',content:'Tell me about AgentOps'},{role:'user',content:'How does it compare to Agent Handoff?'}]).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/Agent Handoff Kit:/);
+ assert.match(portfolioReply('Compare AgentOps with Papzin & Crew').reply,/online radio and custom mix requests/);
+});
+
+test('possessive wording keeps an explicit project topic switch', () => {
+ const history=[{role:'user',content:'Tell me about ChatSnap'}];
+ assert.equal(search.codeQuery('How does AgentOps handle its commands?',history),'How does AgentOps handle its commands?');
+ assert.doesNotMatch(portfolioReply('How does AgentOps handle its commands?',history).reply,/ChatSnap/);
+});
+
+test('descriptive feature wording does not create a relational project', () => {
+ assert.deepEqual(require('../netlify/functions/lib/project-matching').matchingProjects('Does AgentOps integrate a comment scope setting?').map(p=>p.repo),['agentops-mobile-command-center']);
+ assert.doesNotMatch(portfolioReply('Does AgentOps integrate a comment scope setting?').reply,/Comment-Scope:/);
+});
+
+test('difference wording and leading possessives retain both comparison projects', () => {
+ const comparison=portfolioReply('How do PapzinAI and Agent Ops differ?').reply;
+ assert.match(comparison,/PapzinAI:/);
+ assert.match(comparison,/AgentOps Mobile Command Center:/);
+ const reply=portfolioReply('How does its architecture compare to Agent Handoff?',[{role:'user',content:'Tell me about AgentOps'}]).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/Agent Handoff Kit:/);
+});
+
+test('project relationships distinguish features, identifiers and prior subjects', () => {
+ const matching=require('../netlify/functions/lib/project-matching').matchingProjects;
+ assert.deepEqual(matching('Does AgentOps integrate case management AI features?').map(p=>p.repo),['agentops-mobile-command-center']);
+ assert.deepEqual(matching('Compare AgentOps with PapzinAI-Task-Tracker').map(p=>p.repo),['PapzinAI-Task-Tracker','agentops-mobile-command-center']);
+ const reply=portfolioReply('How does AgentOps relate to it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.match(reply,/ChatSnap-Extractor:/);
+ assert.match(reply,/does not establish an integration/);
+ const index={files:[{repo:'agentops-mobile-command-center',name:'README.md',keywords:['agentops'],path:'README.md',content:'AgentOps Telegram commands',summary:'AgentOps Telegram commands'},{repo:'ChatSnap-Extractor',name:'README.md',keywords:['chatsnap'],path:'README.md',content:'ChatSnap project',summary:'ChatSnap project'}]};
+ assert.ok(search.searchCode('Compare AgentOps with his other projects',5,index).results.some(f=>f.repo==='agentops-mobile-command-center'));
+});
+
+test('ordinary multi-project requests include every explicit subject', () => {
+ for(const message of ['Tell me about AgentOps and TruthGuard','Tell me about AgentOps, TruthGuard']) {
+ const reply=portfolioReply(message).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/TruthGuard:/);
+ }
+});
+
+test('broad peer requests state fallback limits and project lists ignore casing', () => {
+ for(const message of ['Compare AgentOps with his other projects','What other projects are there besides Agent Handoff?']) {
+ assert.match(portfolioReply(message).reply,/Other portfolio projects include/);
+ assert.match(portfolioReply(message).reply,/cannot perform a detailed comparison across unnamed projects/);
+ }
+ const matching=require('../netlify/functions/lib/project-matching').matchingProjects;
+ for(const message of ['Tell me about Case Management AI and AgentOps','Tell me about Comment Scope and AgentOps']) {
+ assert.equal(matching(message).length,2);
+ assert.match(portfolioReply(message).reply,/prepared guide does not have a detailed overview/);
+ }
+});
+
+test('ordinary relationships and broad comparisons retain every named subject', () => {
+ const reply=portfolioReply('How does AgentOps work with it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.match(reply,/ChatSnap-Extractor:/);
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/does not establish an integration/);
+ const broad=portfolioReply('Compare AgentOps and Agent Handoff with his other projects').reply;
+ assert.match(broad,/AgentOps Mobile Command Center:/);
+ assert.match(broad,/Agent Handoff Kit:/);
+ const file=(path,content)=>({repo:'Arc-ZARDIAN',name:path,path,summary:content,content,keywords:['arc','zardian']});
+ const results=search.searchCode('Explain Arc-ZARDIAN implementation',5,{files:[file('app.py','Arc-ZARDIAN implementation'),file('docs/telegram-bot-setup.md','Arc-ZARDIAN Telegram setup')]}).results;
+ assert.equal(results.length,1);
+ assert.equal(results[0].path,'app.py');
+});
+
+test('project assistance handles contact, feature follow-ups and topic switches', () => {
+ const history=[{role:'user',content:'Tell me about AgentOps'}];
+ for(const message of ['How do Telegram commands work?','How are approvals handled?','How does model routing work?']) assert.match(portfolioReply(message,history).reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('How can I contact him about AgentOps?').reply,/l.fanampe@gmail.com/);
+ const switched=portfolioReply('Is it possible to deploy AgentOps?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.doesNotMatch(switched,/ChatSnap/);
+ assert.doesNotMatch(portfolioReply('Was AgentOps built at Next Sapien?').reply,/ChatSnap/);
+ const broad=portfolioReply('Compare ChatSnap with his other projects').reply.split('Other portfolio projects include')[1];
+ assert.doesNotMatch(broad,/ChatSnap/);
+});
+
+test('application project collections do not expand portfolio peers', () => {
+ const reply=portfolioReply('How does AgentOps retrieve all user projects?').reply;
+ assert.match(reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(reply,/Other portfolio projects include/);
+});
+
+test('feature contact words and excluded projects preserve user intent', () => {
+ for(const message of ['Does AgentOps have an email notification feature?','How does AgentOps store contact information?']) {
+ assert.match(portfolioReply(message).reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(portfolioReply(message).reply,/l.fanampe@gmail.com/);
+ }
+ assert.doesNotMatch(portfolioReply('Tell me about AgentOps, not ChatSnap').reply,/ChatSnap/);
+ assert.doesNotMatch(portfolioReply('Tell me about ChatSnap, not Agent Handoff').reply,/recovery prototype/);
+ assert.equal(require('../netlify/functions/lib/project-matching').matchingProjects('Tell me about AgentOps, not ChatSnap').length,1);
+});
+
+test('person availability differs from project demo availability', () => {
+ assert.match(portfolioReply('Is he available to work on AgentOps?').reply,/l.fanampe@gmail.com/);
+ assert.doesNotMatch(portfolioReply('Is the AgentOps demo available?').reply,/l.fanampe@gmail.com/);
+});
+
+test('portfolio nouns, explicit email requests and project dates retain intent', () => {
+ for(const message of ['What does AgentOps use in addition to Telegram?','What is AgentOps built with apart from FastAPI?']) assert.doesNotMatch(portfolioReply(message).reply,/Other portfolio projects/);
+ for(const message of ['Can I email him about the AgentOps API?','What email should I use to ask about the AgentOps implementation?']) assert.match(portfolioReply(message).reply,/l.fanampe@gmail.com/);
+ assert.match(portfolioReply('Is Agent Handoff Kit used by AgentOps?').reply,/does not establish an integration/);
+ for(const message of ['When did he build AgentOps in Python?','When was Agent Handoff Kit built with Python?']) assert.doesNotMatch(portfolioReply(message).reply,/learning Python in 2022/);
+});
+
+test('generic implementation questions and non-project history remain unsupported', () => {
+ assert.doesNotMatch(portfolioReply('How can I implement agent handoff in my worker?').reply,/recovery prototype/);
+ assert.equal(require('../netlify/functions/lib/project-matching').matchingProjects('How can I implement agent handoff in my worker?').length,0);
+ for(const content of ['How can I contact Letlhogonolo?','Tell me about his education','Tell me about his work experience']) {
+ const reply=portfolioReply('How is authentication handled?',[{role:'user',content}]).reply;
+ assert.match(reply,/cannot answer general questions/);
+ }
+});
+
+test('conditional self-reference does not revive a previous project', () => {
+ const history=[{role:'user',content:'Tell me about ChatSnap'}];
+ assert.equal(search.codeQuery('Can AgentOps recover if it crashes?',history),'Can AgentOps recover if it crashes?');
+ assert.doesNotMatch(portfolioReply('Can AgentOps recover if it crashes?',history).reply,/ChatSnap/);
+ assert.match(portfolioReply('How does AgentOps compare to it?',history).reply,/ChatSnap-Extractor:/);
+});
+
+test('compact project identifiers share matching and prepared answers', () => {
+ assert.match(portfolioReply('Tell me about ChatSnapExtractor').reply,/Django, YOLO and PaddleOCR/);
+ assert.match(portfolioReply('Tell me about AgentOpsMobileCommandCenter').reply,/AgentOps Mobile Command Center connects/);
+});
+
+test('comma-separated project lists retain trailing short aliases', () => {
+ assert.match(portfolioReply('Tell me about ChatSnap, Agent Ops').reply,/AgentOps Mobile Command Center:/);
+ assert.match(portfolioReply('Tell me about AgentOps, Agent Handoff').reply,/Agent Handoff Kit:/);
+});
+
+test('relational endpoints retain trailing short project names', () => {
+ assert.match(portfolioReply('How is ChatSnap related to Agent Ops?').reply,/AgentOps Mobile Command Center:/);
+ assert.match(portfolioReply('Is ChatSnap built on Agent Handoff?').reply,/Agent Handoff Kit:/);
+ assert.match(portfolioReply('Does ChatSnap depend on Agent Handoff?').reply,/does not establish an integration/);
+});

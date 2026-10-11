@@ -8,7 +8,7 @@ AI EXPERIENCE: Next Sapien AI/ML Engineer (Dec 2023-Jan 2024): computer vision a
 
 SKILLS: TensorFlow, Keras, LangChain, NLP, OpenCV, OCR, RLHF, Python, FastAPI, Django, React, Docker, Git, Linux.
 
-PROJECTS: Papzin & Crew (streaming), PapzinAI (multi-agent), Task Tracker (FastAPI+PostgreSQL), TruthGuard (Llama 3 fake news), Vocal Thread (ElevenLabs+Gemini), VisualPro (WebGPU visualisation; first place at the WebGPU Hackathon), TalentFlow Bot, Arc-ZARDIAN (ZAR-USDC AI), SA ID Recognition, NextSapien Facial Analysis (Python, DeepFace, facial attribute recognition).
+PROJECTS: Agent Handoff Kit (Python/SQLite local worker recovery prototype; public demo handoff.djpapzin.com; no exactly-once guarantee for external APIs), AgentOps Mobile Command Center (FastAPI/SQLite dashboard and Telegram commands for agent supervision; demo mode and configurable live integrations), ChatSnap-Extractor (Django, YOLO and PaddleOCR; extracts messages, timestamps and emojis from screenshots), Papzin & Crew (streaming), PapzinAI (multi-agent), Task Tracker (FastAPI+PostgreSQL), TruthGuard (Llama 3 fake news), Vocal Thread (ElevenLabs+Gemini), VisualPro (WebGPU visualisation; first place at the WebGPU Hackathon), TalentFlow Bot, Arc-ZARDIAN (ZAR-USDC AI), SA ID Recognition, NextSapien Facial Analysis (Python, DeepFace, facial attribute recognition).
 
 HACKATHONS: VisualPro won first place at the WebGPU Hackathon. This is the documented win on the portfolio. ElevenLabs AI Audio Challenge and Geekle.us FR1 are participation entries, not documented wins. Multiple LabLab.ai certificates.
 

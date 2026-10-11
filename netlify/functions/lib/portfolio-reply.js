@@ -1,25 +1,60 @@
+const { codeQuery } = require('./project-query');
+const { matchingProjects } = require('./project-matching');
+const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
-  const isFollowUp = value => /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/.test(value.trim());
-  const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
-  const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
+  const expanded = codeQuery(message, history);
+  const genericFollowUp = /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/i.test(message.trim());
+  const topic = (matchingProjects(expanded).length || genericFollowUp ? expanded : message).toLowerCase();
+  const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire|email|phone|call)\s+(?:him|her|you|letlhogonolo|dj papzin)\b|\bwhat\s+(?:email|phone)(?:\s+address|\s+number)?\s+(?:should|can|do)\s+i\s+use\b/.test(text));
+  if (contactIntent || /\b(?:he|you|letlhogonolo|dj papzin)\s+(?:is\s+|are\s+)?available\b|\bavailability\s+(?:of|for)\s+(?:him|you|letlhogonolo|dj papzin)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
+  let namedNewProjects = matchingProjects(topic).filter(project => ['agent-handoff-kit','agentops-mobile-command-center','ChatSnap-Extractor'].includes(project.repo)).map(project => project.repo);
+  if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.repo === 'ChatSnap-Extractor' ? project.repo : project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
+  const applicationCollection = /\b(?:all|other)\s+(?:user|users|customer|customers|account|stored|saved)\s+(?:projects|repositories|repos)\b/i.test(topic);
+  if (namedNewProjects.length && !applicationCollection && /\b(projects|repositories|repos)\b/.test(topic) && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
+    const peers = ['Agent Handoff Kit','AgentOps Mobile Command Center','ChatSnap-Extractor','PapzinAI','Task Tracker','TruthGuard','Vocal Thread','VisualPro','Papzin & Crew'].filter(name => !namedNewProjects.includes(name));
+    return { reply: `${portfolioReply(namedNewProjects.length > 1 ? `Compare ${namedNewProjects.join(' and ')}` : namedNewProjects[0]).reply}\n\nOther portfolio projects include ${peers.join(', ')}. The prepared guide cannot perform a detailed comparison across unnamed projects. Name the projects you want to compare, or inspect their repository links in Projects.`, mode:'portfolio', model:'portfolio-guide' };
+  }
+  if (namedNewProjects.length > 1) {
+    const facts = namedNewProjects.map(name => {
+      const known = {
+        'Papzin & Crew': 'Papzin & Crew is a music platform featuring mega-mixes, Cruize Friday mixes, online radio and custom mix requests. DJ Papzin co-founded it in 2016 and has been DJing since 2012.',
+        'PapzinAI': 'PapzinAI coordinates coding agents and automated development workflows using Hermes, OpenClaw and custom workflows.',
+        'TruthGuard': 'TruthGuard analyses claims using Llama 3 and displays a classification with a confidence score.',
+        'Vocal Thread': 'Vocal Thread converts YouTube comments into audio using ElevenLabs and Gemini, with sentiment analysis and a Chat with Comments feature.',
+        'TalentFlow Bot': 'TalentFlow Bot supports candidate screening, interview scheduling and feedback collection.'
+      };
+      const supported = /^(Agent Handoff Kit|AgentOps Mobile Command Center|ChatSnap(?:-Extractor)?|Task Tracker|ID Recognition|SA ID Recognition|VisualPro|NextSapien Facial Analysis)$/i.test(name);
+      const answer = known[name] || (supported ? portfolioReply(name).reply : 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.');
+      return `${name}: ${/His projects include|I can help you explore/.test(answer) ? 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.' : answer}`;
+    }).join('\n\n');
+    const boundary = '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.';
+    return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
+  }
   let reply;
   const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
-  if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
+  if (namedNewProjects.includes('ChatSnap-Extractor')) {
+    reply = 'He built ChatSnap-Extractor at Next Sapien from December 2023 to January 2024. ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
+
+  } else if (!namedNewProjects.length && /\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
     reply = nextSapienWork;
-  } else if (/next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
+  } else if (!namedNewProjects.length && /next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
     reply = 'NextSapien Facial Analysis is a facial analysis project built with Python and DeepFace for facial attribute recognition. Its repository is github.com/djpapzin/NextSapien-Facial-Analysis.';
-  } else if (/next\s*sapien/.test(topic)) {
+  } else if (!namedNewProjects.length && /next\s*sapien/.test(topic)) {
     reply = nextSapienWork;
-  } else if (pythonMilestone && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
+  } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
     reply = 'He began learning Python in 2022. His recorded professional Python work includes building ChatSnap-Extractor at Next Sapien from December 2023 to January 2024.';
   } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
-  } else if (pythonMilestone && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
+  } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
+  } else if (namedNewProjects.includes('Agent Handoff Kit')) {
+    reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
+  } else if (namedNewProjects.includes('AgentOps Mobile Command Center')) {
+    reply = 'AgentOps Mobile Command Center connects Telegram commands and a FastAPI dashboard to a SQLite run log for supervising agent workflows, model routing and approvals. Demo mode works without provider credentials; live integrations require configuration. Open its Projects card for the recorded demo and repository.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
   } else if (/music|\bdj\b|djing|mix|crew|radio/.test(topic.replace(/\bdj papzin\b/g, '')) && !/project|experience|who/.test(topic)) {
@@ -33,7 +68,7 @@ function portfolioReply(message, history = []) {
   } else if (/\bvisualpro\b/.test(topic)) {
     reply = 'VisualPro won first place at the WebGPU Hackathon. It uses WebGPU and Three.js for 3D data visualisation, with Node.js API endpoints and SQLite storage. Open its project card for the presentation and source code.';
   } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
-    reply = 'His projects include PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
+    reply = 'His projects include Agent Handoff Kit (local worker recovery), AgentOps Mobile Command Center (Telegram agent supervision), ChatSnap-Extractor (screenshot OCR), PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
   } else if (/experience|years|career|background|work history|worked|work experience/.test(topic) || employerContext) {
     reply = 'Letlhogonolo started learning Python in 2022. His AI work includes computer vision at Next Sapien from December 2023 to January 2024, RLHF training at Outlier.ai from July 2024 to 2025, AI prompt evaluation at Translated from October 2024 to December 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
   } else if (/skill|python|stack|technology|technologies|rag|langchain|nlp/.test(topic)) {
