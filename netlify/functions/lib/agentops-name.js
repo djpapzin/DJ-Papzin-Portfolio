@@ -3,6 +3,7 @@ function shortNameIsSubject(message, repo, pattern) {
  const text = message.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
  const subject = text.match(pattern);
  if (!subject) return false;
+ if (message.split(/[,;|]/).slice(1).some(part => part.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().match(pattern)?.index === 0)) return true;
  if (/\b(?:implement|add|build|enable|create)\s+$/.test(text.slice(0,subject.index)) && /\b(?:in|for|within)\s+(?:my|our|a|an)\b/.test(text.slice(subject.index+subject[0].length))) return false;
  if (!text.slice(0,subject.index).trim()) return true;
  if (/\b(?:and|or|with)\s+$/.test(text.slice(0,subject.index))) return true;

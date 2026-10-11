@@ -638,3 +638,8 @@ test('compact project identifiers share matching and prepared answers', () => {
  assert.match(portfolioReply('Tell me about ChatSnapExtractor').reply,/Django, YOLO and PaddleOCR/);
  assert.match(portfolioReply('Tell me about AgentOpsMobileCommandCenter').reply,/AgentOps Mobile Command Center connects/);
 });
+
+test('comma-separated project lists retain trailing short aliases', () => {
+ assert.match(portfolioReply('Tell me about ChatSnap, Agent Ops').reply,/AgentOps Mobile Command Center:/);
+ assert.match(portfolioReply('Tell me about AgentOps, Agent Handoff').reply,/Agent Handoff Kit:/);
+});
