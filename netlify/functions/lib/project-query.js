@@ -32,8 +32,8 @@ function codeQuery(message, history = []) {
   if (isNewTopic(message) && !referentialComparison) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.
-  const previous = [...history].reverse().find(turn => turn.role === 'user' && isNewTopic(turn.content));
-  return previous ? `${previous.content}\n${message}` : message;
+  const previousIndex = history.findLastIndex(turn => turn.role === 'user' && isNewTopic(turn.content));
+  return previousIndex >= 0 ? `${codeQuery(history[previousIndex].content, history.slice(0, previousIndex))}\n${message}` : message;
 }
 
 module.exports = { codeQuery, shouldSearchCode };

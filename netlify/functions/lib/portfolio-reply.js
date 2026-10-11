@@ -4,9 +4,7 @@ const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
-  const isFollowUp = value => /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/.test(value.trim());
-  const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
-  const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : codeQuery(message, history).toLowerCase();
+  const topic = codeQuery(message, history).toLowerCase();
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = [
@@ -20,6 +18,7 @@ function portfolioReply(message, history = []) {
   if (namedNewProjects.length > 1) {
     const facts = namedNewProjects.map(name => {
       const known = {
+        'Papzin & Crew': 'Papzin & Crew is a music platform featuring mega-mixes, Cruize Friday mixes, online radio and custom mix requests. DJ Papzin co-founded it in 2016 and has been DJing since 2012.',
         'PapzinAI': 'PapzinAI coordinates coding agents and automated development workflows using Hermes, OpenClaw and custom workflows.',
         'TruthGuard': 'TruthGuard analyses claims using Llama 3 and displays a classification with a confidence score.',
         'Vocal Thread': 'Vocal Thread converts YouTube comments into audio using ElevenLabs and Gemini, with sentiment analysis and a Chat with Comments feature.',

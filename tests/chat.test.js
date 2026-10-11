@@ -506,3 +506,10 @@ test('referential comparisons retain the prior project in prepared answers', () 
 test('ChatSnap comparison keeps its prepared implementation facts', () => {
  assert.match(portfolioReply('Compare ChatSnap with AgentOps').reply,/Django, YOLO and PaddleOCR/);
 });
+
+test('generic follow-up preserves resolved comparison subjects and music facts', () => {
+ const reply=portfolioReply('Tell me more',[{role:'user',content:'Tell me about AgentOps'},{role:'user',content:'How does it compare to Agent Handoff?'}]).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/Agent Handoff Kit:/);
+ assert.match(portfolioReply('Compare AgentOps with Papzin & Crew').reply,/online radio and custom mix requests/);
+});
