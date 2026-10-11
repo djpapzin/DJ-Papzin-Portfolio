@@ -513,3 +513,9 @@ test('generic follow-up preserves resolved comparison subjects and music facts',
  assert.match(reply,/Agent Handoff Kit:/);
  assert.match(portfolioReply('Compare AgentOps with Papzin & Crew').reply,/online radio and custom mix requests/);
 });
+
+test('possessive wording keeps an explicit project topic switch', () => {
+ const history=[{role:'user',content:'Tell me about ChatSnap'}];
+ assert.equal(search.codeQuery('How does AgentOps handle its commands?',history),'How does AgentOps handle its commands?');
+ assert.doesNotMatch(portfolioReply('How does AgentOps handle its commands?',history).reply,/ChatSnap/);
+});
