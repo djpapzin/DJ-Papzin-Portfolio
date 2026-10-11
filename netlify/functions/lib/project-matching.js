@@ -8,6 +8,7 @@ function matchingProjects(message) {
     const letters = normalizedName(name).replace(/ /g, '').split('').join('\\s*');
     const match = text.match(new RegExp(`\\b${letters}\\b`));
     if (!match) return false;
+    if (/\b(?:not|except|excluding|rather than|instead of)\s+(?:the\s+)?$/.test(text.slice(0,match.index))) return false;
     if (project.descriptive && /\b(?:a|an|any|built in)\s+$/.test(text.slice(0,match.index)) && !message.toLowerCase().includes(name.includes('-') ? name.toLowerCase() : '__no_identifier__')) return false;
     return true;
   }));

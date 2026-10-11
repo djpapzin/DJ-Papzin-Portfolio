@@ -5,7 +5,8 @@ const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
   const topic = codeQuery(message, history).toLowerCase();
-  if (/\b(contact|email|hire|freelance|reach|phone)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
+  const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire)\s+(?:him|her|you|letlhogonolo|dj papzin)\b/.test(text));
+  if (contactIntent) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = [
@@ -37,7 +38,7 @@ function portfolioReply(message, history = []) {
   }
   let reply;
   const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
-  if (/\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic)) {
+  if (namedNewProjects.includes('ChatSnap-Extractor')) {
     reply = 'He built ChatSnap-Extractor at Next Sapien from December 2023 to January 2024. ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
 
   } else if (!namedNewProjects.length && /\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
@@ -52,9 +53,9 @@ function portfolioReply(message, history = []) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (pythonMilestone && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
     reply = 'Letlhogonolo started learning Python in 2022.';
-  } else if (namesAgentHandoff(topic)) {
+  } else if (namedNewProjects.includes('Agent Handoff Kit')) {
     reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
-  } else if (namesAgentOps(topic)) {
+  } else if (namedNewProjects.includes('AgentOps Mobile Command Center')) {
     reply = 'AgentOps Mobile Command Center connects Telegram commands and a FastAPI dashboard to a SQLite run log for supervising agent workflows, model routing and approvals. Demo mode works without provider credentials; live integrations require configuration. Open its Projects card for the recorded demo and repository.';
   } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
     reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';

@@ -595,3 +595,13 @@ test('application project collections do not expand portfolio peers', () => {
  assert.match(reply,/AgentOps Mobile Command Center connects/);
  assert.doesNotMatch(reply,/Other portfolio projects include/);
 });
+
+test('feature contact words and excluded projects preserve user intent', () => {
+ for(const message of ['Does AgentOps have an email notification feature?','How does AgentOps store contact information?']) {
+ assert.match(portfolioReply(message).reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(portfolioReply(message).reply,/l.fanampe@gmail.com/);
+ }
+ assert.doesNotMatch(portfolioReply('Tell me about AgentOps, not ChatSnap').reply,/ChatSnap/);
+ assert.doesNotMatch(portfolioReply('Tell me about ChatSnap, not Agent Handoff').reply,/recovery prototype/);
+ assert.equal(require('../netlify/functions/lib/project-matching').matchingProjects('Tell me about AgentOps, not ChatSnap').length,1);
+});
