@@ -14,7 +14,8 @@ function portfolioReply(message, history = []) {
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
   if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.repo === 'ChatSnap-Extractor' ? project.repo : project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
-  if (namedNewProjects.length && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
+  const applicationCollection = /\b(?:all|other)\s+(?:user|users|customer|customers|account|stored|saved)\s+(?:projects|repositories|repos)\b/i.test(topic);
+  if (namedNewProjects.length && !applicationCollection && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
     const peers = ['Agent Handoff Kit','AgentOps Mobile Command Center','ChatSnap-Extractor','PapzinAI','Task Tracker','TruthGuard','Vocal Thread','VisualPro','Papzin & Crew'].filter(name => !namedNewProjects.includes(name));
     return { reply: `${portfolioReply(namedNewProjects.length > 1 ? `Compare ${namedNewProjects.join(' and ')}` : namedNewProjects[0]).reply}\n\nOther portfolio projects include ${peers.join(', ')}. The prepared guide cannot perform a detailed comparison across unnamed projects. Name the projects you want to compare, or inspect their repository links in Projects.`, mode:'portfolio', model:'portfolio-guide' };
   }

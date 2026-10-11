@@ -589,3 +589,9 @@ test('project assistance handles contact, feature follow-ups and topic switches'
  const broad=portfolioReply('Compare ChatSnap with his other projects').reply.split('Other portfolio projects include')[1];
  assert.doesNotMatch(broad,/ChatSnap/);
 });
+
+test('application project collections do not expand portfolio peers', () => {
+ const reply=portfolioReply('How does AgentOps retrieve all user projects?').reply;
+ assert.match(reply,/AgentOps Mobile Command Center connects/);
+ assert.doesNotMatch(reply,/Other portfolio projects include/);
+});
