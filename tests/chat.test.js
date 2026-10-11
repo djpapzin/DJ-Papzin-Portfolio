@@ -564,3 +564,17 @@ test('broad peer requests state fallback limits and project lists ignore casing'
  assert.match(portfolioReply(message).reply,/prepared guide does not have a detailed overview/);
  }
 });
+
+test('ordinary relationships and broad comparisons retain every named subject', () => {
+ const reply=portfolioReply('How does AgentOps work with it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.match(reply,/ChatSnap:/);
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/does not establish an integration/);
+ const broad=portfolioReply('Compare AgentOps and Agent Handoff with his other projects').reply;
+ assert.match(broad,/AgentOps Mobile Command Center:/);
+ assert.match(broad,/Agent Handoff Kit:/);
+ const file=(path,content)=>({repo:'Arc-ZARDIAN',name:path,path,summary:content,content,keywords:['arc','zardian']});
+ const results=search.searchCode('Explain Arc-ZARDIAN implementation',5,{files:[file('app.py','Arc-ZARDIAN implementation'),file('docs/telegram-bot-setup.md','Arc-ZARDIAN Telegram setup')]}).results;
+ assert.equal(results.length,1);
+ assert.equal(results[0].path,'app.py');
+});
