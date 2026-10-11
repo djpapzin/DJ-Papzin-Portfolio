@@ -492,3 +492,13 @@ test('referential comparisons retain the prior project in prepared answers', () 
  assert.match(reply,/FastAPI dashboard/);
  assert.match(reply,/durable checkpoint/);
 });
+
+ test('shorthand subjects and relational endpoints retain project identity', () => {
+ for (const name of ['Agent Handoff','Agent Ops']) {
+ assert.match(portfolioReply(`${name} for PapzinAI`).reply, /recovery prototype|Mobile Command Center connects/);
+ const reply=portfolioReply(`Can PapzinAI connect to ${name}?`).reply;
+ assert.match(reply,/PapzinAI:/);
+ assert.match(reply,/does not establish an integration/);
+ }
+ assert.doesNotMatch(portfolioReply('Compare AgentOps with RAG-PDF-Chatbot').reply,/His skills include/);
+ });
