@@ -486,3 +486,9 @@ test('comparison expansion shares source-search feature disambiguation', () => {
  assert.match(reply,/FastAPI dashboard/);
  assert.doesNotMatch(reply,/Task Tracker:|PostgreSQL|does not establish an integration/);
 });
+
+test('referential comparisons retain the prior project in prepared answers', () => {
+ const reply=portfolioReply('How does it compare to Agent Handoff?', [{role:'user',content:'Tell me about AgentOps'}]).reply;
+ assert.match(reply,/FastAPI dashboard/);
+ assert.match(reply,/durable checkpoint/);
+});

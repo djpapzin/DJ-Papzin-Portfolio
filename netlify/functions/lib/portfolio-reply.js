@@ -1,3 +1,4 @@
+const { codeQuery } = require('./project-query');
 const { matchingProjects } = require('./project-matching');
 const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
@@ -5,7 +6,7 @@ function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
   const isFollowUp = value => /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/.test(value.trim());
   const previous = [...history].reverse().find(turn => turn.role === 'user' && !isFollowUp(turn.content.toLowerCase()));
-  const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
+  const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : codeQuery(message, history).toLowerCase();
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = [
