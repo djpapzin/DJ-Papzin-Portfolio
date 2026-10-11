@@ -502,3 +502,7 @@ test('referential comparisons retain the prior project in prepared answers', () 
  }
  assert.doesNotMatch(portfolioReply('Compare AgentOps with RAG-PDF-Chatbot').reply,/His skills include/);
  });
+
+test('ChatSnap comparison keeps its prepared implementation facts', () => {
+ assert.match(portfolioReply('Compare ChatSnap with AgentOps').reply,/Django, YOLO and PaddleOCR/);
+});

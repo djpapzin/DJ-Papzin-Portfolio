@@ -25,7 +25,7 @@ function portfolioReply(message, history = []) {
         'Vocal Thread': 'Vocal Thread converts YouTube comments into audio using ElevenLabs and Gemini, with sentiment analysis and a Chat with Comments feature.',
         'TalentFlow Bot': 'TalentFlow Bot supports candidate screening, interview scheduling and feedback collection.'
       };
-      const supported = /^(Agent Handoff Kit|AgentOps Mobile Command Center|ChatSnap-Extractor|Task Tracker|ID Recognition|SA ID Recognition|VisualPro|NextSapien Facial Analysis)$/i.test(name);
+      const supported = /^(Agent Handoff Kit|AgentOps Mobile Command Center|ChatSnap(?:-Extractor)?|Task Tracker|ID Recognition|SA ID Recognition|VisualPro|NextSapien Facial Analysis)$/i.test(name);
       const answer = known[name] || (supported ? portfolioReply(name).reply : 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.');
       return `${name}: ${/His projects include|I can help you explore/.test(answer) ? 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.' : answer}`;
     }).join('\n\n');
