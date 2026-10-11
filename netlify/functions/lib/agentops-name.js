@@ -17,7 +17,7 @@ function shortNameIsSubject(message, repo, pattern) {
  }));
 }
 function namesAgentOps(message) {
- if (/\bagentops\b|\bagent[ -]?ops[ -]mobile[ -]command[ -]center\b/i.test(message)) return true;
+ if (/\bagentops\b|\bagent[ -]?ops[ -]?mobile[ -]?command[ -]?center\b/i.test(message)) return true;
  return shortNameIsSubject(message,'agentops-mobile-command-center',/\bagent ops\b/);
 }
 function namesAgentHandoff(message) {

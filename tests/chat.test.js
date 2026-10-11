@@ -633,3 +633,8 @@ test('conditional self-reference does not revive a previous project', () => {
  assert.doesNotMatch(portfolioReply('Can AgentOps recover if it crashes?',history).reply,/ChatSnap/);
  assert.match(portfolioReply('How does AgentOps compare to it?',history).reply,/ChatSnap-Extractor:/);
 });
+
+test('compact project identifiers share matching and prepared answers', () => {
+ assert.match(portfolioReply('Tell me about ChatSnapExtractor').reply,/Django, YOLO and PaddleOCR/);
+ assert.match(portfolioReply('Tell me about AgentOpsMobileCommandCenter').reply,/AgentOps Mobile Command Center connects/);
+});
