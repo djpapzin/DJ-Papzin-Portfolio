@@ -470,3 +470,12 @@ test('multi-project fallback explains both projects without inventing an integra
  assert.match(reply,/durable checkpoint/);
  assert.match(reply,/does not establish an integration/);
 });
+
+test('mixed comparisons retain older project facts', () => {
+ const tasks=portfolioReply('Compare AgentOps with Task Tracker').reply;
+ assert.match(tasks,/FastAPI dashboard/);
+ assert.match(tasks,/PostgreSQL/);
+ const agents=portfolioReply('How does Agent Handoff differ from PapzinAI?').reply;
+ assert.match(agents,/durable checkpoint/);
+ assert.match(agents,/Hermes, OpenClaw/);
+});

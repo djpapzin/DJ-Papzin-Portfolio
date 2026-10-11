@@ -7,13 +7,29 @@ function portfolioReply(message, history = []) {
   const topic = isFollowUp(text) ? (previous?.content.toLowerCase() || text) : text;
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
-  const namedNewProjects = [
+  let namedNewProjects = [
     namesAgentHandoff(topic) && 'Agent Handoff Kit',
     namesAgentOps(topic) && 'AgentOps Mobile Command Center',
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
+  if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|work together/.test(topic)) {
+    const text = topic.replace(/[^a-z0-9]+/g, ' ');
+    namedNewProjects = require('./project-catalog.json').filter(project => project.names.some(name => {
+      const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
+      return new RegExp(`\\b${letters}\\b`).test(text);
+    })).map(project => project.names.find(name => name.includes(' ')) || project.names[0]);
+  }
   if (namedNewProjects.length > 1) {
-    const facts = namedNewProjects.map(name => portfolioReply(name).reply).join('\n\n');
+    const facts = namedNewProjects.map(name => {
+      const known = {
+        'PapzinAI': 'PapzinAI coordinates coding agents and automated development workflows using Hermes, OpenClaw and custom workflows.',
+        'TruthGuard': 'TruthGuard analyses claims using Llama 3 and displays a classification with a confidence score.',
+        'Vocal Thread': 'Vocal Thread converts YouTube comments into audio using ElevenLabs and Gemini, with sentiment analysis and a Chat with Comments feature.',
+        'TalentFlow Bot': 'TalentFlow Bot supports candidate screening, interview scheduling and feedback collection.'
+      };
+      const answer = known[name] || portfolioReply(name).reply;
+      return `${name}: ${/His projects include|I can help you explore/.test(answer) ? 'The prepared guide does not have a detailed overview of this project. Inspect its repository for implementation details.' : answer}`;
+    }).join('\n\n');
     const boundary = /integrat|connect|interact|work together/.test(topic) ? '\n\nThe prepared portfolio information does not establish an integration between these projects. Inspect their repositories or ask Letlhogonolo before assuming they work together.' : '';
     return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
   }
