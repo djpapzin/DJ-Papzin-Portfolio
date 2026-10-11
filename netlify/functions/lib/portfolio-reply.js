@@ -5,6 +5,7 @@ const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
   const topic = codeQuery(message, history).toLowerCase();
+  if (/\b(contact|email|hire|freelance|reach|phone)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = [
@@ -12,7 +13,7 @@ function portfolioReply(message, history = []) {
     namesAgentOps(topic) && 'AgentOps Mobile Command Center',
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
-  if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
+  if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.repo === 'ChatSnap-Extractor' ? project.repo : project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   if (namedNewProjects.length && /\b(?:other|all|across)\s+(?:\w+\s+){0,2}(?:projects|repositories|repos)\b|\b(?:besides|apart from|in addition to)\b/.test(topic)) {
     const peers = ['Agent Handoff Kit','AgentOps Mobile Command Center','ChatSnap-Extractor','PapzinAI','Task Tracker','TruthGuard','Vocal Thread','VisualPro','Papzin & Crew'].filter(name => !namedNewProjects.includes(name));
     return { reply: `${portfolioReply(namedNewProjects.length > 1 ? `Compare ${namedNewProjects.join(' and ')}` : namedNewProjects[0]).reply}\n\nOther portfolio projects include ${peers.join(', ')}. The prepared guide cannot perform a detailed comparison across unnamed projects. Name the projects you want to compare, or inspect their repository links in Projects.`, mode:'portfolio', model:'portfolio-guide' };
@@ -38,11 +39,11 @@ function portfolioReply(message, history = []) {
   if (/\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic)) {
     reply = 'He built ChatSnap-Extractor at Next Sapien from December 2023 to January 2024. ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
 
-  } else if (/\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
+  } else if (!namedNewProjects.length && /\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
     reply = nextSapienWork;
-  } else if (/next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
+  } else if (!namedNewProjects.length && /next\s*sapien/.test(topic) && /facial|deepface|project|technolog|stack|code|system/.test(topic)) {
     reply = 'NextSapien Facial Analysis is a facial analysis project built with Python and DeepFace for facial attribute recognition. Its repository is github.com/djpapzin/NextSapien-Facial-Analysis.';
-  } else if (/next\s*sapien/.test(topic)) {
+  } else if (!namedNewProjects.length && /next\s*sapien/.test(topic)) {
     reply = nextSapienWork;
   } else if (pythonMilestone && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
     reply = 'He began learning Python in 2022. His recorded professional Python work includes building ChatSnap-Extractor at Next Sapien from December 2023 to January 2024.';

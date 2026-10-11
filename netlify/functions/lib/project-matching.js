@@ -22,7 +22,7 @@ function matchingProjects(message) {
     const crew = projectCatalog.find(project => project.repo === 'PapzinCrew-Music-Streaming-Platform');
     if (!matches.includes(crew)) matches.push(crew);
   }
-  if (nextSapienWork) {
+  if (nextSapienWork && (!matches.length || /\b(?:the|his)\s+(?:project|tool|system)\s+(?:he\s+)?(?:built|developed|made)\s+at\s+next\s*sapien\b/i.test(message))) {
     const chatSnap = projectCatalog.find(project => project.repo === 'ChatSnap-Extractor');
     if (!matches.includes(chatSnap)) matches.push(chatSnap);
   }

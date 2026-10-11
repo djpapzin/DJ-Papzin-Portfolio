@@ -539,7 +539,7 @@ test('project relationships distinguish features, identifiers and prior subjects
  assert.deepEqual(matching('Does AgentOps integrate case management AI features?').map(p=>p.repo),['agentops-mobile-command-center']);
  assert.deepEqual(matching('Compare AgentOps with PapzinAI-Task-Tracker').map(p=>p.repo),['PapzinAI-Task-Tracker','agentops-mobile-command-center']);
  const reply=portfolioReply('How does AgentOps relate to it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
- assert.match(reply,/ChatSnap:/);
+ assert.match(reply,/ChatSnap-Extractor:/);
  assert.match(reply,/does not establish an integration/);
  const index={files:[{repo:'agentops-mobile-command-center',name:'README.md',keywords:['agentops'],path:'README.md',content:'AgentOps Telegram commands',summary:'AgentOps Telegram commands'},{repo:'ChatSnap-Extractor',name:'README.md',keywords:['chatsnap'],path:'README.md',content:'ChatSnap project',summary:'ChatSnap project'}]};
  assert.ok(search.searchCode('Compare AgentOps with his other projects',5,index).results.some(f=>f.repo==='agentops-mobile-command-center'));
@@ -567,7 +567,7 @@ test('broad peer requests state fallback limits and project lists ignore casing'
 
 test('ordinary relationships and broad comparisons retain every named subject', () => {
  const reply=portfolioReply('How does AgentOps work with it?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
- assert.match(reply,/ChatSnap:/);
+ assert.match(reply,/ChatSnap-Extractor:/);
  assert.match(reply,/AgentOps Mobile Command Center:/);
  assert.match(reply,/does not establish an integration/);
  const broad=portfolioReply('Compare AgentOps and Agent Handoff with his other projects').reply;
@@ -577,4 +577,15 @@ test('ordinary relationships and broad comparisons retain every named subject', 
  const results=search.searchCode('Explain Arc-ZARDIAN implementation',5,{files:[file('app.py','Arc-ZARDIAN implementation'),file('docs/telegram-bot-setup.md','Arc-ZARDIAN Telegram setup')]}).results;
  assert.equal(results.length,1);
  assert.equal(results[0].path,'app.py');
+});
+
+test('project assistance handles contact, feature follow-ups and topic switches', () => {
+ const history=[{role:'user',content:'Tell me about AgentOps'}];
+ for(const message of ['How do Telegram commands work?','How are approvals handled?','How does model routing work?']) assert.match(portfolioReply(message,history).reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('How can I contact him about AgentOps?').reply,/l.fanampe@gmail.com/);
+ const switched=portfolioReply('Is it possible to deploy AgentOps?',[{role:'user',content:'Tell me about ChatSnap'}]).reply;
+ assert.doesNotMatch(switched,/ChatSnap/);
+ assert.doesNotMatch(portfolioReply('Was AgentOps built at Next Sapien?').reply,/ChatSnap/);
+ const broad=portfolioReply('Compare ChatSnap with his other projects').reply.split('Other portfolio projects include')[1];
+ assert.doesNotMatch(broad,/ChatSnap/);
 });
