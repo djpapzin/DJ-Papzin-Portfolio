@@ -519,3 +519,8 @@ test('possessive wording keeps an explicit project topic switch', () => {
  assert.equal(search.codeQuery('How does AgentOps handle its commands?',history),'How does AgentOps handle its commands?');
  assert.doesNotMatch(portfolioReply('How does AgentOps handle its commands?',history).reply,/ChatSnap/);
 });
+
+test('descriptive feature wording does not create a relational project', () => {
+ assert.deepEqual(require('../netlify/functions/lib/project-matching').matchingProjects('Does AgentOps integrate a comment scope setting?').map(p=>p.repo),['agentops-mobile-command-center']);
+ assert.doesNotMatch(portfolioReply('Does AgentOps integrate a comment scope setting?').reply,/Comment-Scope:/);
+});
