@@ -6,7 +6,7 @@ function portfolioReply(message, history = []) {
   const text = message.toLowerCase();
   const topic = codeQuery(message, history).toLowerCase();
   const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire)\s+(?:him|her|you|letlhogonolo|dj papzin)\b/.test(text));
-  if (contactIntent) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
+  if (contactIntent || /\b(?:he|you|letlhogonolo|dj papzin)\s+(?:is\s+|are\s+)?available\b|\bavailability\s+(?:of|for)\s+(?:him|you|letlhogonolo|dj papzin)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = [

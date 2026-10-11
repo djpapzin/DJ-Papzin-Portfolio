@@ -605,3 +605,8 @@ test('feature contact words and excluded projects preserve user intent', () => {
  assert.doesNotMatch(portfolioReply('Tell me about ChatSnap, not Agent Handoff').reply,/recovery prototype/);
  assert.equal(require('../netlify/functions/lib/project-matching').matchingProjects('Tell me about AgentOps, not ChatSnap').length,1);
 });
+
+test('person availability differs from project demo availability', () => {
+ assert.match(portfolioReply('Is he available to work on AgentOps?').reply,/l.fanampe@gmail.com/);
+ assert.doesNotMatch(portfolioReply('Is the AgentOps demo available?').reply,/l.fanampe@gmail.com/);
+});
