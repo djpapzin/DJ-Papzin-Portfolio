@@ -617,3 +617,12 @@ test('portfolio nouns, explicit email requests and project dates retain intent',
  assert.match(portfolioReply('Is Agent Handoff Kit used by AgentOps?').reply,/does not establish an integration/);
  for(const message of ['When did he build AgentOps in Python?','When was Agent Handoff Kit built with Python?']) assert.doesNotMatch(portfolioReply(message).reply,/learning Python in 2022/);
 });
+
+test('generic implementation questions and non-project history remain unsupported', () => {
+ assert.doesNotMatch(portfolioReply('How can I implement agent handoff in my worker?').reply,/recovery prototype/);
+ assert.equal(require('../netlify/functions/lib/project-matching').matchingProjects('How can I implement agent handoff in my worker?').length,0);
+ for(const content of ['How can I contact Letlhogonolo?','Tell me about his education','Tell me about his work experience']) {
+ const reply=portfolioReply('How is authentication handled?',[{role:'user',content}]).reply;
+ assert.match(reply,/cannot answer general questions/);
+ }
+});
