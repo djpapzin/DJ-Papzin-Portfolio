@@ -12,7 +12,7 @@ function portfolioReply(message, history = []) {
     namesAgentOps(topic) && 'AgentOps Mobile Command Center',
     /\bchat[ -]?snap(?:[ -]extractor)?\b/.test(topic) && 'ChatSnap-Extractor'
   ].filter(Boolean);
-  if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|relat|work together/.test(topic)) {
+  if (namedNewProjects.length && /compare|comparison|differ|versus|\bvs\b|integrat|connect|interact|relat|work together|\band\b|\bboth\b|\balso\b|[,;]/.test(topic)) {
     namedNewProjects = matchingProjects(topic).map(project => project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
   }
   if (namedNewProjects.length > 1) {

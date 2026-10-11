@@ -544,3 +544,11 @@ test('project relationships distinguish features, identifiers and prior subjects
  const index={files:[{repo:'agentops-mobile-command-center',name:'README.md',keywords:['agentops'],path:'README.md',content:'AgentOps Telegram commands',summary:'AgentOps Telegram commands'},{repo:'ChatSnap-Extractor',name:'README.md',keywords:['chatsnap'],path:'README.md',content:'ChatSnap project',summary:'ChatSnap project'}]};
  assert.ok(search.searchCode('Compare AgentOps with his other projects',5,index).results.some(f=>f.repo==='agentops-mobile-command-center'));
 });
+
+test('ordinary multi-project requests include every explicit subject', () => {
+ for(const message of ['Tell me about AgentOps and TruthGuard','Tell me about AgentOps, TruthGuard']) {
+ const reply=portfolioReply(message).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/TruthGuard:/);
+ }
+});
