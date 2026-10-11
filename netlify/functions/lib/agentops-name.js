@@ -3,6 +3,7 @@ function shortNameIsSubject(message, repo, pattern) {
  const text = message.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
  const subject = text.match(pattern);
  if (!subject) return false;
+ if (/\b(?:how does|how do|does|can|will|is|tell me about)\s+$/.test(text.slice(0,subject.index))) return true;
  return !catalog.some(project => project.repo !== repo && project.names.some(name => {
   const letters = name.toLowerCase().replace(/[^a-z0-9]/g, '').split('').join('\\s*');
   const other = text.match(new RegExp(`\\b${letters}\\b`));

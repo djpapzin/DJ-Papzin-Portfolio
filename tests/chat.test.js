@@ -458,3 +458,8 @@ test('recovery alias normalization does not mistake relational feature wording f
  assert.match(portfolioReply('Tell me about AgentHandoff').reply,/durable checkpoint/);
  assert.doesNotMatch(portfolioReply('Does PapzinAI integrate agent handoff support?').reply,/Agent Handoff Kit is/);
 });
+
+test('short project subjects survive for complements', () => {
+ assert.match(portfolioReply('How does Agent Ops work for PapzinAI?').reply,/AgentOps Mobile Command Center connects/);
+ assert.match(portfolioReply('How does Agent Handoff work for PapzinAI?').reply,/durable checkpoint/);
+});
