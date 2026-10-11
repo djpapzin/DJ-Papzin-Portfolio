@@ -548,7 +548,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
 .case-study { margin: 1rem 0; line-height: 1.6; }
 .case-study summary { cursor: pointer; color: var(--neon-cyan); }
 .project-contact { border: 0; background: none; padding: 0; color: var(--neon-cyan); font: inherit; font-size: .8rem; cursor: pointer; text-decoration: none; }
-.project-card .btn { margin-top: 1rem; font-size: .7rem; }
+.project-card .btn { display: inline-block; margin-top: 1rem; font-size: .7rem; }
 .msg.bot { overflow-wrap: anywhere; }
 .msg.bot p + p { margin-top: .7rem; }
 .chat-sources { margin-top: .7rem; border-top: 1px solid #333; padding-top: .5rem; font-size: .75rem; }
@@ -605,8 +605,8 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
 <section id="featured-work">
   <p class="section-label">Selected work</p><h2>Ideas into working tools</h2>
   <div class="projects-grid">
+<article class="project-card"><img class="project-preview" src="assets/agent-handoff.png" alt="Agent Handoff Kit recovery demo" loading="lazy"><h3>Agent Handoff Kit</h3><p>A Python and SQLite prototype that resumes interrupted work from a saved checkpoint.</p><a class="btn btn-outline" href="case-studies/agent-handoff.html">Read case study</a></article>
 <article class="project-card"><img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard project preview" loading="lazy"><h3>TruthGuard</h3><p>Claim analysis with a classification and confidence score.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-truthguard')">Explore project</button></article>
-<article class="project-card"><img class="project-preview" src="assets/visualpro.jpg" alt="VisualPro project preview" loading="lazy"><h3>VisualPro</h3><p>WebGPU data visualisation. First place at the WebGPU Hackathon.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-visualpro')">Explore project</button></article>
 <article class="project-card"><img class="project-preview" src="assets/vocal-thread.jpeg" alt="Vocal Thread project logo with a speech bubble" loading="lazy" width="1024" height="1024"><h3>Vocal Thread</h3><p>YouTube audience feedback turned into spoken summaries.</p><button class="btn btn-outline" onclick="switchTab('projects', 'project-vocal-thread')">Explore project</button></article>
   </div>
 </section>
@@ -626,8 +626,8 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
     <div class="about-stats">
       <div class="stat-card"><div class="number">2012</div><div class="label">DJing since</div></div>
       <div class="stat-card"><div class="number">8</div><div class="label">Years in a Lab</div></div>
-      <div class="stat-card"><div class="number">1</div><div class="label">WebGPU Hackathon win</div></div>
       <div class="stat-card"><div class="number">4</div><div class="label">Years building with Python</div></div>
+      <div class="stat-card"><div class="number">1</div><div class="label">WebGPU Hackathon win</div></div>
     </div>
   </div>
 </section>
