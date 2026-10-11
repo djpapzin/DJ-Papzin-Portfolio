@@ -30,7 +30,10 @@ function codeQuery(message, history = []) {
   const referenceText = namedPatterns ? normalizedName(message).replace(new RegExp(`\\b(?:this|that|these|those)\\s+(?:the\\s+)?(?:${namedPatterns})\\b`, 'g'), '') : message;
   // Possessives inside an explicitly named subject describe that project.
   // Independent pronouns in a relationship question can refer to the prior one.
-  const referentialComparison = /\b(it|that|this|they|those|them|these)\b/i.test(referenceText) && /compare|comparison|differ|similar|versus|\bvs\b|integrat|connect|interact|work together/i.test(message) && named.length > 0;
+  const normalized = normalizedName(message);
+  const firstNamed = namedPatterns ? normalized.search(new RegExp(`\\b(?:${namedPatterns})\\b`)) : -1;
+  const leadingPossessive = firstNamed >= 0 && /\b(its|their)\b/i.test(normalized.slice(0,firstNamed));
+  const referentialComparison = (leadingPossessive || /\b(it|that|this|they|those|them|these)\b/i.test(referenceText)) && /compare|comparison|differ|similar|versus|\bvs\b|integrat|connect|interact|work together/i.test(message) && named.length > 0;
   if (isNewTopic(message) && !referentialComparison) return message;
   // Subject-less technical questions retain the latest named project. A new
   // biography topic also forms a boundary, so an older project is not revived.

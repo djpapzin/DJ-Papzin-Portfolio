@@ -524,3 +524,12 @@ test('descriptive feature wording does not create a relational project', () => {
  assert.deepEqual(require('../netlify/functions/lib/project-matching').matchingProjects('Does AgentOps integrate a comment scope setting?').map(p=>p.repo),['agentops-mobile-command-center']);
  assert.doesNotMatch(portfolioReply('Does AgentOps integrate a comment scope setting?').reply,/Comment-Scope:/);
 });
+
+test('difference wording and leading possessives retain both comparison projects', () => {
+ const comparison=portfolioReply('How do PapzinAI and Agent Ops differ?').reply;
+ assert.match(comparison,/PapzinAI:/);
+ assert.match(comparison,/AgentOps Mobile Command Center:/);
+ const reply=portfolioReply('How does its architecture compare to Agent Handoff?',[{role:'user',content:'Tell me about AgentOps'}]).reply;
+ assert.match(reply,/AgentOps Mobile Command Center:/);
+ assert.match(reply,/Agent Handoff Kit:/);
+});
