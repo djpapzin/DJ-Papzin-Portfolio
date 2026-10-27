@@ -46,8 +46,12 @@
 
 ## Portfolio chat
 
-The assistant works without an API key using prepared portfolio answers, visibly labelled as a portfolio guide. For free AI responses, create an OpenRouter account and set `OPENROUTER_API_KEY` in the Netlify project's environment variables (Functions scope), then redeploy. The assistant tries `liquid/lfm-2.5-2.6b:free`, then `google/gemma-4-26b-a4b-it:free`, within a bounded request budget. Free model availability and usage limits vary; when neither responds, the prepared portfolio guide answers instead. Both endpoints share the same biography facts. Do not put keys in the HTML, repository, or browser.
+The assistant uses live AI when a configured provider responds, with each response labelled in the chat. Both endpoints use the approved shared profile and retain conversation history. If all providers are unavailable, the visibly labelled prepared portfolio guide remains available.
 
-Paid provider fallback is disabled by default. Only set `CHAT_ALLOW_PAID_PROVIDERS=true` if you intentionally want to enable the configured OpenAI or Groq providers. Closing the panel preserves the current conversation until the page reloads.
+For Groq, set `GROQ_API_KEY` and, **only after confirming that key belongs to a Free-plan account**, `CHAT_GROQ_FREE_TIER=true` in the Netlify project environment, then redeploy. This tries `openai/gpt-oss-20b`, then `openai/gpt-oss-120b`. The owner confirmed the saved account is on the Free plan on 27 October 2026. Groq's retired Llama models are no longer used. This flag records the confirmed account plan; it cannot enforce Groq billing if someone later upgrades the account. Remove it before any plan upgrade unless paid usage is separately approved. See [Groq billing](https://console.groq.com/docs/billing-faqs) and [model deprecations](https://console.groq.com/docs/deprecations).
+
+`OPENROUTER_API_KEY` enables the free backup: `liquid/lfm-2.5-2.6b:free`, then `google/gemma-4-26b-a4b-it:free`. With a confirmed free Groq account, Groq is tried first. An account-wide OpenRouter free quota skips pointless retries on another model; structured limit reasons are logged without credentials or provider messages. Each request has a bounded time budget. [Free quotas](https://openrouter.ai/docs/api_reference/limits) still apply and cannot be bypassed by switching models. Do not put keys in the HTML, repository, or browser.
+
+Paid provider fallback is disabled by default. Keep `CHAT_ALLOW_PAID_PROVIDERS` unset for free-only operation. Setting the Groq free-tier flag does **not** enable OpenAI or paid fallback. Closing the panel preserves the current conversation until the page reloads.
 
 Run backend checks with `node --test tests/chat.test.js`.

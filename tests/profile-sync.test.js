@@ -8,6 +8,7 @@ const { portfolioReply } = require('../netlify/functions/lib/portfolio-reply');
 const { SYSTEM_PROMPT } = require('../netlify/functions/lib/portfolio-prompt');
 const chat = require('../netlify/functions/chat');
 const search = require('../netlify/functions/code-search');
+for (const key of ['OPENROUTER_API_KEY', 'OPENAI_API_KEY', 'GROQ_API_KEY', 'CHAT_ALLOW_PAID_PROVIDERS', 'CHAT_GROQ_FREE_TIER']) delete process.env[key];
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root,'index.html'),'utf8');
 
