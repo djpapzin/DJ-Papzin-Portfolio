@@ -63,8 +63,17 @@ test('both chatbot endpoints answer the verified title, dates, skills, availabil
       const response=await handler({httpMethod:'POST',body:JSON.stringify({message})});
       assert.equal(response.statusCode,200);
       const result=JSON.parse(response.body);assert.equal(result.mode,'portfolio');assert.match(result.reply,expected,message);
+      if (handler === search.handler && message === 'What CV projects has he built?') assert.deepEqual(result.sources, []);
     }
   } finally {process.env=saved;}
+});
+
+test('computer-vision overviews skip unrelated code while implementation questions still retrieve', () => {
+  assert.equal(search.shouldSearchCode('What CV projects has he built?'), false);
+  assert.equal(search.shouldSearchCode('Tell me about his computer vision experience'), false);
+  assert.equal(search.shouldSearchCode('Show me source code for his CV projects'), true);
+  assert.equal(search.shouldSearchCode('How do his computer vision projects work?'), true);
+  assert.equal(search.shouldSearchCode('What computer vision work does ChatSnap-Extractor do?'), true);
 });
 
 test('changing featured projects preserves every other project in model grounding', () => {
