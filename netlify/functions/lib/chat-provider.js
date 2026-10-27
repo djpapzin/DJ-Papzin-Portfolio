@@ -1,7 +1,7 @@
 const PROVIDERS = [
+  { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'] },
   { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['openrouter/free', 'liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
-  { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'] },
 ];
 function jsonResponse(statusCode, data) {
   return { statusCode, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' }, body: JSON.stringify(data) };
@@ -14,15 +14,11 @@ function parseConversation(body) {
   return { message: data.message.trim(), history };
 }
 async function requestReply(prompt, message, history = []) {
-  // Groq's free plan is account-specific. Enable it only after confirming the
-  // saved key belongs to a Free-plan account; this does not enable paid APIs.
-  const freeGroq = process.env.CHAT_GROQ_FREE_TIER === 'true';
+  // Groq needs only its key. OpenAI still requires an explicit paid opt-in.
   const available = PROVIDERS.filter(provider => process.env[provider.key] && (
-    provider.key === 'OPENROUTER_API_KEY' ||
-    (provider.key === 'GROQ_API_KEY' && freeGroq) ||
+    provider.key !== 'OPENAI_API_KEY' ||
     process.env.CHAT_ALLOW_PAID_PROVIDERS === 'true'
   ));
-  if (freeGroq) available.sort((a, b) => Number(b.key === 'GROQ_API_KEY') - Number(a.key === 'GROQ_API_KEY'));
   const deadline = Date.now() + 20000;
   for (const [index, provider] of available.entries()) {
     const apiKey = process.env[provider.key];
