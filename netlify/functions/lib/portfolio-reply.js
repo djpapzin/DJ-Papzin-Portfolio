@@ -1,5 +1,6 @@
+const { profile, period, roleById, identityAnswer, contactAnswer, experienceAnswer, skillsAnswer, educationAnswer, projectAnswer, musicAnswer } = require('../../../content/profile');
 const { codeQuery } = require('./project-query');
-const { matchingProjects } = require('./project-matching');
+const { matchingProjects, normalizedName } = require('./project-matching');
 const { namesAgentOps, namesAgentHandoff } = require('./agentops-name');
 // Grounded portfolio answers; no AI provider or API key is required.
 function portfolioReply(message, history = []) {
@@ -7,9 +8,13 @@ function portfolioReply(message, history = []) {
   const expanded = codeQuery(message, history);
   const genericFollowUp = /^(tell me more|more|what else|and that|can you explain)[?.! ]*$/i.test(message.trim());
   const topic = (matchingProjects(expanded).length || genericFollowUp ? expanded : message).toLowerCase();
-  const contactIntent = /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire|email|phone|call)\s+(?:him|her|you|letlhogonolo|dj papzin)\b|\bwhat\s+(?:email|phone)(?:\s+address|\s+number)?\s+(?:should|can|do)\s+i\s+use\b/.test(text));
-  if (contactIntent || /\b(?:he|you|letlhogonolo|dj papzin)\s+(?:is\s+|are\s+)?available\b|\bavailability\s+(?:of|for)\s+(?:him|you|letlhogonolo|dj papzin)\b/.test(text)) return {reply:'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.', mode:'portfolio', model:'portfolio-guide'};
-  const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam)\b|\b(?:translated|outlier|kwantu|afrisam)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
+  const dateIntent = /\b(when|since|dates?|duration|how long|how many years|started|began)\b/.test(text);
+  const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam|next\s*sapien)\b|\b(?:translated|outlier|kwantu|afrisam|next\s*sapien)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/.test(topic);
+  const employmentRole = employerContext && profile.experience.find(role => ` ${normalizedName(topic)} `.includes(` ${normalizedName(role.referenceName)} `));
+  const computerVisionIntent = /\bcomputer vision\b|\bcv[\s-]+(?:projects?|models?|pipelines?|applications?|systems?|experience)\b/.test(topic);
+  const contactIntent = !dateIntent && /\b(contact|email|hire|freelance|reach|phone)\b/.test(text) && (!/\b(notification|feature|store|stores|storage|database|fields?|implementation|schema|api|validation|validate|extract|parse)\b/.test(text) || /\b(?:contact|reach|hire|email|phone|call)\s+(?:him|her|you|letlhogonolo|dj papzin)\b|\bwhat\s+(?:email|phone)(?:\s+address|\s+number)?\s+(?:should|can|do)\s+i\s+use\b/.test(text));
+  if (contactIntent || /\b(?:he|you|letlhogonolo|dj papzin)\s+(?:is\s+|are\s+)?available\b|\bavailability\s+(?:of|for)\s+(?:him|you|letlhogonolo|dj papzin)\b/.test(text)) return {reply:contactAnswer(), mode:'portfolio', model:'portfolio-guide'};
+  if (!employerContext && !matchingProjects(text).length && /\b(remote|hybrid|start immediately|start date)\b/.test(text) && /\b(he|you|his|your|letlhogonolo|work|roles?)\b/.test(text) && !/\b(server|api|code|database|deployment)\b/.test(text)) return {reply:contactAnswer(), mode:'portfolio', model:'portfolio-guide'};
   const pythonMilestone = /\b(learn(?:ing|ed)?|build(?:ing)?|built|projects?|profession\w*|since|how long|how many years|start(?:ed)?|began|begin)\b/.test(topic) && !/\b(backend|server|api|cache|runtime|restart)\b/.test(topic);
   let namedNewProjects = matchingProjects(topic).filter(project => ['agent-handoff-kit','agentops-mobile-command-center','ChatSnap-Extractor'].includes(project.repo)).map(project => project.repo);
   if (namedNewProjects.length) namedNewProjects = matchingProjects(topic).map(project => project.repo === 'ChatSnap-Extractor' ? project.repo : project.names.find(name => name.includes(' ')) || [...project.names].sort((a,b) => a.length-b.length)[0]);
@@ -23,8 +28,8 @@ function portfolioReply(message, history = []) {
       const known = {
         'Papzin & Crew': 'Papzin & Crew is a music platform featuring mega-mixes, Cruize Friday mixes, online radio and custom mix requests. DJ Papzin co-founded it in 2016 and has been DJing since 2012.',
         'PapzinAI': 'PapzinAI coordinates coding agents and automated development workflows using Hermes, OpenClaw and custom workflows.',
-        'TruthGuard': 'TruthGuard analyses claims using Llama 3 and displays a classification with a confidence score.',
-        'Vocal Thread': 'Vocal Thread converts YouTube comments into audio using ElevenLabs and Gemini, with sentiment analysis and a Chat with Comments feature.',
+        'TruthGuard': projectAnswer('truthguard'),
+        'Vocal Thread': projectAnswer('vocal-thread'),
         'TalentFlow Bot': 'TalentFlow Bot supports candidate screening, interview scheduling and feedback collection.'
       };
       const supported = /^(Agent Handoff Kit|AgentOps Mobile Command Center|ChatSnap(?:-Extractor)?|Task Tracker|ID Recognition|SA ID Recognition|VisualPro|NextSapien Facial Analysis)$/i.test(name);
@@ -35,9 +40,10 @@ function portfolioReply(message, history = []) {
     return { reply: facts + boundary, mode: 'portfolio', model: 'portfolio-guide' };
   }
   let reply;
-  const nextSapienWork = 'Letlhogonolo worked remotely at Next Sapien as an AI/ML Engineer in computer vision from December 2023 to January 2024. He developed automated image analysis and built ChatSnap-Extractor to extract text and timestamps from chat screenshots.';
+  const nextSapien = roleById('next-sapien');
+  const nextSapienWork = `${profile.name} worked at ${nextSapien.organization} from ${period(nextSapien)} as ${nextSapien.title} (${nextSapien.location}). ${nextSapien.bullets.join(' ')}`;
   if (namedNewProjects.includes('ChatSnap-Extractor')) {
-    reply = 'He built ChatSnap-Extractor at Next Sapien from December 2023 to January 2024. ChatSnap-Extractor uses Django, YOLO and PaddleOCR to extract messages, timestamps and emojis from chat screenshots. Its repository includes sample inputs and structured outputs. Open its Projects card for the examples and source code.';
+    reply = `${nextSapienWork} Its repository includes sample inputs and structured outputs. Open its Projects card for examples and source code.`;
 
   } else if (!namedNewProjects.length && /\b(at|for|with)\s+next\s*sapien/.test(topic) && !/facial|deepface/.test(topic)) {
     reply = nextSapienWork;
@@ -46,35 +52,48 @@ function portfolioReply(message, history = []) {
   } else if (!namedNewProjects.length && /next\s*sapien/.test(topic)) {
     reply = nextSapienWork;
   } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /profession|on the job|for work|at work/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/kwantu|outlier|translated|afrisam/.test(topic)) {
-    reply = 'He began learning Python in 2022. His recorded professional Python work includes building ChatSnap-Extractor at Next Sapien from December 2023 to January 2024.';
+    reply = `He began learning Python in ${profile.milestones.pythonSince}. His recorded professional Python work includes building ChatSnap-Extractor at ${nextSapien.organization} from ${period(nextSapien)}.`;
   } else if (/python/.test(topic) && /certif/.test(topic) && /when|date|year/.test(topic)) {
     reply = 'His portfolio lists a Python certificate, but does not provide its date.';
   } else if (pythonMilestone && !namedNewProjects.length && /python/.test(topic) && /\b(when|since|how long|how many years|what year|which year|date)\b/.test(topic) && !/certif|kwantu|outlier|translated/.test(topic)) {
-    reply = 'Letlhogonolo started learning Python in 2022.';
+    reply = `${profile.name} started learning Python in ${profile.milestones.pythonSince}.`;
   } else if (namedNewProjects.includes('Agent Handoff Kit')) {
-    reply = 'Agent Handoff Kit is a Python and SQLite recovery prototype. Its demo interrupts one worker and lets another resume from a durable checkpoint, keeping one local receipt and verifying unchanged replay. Its guarantees apply to the local database, not external APIs. Try handoff.djpapzin.com or open its Projects card.';
+    reply = projectAnswer('agent-handoff');
   } else if (namedNewProjects.includes('AgentOps Mobile Command Center')) {
-    reply = 'AgentOps Mobile Command Center connects Telegram commands and a FastAPI dashboard to a SQLite run log for supervising agent workflows, model routing and approvals. Demo mode works without provider credentials; live integrations require configuration. Open its Projects card for the recorded demo and repository.';
-  } else if (/contact|email|hire|freelance|available|reach|phone/.test(topic)) {
-    reply = 'Letlhogonolo is available for freelance AI/ML work. Email l.fanampe@gmail.com, connect at linkedin.com/in/djpapzin, or call +27 83 483 7699.';
+    reply = projectAnswer('agentops');
+  } else if (!dateIntent && /contact|email|hire|freelance|available|reach|phone/.test(topic)) {
+    reply = contactAnswer();
   } else if (/music|\bdj\b|djing|mix|crew|radio/.test(topic.replace(/\bdj papzin\b/g, '')) && !/project|experience|who/.test(topic)) {
-    reply = 'DJ Papzin has been DJing since 2012 and co-founded Papzin & Crew in 2016. The platform features mega-mixes, Cruize Friday mixes, online radio, and custom mix requests. Open the Music section to explore his music.';
+    reply = musicAnswer();
   } else if (/task tracker/.test(topic)) {
     reply = 'Task Tracker is a task management project built with FastAPI and PostgreSQL. Open Projects for its workflow overview, or contact him to discuss the implementation.';
   } else if (/id recognition/.test(topic)) {
     reply = 'The ID recognition project uses computer vision and OCR to extract information from identity documents. Open Projects for its workflow overview, or contact him to discuss the implementation.';
+  } else if (employmentRole && /\b(remote|hybrid|onsite|on-site|start date|end date)\b/.test(topic)) {
+    reply = `${employmentRole.referenceName} from ${period(employmentRole)} (${employmentRole.title}). Work location/arrangement: ${employmentRole.location || 'not specified in the profile'}.`;
   } else if (employerContext && /kwantu/.test(topic) && /technolog|stack|tools?|duties|responsibilit|what.*(?:do|did|work|built|use)/.test(topic) && !/when|how long|dates?|duration|years?|months?/.test(topic)) {
-    reply = 'At Kwantu, he built RAG chatbots using LangChain and FastAPI, SA ID recognition using Detectron2 and Tesseract, and WhatsApp/Telegram bots.';
+    reply = `At ${roleById('kwantu').referenceName}: ${roleById('kwantu').bullets.slice(0,3).join(' ')}`;
   } else if (/\bvisualpro\b/.test(topic)) {
     reply = 'VisualPro won first place at the WebGPU Hackathon. It uses WebGPU and Three.js for 3D data visualisation, with Node.js API endpoints and SQLite storage. Open its project card for the presentation and source code.';
-  } else if (/project|built|build|portfolio|code|papzinai|truthguard|vocal thread|visualpro/.test(topic)) {
-    reply = 'His projects include Agent Handoff Kit (local worker recovery), AgentOps Mobile Command Center (Telegram agent supervision), ChatSnap-Extractor (screenshot OCR), PapzinAI (multi-agent automation), Task Tracker (FastAPI and PostgreSQL), TruthGuard (fake news detection), Vocal Thread (YouTube comments to audio), VisualPro (WebGPU visualisation), and Papzin & Crew (music streaming). Open Projects for descriptions and links.';
-  } else if (/experience|years|career|background|work history|worked|work experience/.test(topic) || employerContext) {
-    reply = 'Letlhogonolo started learning Python in 2022. His AI work includes computer vision at Next Sapien from December 2023 to January 2024, RLHF training at Outlier.ai from July 2024 to 2025, AI prompt evaluation at Translated from October 2024 to December 2024, consulting at Kwantu from October 2024 to April 2025, and freelance AI/ML engineering from 2025. Previously, he spent eight years as a lab analyst.';
+  } else if (!namedNewProjects.length && (/\bresume\b/.test(topic) || (/\bcv\b/.test(topic) && !computerVisionIntent))) {
+    reply = `Download his CV: ${profile.contact.website}${profile.cv.path}. Updated ${profile.cv.updatedOn}.`;
+  } else if (!matchingProjects(topic).length && /\b(who is|who are|headline|job title|professional title|where.*(?:based|located|live)|ai solutions engineer)\b/.test(topic)) {
+    reply = identityAnswer();
+  } else if (/truthguard/.test(topic)) {
+    reply = projectAnswer('truthguard');
+  } else if (/vocal\s*thread/.test(topic)) {
+    reply = projectAnswer('vocal-thread');
+  } else if (computerVisionIntent) {
+    reply = `Computer vision experience: ${nextSapienWork} At ${roleById('kwantu').referenceName}: ${roleById('kwantu').bullets.filter(bullet => /OCR|Detectron2/.test(bullet)).join(' ')}`;
+  } else if (/project|built|build|portfolio|code|papzinai|visualpro/.test(topic)) {
+    const otherProjects = [...profile.projects.filter(project => !profile.featured.includes(project.id)).map(project => project.name), 'ChatSnap-Extractor', 'PapzinAI', 'Task Tracker', 'VisualPro', 'Papzin & Crew'];
+    reply = `His featured projects are ${profile.featured.map(id=>profile.projects.find(item=>item.id===id).name).join(', ')}. His other projects include ${otherProjects.join(', ')}. Open Projects for descriptions and links.`;
+  } else if (/experience|years|career|background|work history|worked|work experience|freelanc/.test(topic) || employerContext) {
+    reply = experienceAnswer();
   } else if (/skill|python|stack|technology|technologies|rag|langchain|nlp/.test(topic)) {
-    reply = 'His skills include Python, FastAPI, Django, React, LangChain, TensorFlow, Keras, NLP, OpenCV, OCR, Docker, Git, and Linux. His work covers RAG chatbots, multi-agent systems, and automation.';
+    reply = skillsAnswer();
   } else if (/education|study|diploma|qualification|certif/.test(topic)) {
-    reply = 'He holds a Diploma in Analytical Chemistry from Tshwane University of Technology, with additional certificates in LangChain, Python, and system administration.';
+    reply = educationAnswer();
   } else if (/hackathon|win|award/.test(topic)) {
     reply = 'VisualPro won the WebGPU Hackathon. His portfolio also includes participation in other AI hackathons. See Experience and Projects for the details shown on this website.';
   } else {

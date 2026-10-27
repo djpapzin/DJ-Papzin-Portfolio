@@ -9,9 +9,14 @@ function shouldSearchCode(message) {
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam|next\s*sapien)\b|\b(?:translated|outlier|kwantu|afrisam|next\s*sapien)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/i.test(message);
   if (employer && employerContext && employmentDates && !explicitProject) return false;
   if (identifiesProject(message)) return true;
+  // A recruiter asking for a computer-vision overview needs the approved
+  // experience, not arbitrary repository matches for the short acronym "CV".
+  const visionOverview = /\b(cv|computer vision)\b/i.test(message) && /\b(projects?|experience|work)\b/i.test(message);
+  const implementationDetails = /\b(code|source|repository|repositories|repos?|implementation|api|functions?|files?|architecture|how)\b/i.test(message);
+  if (visionOverview && !implementationDetails) return false;
   // Search other technical questions by default; clear biography questions skip retrieval.
   if (/\b(code|repository|repositories|repo|implementation|source|api|function|files?|projects?|database|authentication|backend|frontend)\b|how.*\b(work|built)\b/i.test(message)) return true;
-  return !/\b(experience|background|identity|biography|location|skills?|contact|email|phone|reach|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b|\bwho is\b|\bwhere.*(?:based|live|located)\b/i.test(message);
+  return !/\b(experience|background|identity|biography|headline|title|availability|remote|hybrid|resume|cv|location|skills?|contact|email|phone|reach|hire|education|diploma|certificate|djing|music)\b|(?:start|learn|since|years).*python|python.*(?:start|learn|since|years)|\bdj\b.*(?:since|when)|when.*\bdj\b|\bwho is\b|\bwhere.*(?:based|live|located)\b/i.test(message);
 }
 
 function isNewTopic(message) {
