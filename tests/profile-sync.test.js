@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { profile, buildSystemPrompt, experienceAnswer, skillsAnswer, contactAnswer } = require('../content/profile');
+const { profile, buildSystemPrompt, experienceAnswer, skillsAnswer, contactAnswer, projectAnswer } = require('../content/profile');
 const { renderProfile, redirects } = require('../scripts/sync-profile');
 const { portfolioReply } = require('../netlify/functions/lib/portfolio-reply');
 const { SYSTEM_PROMPT } = require('../netlify/functions/lib/portfolio-prompt');
@@ -48,6 +48,11 @@ test('both chatbot endpoints answer the verified title, dates, skills, availabil
       ['Who is DJ Papzin?', /AI Solutions Engineer.*Pretoria/],
       ['When did he work at Outlier?', /Outlier from July 2024 to August 2025/],
       ['When did he start freelancing?', /Freelance from February 2024 to Present/],
+      ['What was his start date at Kwantu?', /Kwantu from October 2024 to April 2025/],
+      ['Was his Outlier role remote?', /Outlier.*July 2024 to August 2025.*Remote/],
+      ['What was his start date at Next Sapien?', /Next Sapien from December 2023 to January 2024/],
+      ['Was his NextSapien role remote?', /Next Sapien.*December 2023.*Remote/],
+      ['What CV projects has he built?', /ChatSnap-Extractor/],
       ['What are his skills?', /FastAPI.*SQL.*Docker/],
       ['Is he available for work?', /Available immediately.*remote and hybrid/],
       ['Can he start immediately?', /Available immediately/],
@@ -60,6 +65,37 @@ test('both chatbot endpoints answer the verified title, dates, skills, availabil
       const result=JSON.parse(response.body);assert.equal(result.mode,'portfolio');assert.match(result.reply,expected,message);
     }
   } finally {process.env=saved;}
+});
+
+test('changing featured projects preserves every other project in model grounding', () => {
+  const changed = structuredClone(profile);
+  changed.featured = ['agent-handoff', 'truthguard', 'vocal-thread'];
+  const prompt = buildSystemPrompt(changed);
+  for (const project of changed.projects) assert.ok(prompt.includes(project.detail), project.id);
+  assert.equal(prompt.split(changed.projects.find(project => project.id === 'vocal-thread').detail).length, 2);
+});
+
+test('adding, removing and reordering profile projects updates the page and chatbot together', () => {
+  const changed = structuredClone(profile);
+  changed.projects = changed.projects.filter(project => !['agentops', 'vocal-thread'].includes(project.id));
+  changed.projects.reverse();
+  changed.projects.push({...structuredClone(changed.projects[0]), id:'new-project', name:'New Profile Project', summary:'A new approved project.', detail:'Distinct new project details.'});
+  changed.featured = ['new-project', 'truthguard'];
+  const page = renderProfile(html, changed);
+  const prompt = buildSystemPrompt(changed);
+  assert.doesNotMatch(page, /id="project-(agentops|vocal-thread)"/);
+  const projects = page.split('<!-- profile:projects:start -->')[1].split('<!-- profile:projects:end -->')[0];
+  assert.deepEqual([...projects.matchAll(/id="project-([^"]+)"/g)].map(match => match[1]), changed.projects.map(project => project.id));
+  assert.ok(prompt.includes('Distinct new project details.'));
+  assert.doesNotMatch(prompt, /Connects a FastAPI dashboard/);
+  assert.match(projectAnswer('agentops', changed), /not include.*summary/i);
+});
+
+test('one skill group remains valid and uses the same ordering on the page and chatbot', () => {
+  const changed = structuredClone(profile);
+  changed.skills = [{category:'Core skills', items:['Python', 'FastAPI', 'SQL']}];
+  assert.match(renderProfile(html, changed), /Python<\/span><span class="skill-tag">FastAPI/);
+  assert.match(buildSystemPrompt(changed), /Python, FastAPI, SQL/);
 });
 
 test('model-backed endpoints receive the same approved profile facts', async () => {

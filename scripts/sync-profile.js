@@ -49,6 +49,7 @@ function profileBlocks(data) {
   </div>
 </section>`,
     featured: `<section id="featured-work"><p class="section-label">Selected work</p><h2>Ideas into working tools</h2><div class="projects-grid">${data.featured.map(id => projectCard(projectById(id,data),true)).join('\n')}</div></section>`,
+    projects: data.projects.map(item => projectCard(item)).join('\n'),
     about: `<section id="about"><p class="section-label">Who</p><h2>About</h2><div class="about-grid"><div class="about-text">
 ${[data.summary,...data.about].map(text=>`<p>${e(text)}</p>`).join('\n')}
 <p>When I’m not building, I’m DJing. I’ve been at it since ${data.milestones.djSince} and co-founded ${link(data.music.organization,data.music.url,'text-link')} in ${data.music.founded}.</p>
@@ -64,7 +65,6 @@ ${data.experience.map(role=>`<div class="timeline-item" id="experience-${e(role.
     'contact-intro': `<p>${e(data.availability)}</p><div class="availability">${e(data.location)}</div><p>${link('Download my CV',data.cv.path,'btn btn-outline')}</p>`,
     'contact-links': `<div class="contact-grid" style="margin-top:2rem;">${link('Email',`mailto:${data.contact.email}`,'social-link')}${link('LinkedIn',data.linkedin,'social-link')}${link('GitHub',data.contact.github,'social-link')}${link(data.contact.phone,`tel:${data.contact.phone.replace(/\s/g,'')}`,'social-link')}</div>`
   };
-  for (const item of data.projects) blocks[`project-${item.id}`] = projectCard(item);
   return blocks;
 }
 function renderProfile(html, data = profile) {

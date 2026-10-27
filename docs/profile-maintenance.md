@@ -20,8 +20,10 @@ Every Netlify build regenerates the page from this record and runs the tests bef
 - Selected project descriptions across the homepage, Projects tab and chatbot.
 - Download links for the current CV, including `/cv.pdf` and the previous CV URL.
 
+The `projects` list controls the generated project cards as a collection: adding, removing or reordering an item changes that section on the next build. The `featured` list only selects homepage highlights; all remaining profile projects stay available to the chatbot. Remove a deleted project from `featured` too. Other project cards and the repository search catalog remain separately maintained editorial content.
+
 The music section and detailed case study remain editorial content. LinkedIn changes are not polled or imported automatically. The review date records a human-reviewed comparison, not a live connection to LinkedIn. Nothing posts to LinkedIn from this build.
 
 ## Checks that prevent drift
 
-`tests/profile-sync.test.js` checks generated page consistency, exact experience dates, featured order, valid dates and IDs, and real chatbot endpoint responses. It also changes profile fields in a test fixture to confirm the website and chatbot grounding both reflect the edit. A missing CV or generated section stops the build.
+`tests/profile-sync.test.js` checks generated page consistency, exact experience dates, featured order, valid dates and IDs, and real chatbot endpoint responses. It also changes profile fields, project membership and skill groups in test fixtures to confirm the website and chatbot grounding both reflect the edit. A missing CV or generated section stops the build.

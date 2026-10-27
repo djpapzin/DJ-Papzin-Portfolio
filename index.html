@@ -406,11 +406,7 @@ footer .neon-line {
   }
   .about-grid { grid-template-columns: 1fr; }
   .hero-title { letter-spacing: 3px; }
-  .hero-name { font: 0.8rem Orbitron, monospace; letter-spacing: 5px; color: var(--neon-cyan); text-transform: uppercase; text-align: center; }
-.hero-availability { max-width: 780px; font-size: 0.95rem; margin-top: 1rem; color: var(--neon-cyan); text-align: center; }
-.hero-personal { margin-top: 0.6rem; color: var(--text-dim); text-align: center; }
-.hero-personal strong { color: var(--neon-magenta); }
-.hero-sub { letter-spacing: 1px; font-size: 0.75rem; }
+  .hero-sub { letter-spacing: 1px; font-size: 0.75rem; }
   #hero p[style*="letter-spacing: 3px"] { letter-spacing: 1px; font-size: 0.7rem; }
   .tab-bar { position: static; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 0 1rem; }
   .tab-btn { grid-column: span 2; min-height: 48px; padding: 0.8rem 0.25rem; font-size: 0.7rem; letter-spacing: 0.5px; }
@@ -743,7 +739,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <p class="section-label">Work</p>
   <h2>Projects</h2>
   <div class="projects-grid">
-    <!-- profile:project-agent-handoff:start -->
+    <!-- profile:projects:start -->
 <article class="project-card" id="project-agent-handoff">
   <img class="project-preview" src="assets/agent-handoff.png" alt="Agent Handoff Kit recovery demo" loading="lazy">
   <h3>Agent Handoff Kit</h3><p>A Python and SQLite recovery prototype that resumes interrupted local work from a durable checkpoint. Its guarantees apply to the local database, not external APIs.</p>
@@ -751,8 +747,6 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <div class="project-links"><a href="/case-studies/agent-handoff.html">Read case study</a> <a href="https://handoff.djpapzin.com/" target="_blank" rel="noopener noreferrer">Run demo</a> <a href="https://github.com/djpapzin/agent-handoff-kit" target="_blank" rel="noopener noreferrer">View source</a></div>
   <div class="tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">Recovery prototype</span></div>
 </article>
-<!-- profile:project-agent-handoff:end -->
-    <!-- profile:project-agentops:start -->
 <article class="project-card" id="project-agentops">
   <img class="project-preview" src="assets/agentops.png" alt="AgentOps dashboard for agent workflows, model routing and approvals" loading="lazy">
   <h3>AgentOps Mobile Command Center</h3><p>Connects a FastAPI dashboard and Telegram commands to a SQLite run log for goals, approvals, history and model routing. Demo mode works without provider credentials; live integrations require configuration.</p>
@@ -760,7 +754,22 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
   <div class="project-links"><a href="https://github.com/djpapzin/agentops-mobile-command-center/blob/main/assets/agentops-demo-live-screenshots.mp4" target="_blank" rel="noopener noreferrer">Watch demo</a> <a href="https://github.com/djpapzin/agentops-mobile-command-center" target="_blank" rel="noopener noreferrer">View source</a></div>
   <div class="tags"><span class="tag">FastAPI</span><span class="tag">SQLite</span><span class="tag">Telegram</span><span class="tag">Docker</span></div>
 </article>
-<!-- profile:project-agentops:end -->
+<article class="project-card" id="project-truthguard">
+  <img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard news classification interface" loading="lazy">
+  <h3>TruthGuard</h3><p>A team project exploring news classification with Llama 3 and Together AI. My role: AI Specialist. The repository documents model fine-tuning on WELFake and a Python/Flask classification API.</p>
+  <p class="project-outcome">The interface displays a classification and confidence score; its output should be checked against reliable sources.</p>
+  <div class="project-links"><a href="https://truth-guard-dusky.vercel.app/" target="_blank" rel="noopener noreferrer">Open demo</a> <a href="https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM" target="_blank" rel="noopener noreferrer">View source</a></div>
+  <div class="tags"><span class="tag">Llama 3</span><span class="tag">Together AI</span><span class="tag">Python</span><span class="tag">Flask</span></div>
+</article>
+<article class="project-card" id="project-vocal-thread">
+  <img class="project-preview" src="assets/vocal-thread.jpeg" alt="VocalThread speech bubble logo" loading="lazy">
+  <h3>VocalThread</h3><p>A Streamlit application that analyses YouTube comments and turns them into spoken dialogues using ElevenLabs, YouTube Data API and Google Gemini.</p>
+  <p class="project-outcome">Includes sentiment analysis and a Chat with Comments feature. Built for the ElevenLabs AI Audio Challenge.</p>
+  <div class="project-links"><a href="https://github.com/djpapzin/Vocal-Thread" target="_blank" rel="noopener noreferrer">View source</a></div>
+  <div class="tags"><span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">ElevenLabs</span><span class="tag">Gemini</span></div>
+</article>
+<!-- profile:projects:end -->
+
     <article class="project-card" id="project-chatsnap">
       <img class="project-preview" src="assets/chatsnap.png" alt="ChatSnap example converting a sample chat screenshot into structured message data" loading="lazy" width="1211" height="673">
       <h3>ChatSnap-Extractor</h3>
@@ -795,24 +804,6 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
         <span class="tag">Python</span>
       </div>
     </div>
-    <!-- profile:project-vocal-thread:start -->
-<article class="project-card" id="project-vocal-thread">
-  <img class="project-preview" src="assets/vocal-thread.jpeg" alt="VocalThread speech bubble logo" loading="lazy">
-  <h3>VocalThread</h3><p>A Streamlit application that analyses YouTube comments and turns them into spoken dialogues using ElevenLabs, YouTube Data API and Google Gemini.</p>
-  <p class="project-outcome">Includes sentiment analysis and a Chat with Comments feature. Built for the ElevenLabs AI Audio Challenge.</p>
-  <div class="project-links"><a href="https://github.com/djpapzin/Vocal-Thread" target="_blank" rel="noopener noreferrer">View source</a></div>
-  <div class="tags"><span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">ElevenLabs</span><span class="tag">Gemini</span></div>
-</article>
-<!-- profile:project-vocal-thread:end -->
-    <!-- profile:project-truthguard:start -->
-<article class="project-card" id="project-truthguard">
-  <img class="project-preview" src="assets/truthguard.jpg" alt="TruthGuard news classification interface" loading="lazy">
-  <h3>TruthGuard</h3><p>A team project exploring news classification with Llama 3 and Together AI. My role: AI Specialist. The repository documents model fine-tuning on WELFake and a Python/Flask classification API.</p>
-  <p class="project-outcome">The interface displays a classification and confidence score; its output should be checked against reliable sources.</p>
-  <div class="project-links"><a href="https://truth-guard-dusky.vercel.app/" target="_blank" rel="noopener noreferrer">Open demo</a> <a href="https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM" target="_blank" rel="noopener noreferrer">View source</a></div>
-  <div class="tags"><span class="tag">Llama 3</span><span class="tag">Together AI</span><span class="tag">Python</span><span class="tag">Flask</span></div>
-</article>
-<!-- profile:project-truthguard:end -->
     <div class="project-card" id="project-papzin-ai">
       <div class="workflow-preview"><span>Workflow overview</span>Request → Agents → Workflow</div>
       <h3>PapzinAI</h3>

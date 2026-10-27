@@ -28,14 +28,15 @@ function experienceAnswer(data = profile) {
   return `${data.name} started learning Python in ${data.milestones.pythonSince}. His AI experience includes ${roles.join('; ')}. Previously, he spent ${data.milestones.labYears} years in AfriSam’s laboratory.`;
 }
 function skillsAnswer(data = profile) {
-  const skills = [data.skills[1], data.skills[0], ...data.skills.slice(2)].flatMap(group => group.items);
+  const skills = data.skills.flatMap(group => group.items);
   return `His skills include ${skills.join(', ')}.`;
 }
 function educationAnswer(data = profile) {
   return `He holds a ${data.education.qualification} from ${data.education.institution}, with additional certificates in ${data.education.certificates.join(', ')}.`;
 }
 function projectAnswer(id, data = profile) {
-  const item = projectById(id, data);
+  const item = data.projects.find(project => project.id === id);
+  if (!item) return 'The shared profile does not include an approved summary for this project.';
   const summary = item.summary.replace('My role:', 'His role:');
   const opening = summary.startsWith('A ') ? 'is a ' + summary.slice(2) : summary.charAt(0).toLowerCase() + summary.slice(1);
   return `${item.name} ${opening} ${item.detail} ${item.links.map(link => `${link.label}: ${link.url.startsWith('/') ? data.contact.website + link.url : link.url}`).join(' · ')}`;
@@ -57,7 +58,7 @@ ABOUT: ${data.about.join(' ')}
 DJ & MUSIC: DJing since ${data.milestones.djSince}. ${musicAnswer(data)}
 EDUCATION: ${educationAnswer(data)}
 FEATURED PROJECTS: ${data.featured.map(id => projectAnswer(id, data)).join('\n')}
-OTHER PROFILE PROJECT: ${projectAnswer('vocal-thread', data)}
+OTHER PROFILE PROJECTS: ${data.projects.filter(project => !data.featured.includes(project.id)).map(project => projectAnswer(project.id, data)).join('\n')}
 OTHER PROJECTS: ChatSnap-Extractor (Django, YOLO and PaddleOCR; extracts messages, timestamps and emojis from screenshots), PapzinAI (multi-agent development workflows), Task Tracker (FastAPI and PostgreSQL), VisualPro (WebGPU and Three.js visualisation with Node.js and SQLite), TalentFlow Bot (recruitment workflow prototype), Arc-ZARDIAN, SA ID Recognition (computer vision and OCR), NextSapien Facial Analysis (Python and DeepFace).
 HACKATHONS: VisualPro won first place at the WebGPU Hackathon. ElevenLabs AI Audio Challenge and Geekle.us FR1 are participation entries, not documented wins.
 CONTACT: ${contactAnswer(data)}
