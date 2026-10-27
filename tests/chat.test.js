@@ -171,6 +171,8 @@ test('an account-wide free quota does not retry another OpenRouter model', async
 });
 test('a rejected Groq key falls through to the free router and reports its actual model', async () => {
   const saved={...process.env}; const original=global.fetch; const calls=[];
+  const originalTimeout=AbortSignal.timeout; const timeouts=[];
+  AbortSignal.timeout=ms=>{timeouts.push(ms);return new AbortController().signal;};
   process.env.GROQ_API_KEY='invalid';process.env.CHAT_GROQ_FREE_TIER='true';process.env.OPENROUTER_API_KEY='free';process.env.OPENAI_API_KEY='must-not-use';
   delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
   global.fetch=async(url,options)=>{
@@ -182,7 +184,8 @@ test('a rejected Groq key falls through to the free router and reports its actua
   try {
     assert.deepEqual(await requestReply('Profile','Question'),{reply:'Generated answer',model:'selected/model:free',mode:'ai'});
     assert.deepEqual(calls,['openai/gpt-oss-20b','openrouter/free']);
-  } finally {global.fetch=original;process.env=saved;}
+    assert.equal(timeouts[1],15000);
+  } finally {global.fetch=original;process.env=saved;AbortSignal.timeout=originalTimeout;}
 });
 test('both endpoints report live AI mode and retain the supplied conversation', async () => {
   const saved={...process.env}; const original=global.fetch;

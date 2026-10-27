@@ -31,9 +31,14 @@ async function requestReply(prompt, message, history = []) {
     for (const model of provider.models) {
       const remaining = providerDeadline - Date.now();
       if (remaining <= 0) break;
+      const modelsRemaining = provider.models.length - provider.models.indexOf(model);
+      // A router may need longer to select and warm a model. Use the available
+      // budget while reserving at least a short attempt for each fallback.
+      const reserved = Math.min(2000, Math.floor(remaining / modelsRemaining)) * (modelsRemaining - 1);
+      const attemptTimeout = Math.max(1, Math.min(15000, Math.floor(remaining - reserved)));
       try {
         const response = await fetch(provider.url, {
-          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, Math.floor(remaining / (provider.models.length - provider.models.indexOf(model))))),
+          method: 'POST', signal: AbortSignal.timeout(attemptTimeout),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], temperature: 0.7,
             ...(provider.key === 'GROQ_API_KEY'
