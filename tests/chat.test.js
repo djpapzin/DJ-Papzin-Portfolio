@@ -162,7 +162,7 @@ test('a Groq key alone enables Groq first without enabling paid OpenAI', async (
     const body = JSON.parse(options.body);
     assert.equal(url, 'https://api.groq.com/openai/v1/chat/completions');
     assert.equal(body.model, 'openai/gpt-oss-20b');
-    assert.equal(body.reasoning_effort, 'low'); assert.equal(body.include_reasoning, false);
+    assert.equal(body.reasoning_effort, 'medium'); assert.equal(body.include_reasoning, false);
     assert.equal(body.max_completion_tokens, 2048); assert.equal(body.max_tokens, undefined);
     return {ok:true,status:200,json:async()=>({model:body.model,choices:[{message:{content:' A live answer. ',reasoning:'Not visitor-facing'}}]})};
   };

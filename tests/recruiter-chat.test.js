@@ -52,6 +52,7 @@ test('timeline grounding calculates overlaps from profile dates rather than assu
   assert.match(prompt, /Outlier and Kwantu: October 2024 to April 2025/);
   assert.match(prompt, /Kwantu and Translated: October 2024 to December 2024/);
   assert.match(prompt, /Freelance and Outlier: July 2024 to August 2025/);
+  assert.match(prompt, /Next Sapien from December 2023 to January 2024\. Job title: AI\/ML Engineer — Computer Vision\./);
   const changed = structuredClone(profile);
   changed.experience.find(role=>role.id==='kwantu').start = '2026-01';
   changed.experience.find(role=>role.id==='kwantu').end = '2026-06';

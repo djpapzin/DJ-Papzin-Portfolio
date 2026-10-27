@@ -61,9 +61,9 @@ PROFILE REVIEW: Verified against LinkedIn on ${data.reviewedOn}. LinkedIn: ${dat
 WHO: ${identityAnswer(data)}
 HEADLINE: ${data.headline}
 Started learning Python in ${data.milestones.pythonSince}.
-AI EXPERIENCE: ${experienceAnswer(data)}
+AI EXPERIENCE (keep each employer, title, dates and responsibilities together; do not transfer titles or duties between employers):
+${data.experience.map(role => `${role.referenceName} from ${period(role)}. Job title: ${role.title}. Responsibilities: ${role.bullets.join(' ')}`).join('\n\n')}
 RECORDED OVERLAPS: ${experienceOverlaps(data).join('; ') || 'None in the recorded date ranges.'}
-WORK DETAILS: ${data.experience.map(role => `${role.referenceName}: ${role.bullets.join(' ')}`).join('\n')}
 SKILLS: ${skillsAnswer(data)}
 ABOUT: ${data.about.join(' ')}
 DJ & MUSIC: DJing since ${data.milestones.djSince}. ${musicAnswer(data)}
