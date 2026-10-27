@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
+  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['openrouter/free', 'liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
   { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'] },
 ];
@@ -31,14 +31,20 @@ async function requestReply(prompt, message, history = []) {
     for (const model of provider.models) {
       const remaining = providerDeadline - Date.now();
       if (remaining <= 0) break;
+      const modelsRemaining = provider.models.length - provider.models.indexOf(model);
+      // A router may need longer to select and warm a model. Use the available
+      // budget while reserving at least a short attempt for each fallback.
+      const reserved = Math.min(2000, Math.floor(remaining / modelsRemaining)) * (modelsRemaining - 1);
+      const attemptTimeout = Math.max(1, Math.min(15000, Math.floor(remaining - reserved)));
       try {
         const response = await fetch(provider.url, {
-          method: 'POST', signal: AbortSignal.timeout(Math.min(10000, Math.floor(remaining / (provider.models.length - provider.models.indexOf(model))))),
+          method: 'POST', signal: AbortSignal.timeout(attemptTimeout),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
           body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], temperature: 0.7,
             ...(provider.key === 'GROQ_API_KEY'
               ? { max_completion_tokens: 2048, reasoning_effort: 'low', include_reasoning: false }
               : { max_tokens: 1000 }),
+            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { effort: 'low', exclude: true } } : {}),
           }),
         });
         // Invalid credentials affect the entire provider, not just one model.
@@ -48,7 +54,10 @@ async function requestReply(prompt, message, history = []) {
         }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
-        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply: reply.trim(), model: data.model || model, mode: 'ai' };
+        if (response.ok && typeof reply === 'string' && reply.trim()) {
+          console.info('Chat provider replied', {provider: provider.key, model: data.model || model});
+          return { reply: reply.trim(), model: data.model || model, mode: 'ai' };
+        }
         const limitSource = data.error?.metadata?.limit_source;
         // Log only the structured reason, never provider messages or credentials.
         const safeLimitSource = typeof limitSource === 'string' && /^[a-z0-9_]{1,80}$/.test(limitSource) ? limitSource : undefined;
