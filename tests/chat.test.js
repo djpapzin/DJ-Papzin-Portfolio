@@ -161,13 +161,13 @@ test('a Groq key alone enables Groq first without enabling paid OpenAI', async (
     calls.push(url);
     const body = JSON.parse(options.body);
     assert.equal(url, 'https://api.groq.com/openai/v1/chat/completions');
-    assert.equal(body.model, 'openai/gpt-oss-20b');
-    assert.equal(body.reasoning_effort, 'low'); assert.equal(body.include_reasoning, false);
+    assert.equal(body.model, 'openai/gpt-oss-120b');
+    assert.equal(body.reasoning_effort, 'medium'); assert.equal(body.include_reasoning, false);
     assert.equal(body.max_completion_tokens, 2048); assert.equal(body.max_tokens, undefined);
     return {ok:true,status:200,json:async()=>({model:body.model,choices:[{message:{content:' A live answer. ',reasoning:'Not visitor-facing'}}]})};
   };
   try {
-    assert.deepEqual(await requestReply('Profile', 'Question'), {reply:'A live answer.',model:'openai/gpt-oss-20b',mode:'ai'});
+    assert.deepEqual(await requestReply('Profile', 'Question'), {reply:'A live answer.',model:'openai/gpt-oss-120b',mode:'ai'});
     assert.equal(calls.length, 1);
   } finally {global.fetch=original;process.env=saved;}
 });
@@ -189,7 +189,7 @@ test('free Groq retries its second model then uses only the free OpenRouter back
     assert.equal(url,'https://openrouter.ai/api/v1/chat/completions'); assert.ok(body.model === 'openrouter/free' || body.model.endsWith(':free'));
     return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Backup answer'}}]})};
   };
-  try {assert.equal((await requestReply('Profile','Question')).mode,'ai'); assert.deepEqual(calls,['openai/gpt-oss-20b','openai/gpt-oss-120b','openrouter/free']);}
+  try {assert.equal((await requestReply('Profile','Question')).mode,'ai'); assert.deepEqual(calls,['openai/gpt-oss-120b','openai/gpt-oss-20b','openrouter/free']);}
   finally {global.fetch=original;process.env=saved;}
 });
 test('an account-wide free quota does not retry another OpenRouter model', async () => {
@@ -213,7 +213,7 @@ test('a rejected Groq key falls through to the free router and reports its actua
   };
   try {
     assert.deepEqual(await requestReply('Profile','Question'),{reply:'Generated answer',model:'selected/model:free',mode:'ai'});
-    assert.deepEqual(calls,['openai/gpt-oss-20b','openrouter/free']);
+    assert.deepEqual(calls,['openai/gpt-oss-120b','openrouter/free']);
     assert.equal(timeouts[1],15000);
   } finally {global.fetch=original;process.env=saved;AbortSignal.timeout=originalTimeout;}
 });

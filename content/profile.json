@@ -106,7 +106,7 @@
       "bullets": [
         "Build AI applications and developer tools using Python, language models and external APIs.",
         "Developed VocalThread to turn YouTube comments into spoken dialogues through the ElevenLabs API.",
-        "Built TruthGuard, a news-classification project using a fine-tuned Llama 3 model hosted on Together AI.",
+        "Contributed to TruthGuard as an AI Specialist on the team; the project explores news classification with Llama 3 and Together AI.",
         "Created Agent Handoff Kit, an open-source Python/SQLite prototype for recovering interrupted local work from checkpoints and suppressing duplicate effects within a local transaction.",
         "Collaborate in Lablab.ai and Devpost hackathons to prototype, integrate and demonstrate AI applications."
       ]
@@ -262,6 +262,7 @@
       "image": "assets/truthguard.jpg",
       "imageAlt": "TruthGuard news classification interface",
       "summary": "A team project exploring news classification with Llama 3 and Together AI. My role: AI Specialist. The repository documents model fine-tuning on WELFake and a Python/Flask classification API.",
+      "contribution": "AI Specialist on the team is his only documented personal role. His specific individual tasks and the division of work are not documented. Do not infer typical AI Specialist duties such as prompt design, evaluation or AI strategy. Do not claim that he personally did, contributed to or owned the model fine-tuning, Flask API or interface; these are project-level features, not verified personal contributions.",
       "detail": "The interface displays a classification and confidence score; its output should be checked against reliable sources.",
       "stack": [
         "Llama 3",

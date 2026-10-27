@@ -27,6 +27,13 @@ function experienceAnswer(data = profile) {
   const roles = data.experience.filter(role => role.id !== 'afrisam').map(role => `${role.referenceName} from ${period(role)} (${role.title})`);
   return `${data.name} started learning Python in ${data.milestones.pythonSince}. His AI experience includes ${roles.join('; ')}. Previously, he spent ${data.milestones.labYears} years in AfriSam’s laboratory.`;
 }
+function experienceOverlaps(data = profile) {
+  return data.experience.flatMap((role, index) => data.experience.slice(index + 1).flatMap(other => {
+    const start = role.start > other.start ? role.start : other.start;
+    const end = role.end && other.end ? (role.end < other.end ? role.end : other.end) : role.end || other.end;
+    return !end || start <= end ? [`${role.referenceName} and ${other.referenceName}: ${period({start, end})}`] : [];
+  }));
+}
 function skillsAnswer(data = profile) {
   const skills = data.skills.flatMap(group => group.items);
   return `His skills include ${skills.join(', ')}.`;
@@ -47,12 +54,16 @@ function musicAnswer(data = profile) {
 function buildSystemPrompt(data = profile) {
   return `You are ${data.knownAs}'s AI assistant on ${data.name}'s portfolio website. Answer warmly and concisely, using only the approved profile facts below. Never invent dates, qualifications, metrics, availability or project capabilities. Say when a fact is unavailable. Use third person for the portfolio owner; project summaries may quote his first-person wording. Give at most four sentences unless asked for detail.
 
+PERSONAL CONTRIBUTIONS: Distinguish a project's features from the owner's individual contribution. State only documented personal roles and responsibilities. Repository ownership, code snippets and a project's technology stack do not prove that he personally implemented every component. For team projects, describe what the project does and give his confirmed role; say when the division of work is not documented.
+CAREER TIMELINE: Roles can overlap. Describe overlapping roles as concurrent, not as successive jobs. Do not say an overlapping role was before or prior to another role, or add overlapping durations to claim total years of experience.
+
 PROFILE REVIEW: Verified against LinkedIn on ${data.reviewedOn}. LinkedIn: ${data.linkedin}. The shared profile is authoritative for biography; repository snippets may contain old biographies.
 WHO: ${identityAnswer(data)}
 HEADLINE: ${data.headline}
 Started learning Python in ${data.milestones.pythonSince}.
-AI EXPERIENCE: ${experienceAnswer(data)}
-WORK DETAILS: ${data.experience.map(role => `${role.referenceName}: ${role.bullets.join(' ')}`).join('\n')}
+AI EXPERIENCE (keep each employer, title, dates and responsibilities together; do not transfer titles or duties between employers):
+${data.experience.map(role => `${role.referenceName} from ${period(role)}. Job title: ${role.title}. Responsibilities: ${role.bullets.join(' ')}`).join('\n\n')}
+RECORDED OVERLAPS: ${experienceOverlaps(data).join('; ') || 'None in the recorded date ranges.'}
 SKILLS: ${skillsAnswer(data)}
 ABOUT: ${data.about.join(' ')}
 DJ & MUSIC: DJing since ${data.milestones.djSince}. ${musicAnswer(data)}
@@ -62,6 +73,9 @@ OTHER PROFILE PROJECTS: ${data.projects.filter(project => !data.featured.include
 OTHER PROJECTS: ChatSnap-Extractor (Django, YOLO and PaddleOCR; extracts messages, timestamps and emojis from screenshots), PapzinAI (multi-agent development workflows), Task Tracker (FastAPI and PostgreSQL), VisualPro (WebGPU and Three.js visualisation with Node.js and SQLite), TalentFlow Bot (recruitment workflow prototype), Arc-ZARDIAN, SA ID Recognition (computer vision and OCR), NextSapien Facial Analysis (Python and DeepFace).
 HACKATHONS: VisualPro won first place at the WebGPU Hackathon. ElevenLabs AI Audio Challenge and Geekle.us FR1 are participation entries, not documented wins.
 CONTACT: ${contactAnswer(data)}
-CV: ${data.contact.website}${data.cv.path} (updated ${data.cv.updatedOn}).`;
+CV: ${data.contact.website}${data.cv.path} (updated ${data.cv.updatedOn}).
+
+FINAL ACCURACY CHECK: In career summaries, give each role's actual date range and describe the recorded overlaps as concurrent. Avoid chronological transitions such as "prior to", "previously", "before" or "after" between roles; a role starting earlier may still continue during another role. When asked about contributions to a team project, state his confirmed role and explicitly acknowledge any undocumented division of work. Do not turn project-level features into claims that he personally built them. A role title alone does not establish specific duties.
+CONFIRMED PROJECT CONTRIBUTIONS: ${data.projects.filter(project => project.contribution).map(project => `${project.name}: ${project.contribution}`).join('\n')}`;
 }
 module.exports = { profile, month, period, roleById, projectById, identityAnswer, contactAnswer, experienceAnswer, skillsAnswer, educationAnswer, projectAnswer, musicAnswer, buildSystemPrompt };
