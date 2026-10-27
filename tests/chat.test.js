@@ -214,6 +214,12 @@ test('recruiter suitability questions and company-date follow-ups do not attach 
     assert.equal(result.mode,'ai');assert.deepEqual(result.sources,[]);
   } finally {global.fetch=original;process.env=saved;}
 });
+test('a tools follow-up about work there keeps the employer profile as its source', () => {
+  const history=[{role:'user',content:'What is DJ Papzin’s current professional title, and when did he work at Kwantu?'}];
+  const query=search.codeQuery('Which tools did he use there? Reply in one sentence.',history);
+  assert.match(query,/Kwantu/);
+  assert.equal(search.shouldSearchCode(query),false);
+});
 test('direct project prompts search real code while biography questions skip irrelevant files', () => {
   for (const question of ["What's in the Task Tracker?", 'Tell me about PapzinAI', 'What RAG projects has he built?', 'How does the ID recognition work?']) assert.equal(search.shouldSearchCode(question),true);
   for (const question of ['When did DJ Papzin start learning Python?', 'What skills do you have?', 'When did he start DJing?']) assert.equal(search.shouldSearchCode(question),false);
