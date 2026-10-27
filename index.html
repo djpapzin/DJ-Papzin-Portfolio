@@ -935,7 +935,7 @@ nav .links a { display: inline-flex; align-items: center; min-height: 44px; }
     <div class="avatar">🎧</div>
     <div class="info">
       <h4>DJ Papzin's Assistant</h4>
-      <span>● Portfolio guide — Ask about my work</span>
+      <span id="chat-status" role="status">● Ask about my work</span>
     </div>
     <button class="min-btn" onclick="minimizeChat()" aria-label="Minimize chat">−</button>
     <button class="close-btn" onclick="closeChat()">✕</button>
@@ -1193,7 +1193,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => switchTab(btn.dataset.tab));
 });
 
-// ─── AI CHATBOT (OpenRouter free models with fallback) ───
+// ─── AI CHATBOT (free providers with a labelled offline guide) ───
 const CHAT_API = '/.netlify/functions/code-search';
 const CHAT_FALLBACK = '/.netlify/functions/chat';
 
@@ -1316,7 +1316,7 @@ async function sendChat(text) {
 
   try {
     // Show thinking status
-    typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Searching codebase...</span>';
+    typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div><span style="font-size:0.7rem;color:var(--text-dim);margin-left:8px;">Thinking...</span>';
 
     let resp = await fetch(CHAT_API, {
       signal: AbortSignal.timeout(25000),
@@ -1343,6 +1343,9 @@ async function sendChat(text) {
       chatHistory.pop();
       botReply('Chat is temporarily unavailable. You can reach me by email.', { contact: true });
     } else {
+      document.getElementById('chat-status').textContent = data.mode === 'ai'
+        ? '● Live AI — Ask about my work'
+        : '● Portfolio guide — AI temporarily unavailable';
       botReply(data.reply, { mode: data.mode, sources: data.sources });
       chatHistory.push({ role: 'assistant', content: data.reply });
     }

@@ -198,7 +198,7 @@ ${search.context || 'No matching code found for this query.'}`;
       sources: search.results || [],
       query_terms: message.toLowerCase().replace(/[^a-z0-9_ ]/g, '').split(/\s+/).filter(t => t.length >= 2),
     }); }
-    const { reply, model } = result;
+    const { reply, model, mode } = result;
 
     return {
       statusCode: 200,
@@ -207,7 +207,7 @@ ${search.context || 'No matching code found for this query.'}`;
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        reply, model,
+        reply, model, mode,
         sources: search.results || [],
         query_terms: message.toLowerCase().replace(/[^a-z0-9_ ]/g, '').split(/\s+/).filter(t => t.length >= 2),
       }),

@@ -4,6 +4,8 @@ const { parseConversation, requestReply } = require('../netlify/functions/lib/ch
 const { portfolioReply } = require('../netlify/functions/lib/portfolio-reply');
 const chat = require('../netlify/functions/chat');
 const search = require('../netlify/functions/code-search');
+// CI may inherit deployed credentials. Tests opt into fake providers explicitly.
+for (const key of ['OPENROUTER_API_KEY', 'OPENAI_API_KEY', 'GROQ_API_KEY', 'CHAT_ALLOW_PAID_PROVIDERS', 'CHAT_GROQ_FREE_TIER']) delete process.env[key];
 test('validates input and limits history to visitor and assistant turns', () => {
   assert.throws(() => parseConversation('{'), /Invalid JSON/);
   assert.throws(() => parseConversation('{"message":123}'));
@@ -118,6 +120,66 @@ test('slow free attempts reserve time for opted-in paid fallback', async () => {
     assert.equal((await requestReply('Prompt','Question')).reply,'Paid backup');
     assert.equal(urls.length,3);
   } finally { global.fetch = original; Date.now = originalNow; process.env = saved; }
+});
+test('confirmed free Groq uses a supported model without enabling paid OpenAI', async () => {
+  const saved = {...process.env}; const original = global.fetch; const calls = [];
+  process.env.GROQ_API_KEY = 'free-test'; process.env.OPENROUTER_API_KEY = 'free-backup';
+  process.env.OPENAI_API_KEY = 'must-not-use'; process.env.CHAT_GROQ_FREE_TIER = 'true';
+  delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  global.fetch = async (url, options) => {
+    calls.push(url);
+    const body = JSON.parse(options.body);
+    assert.equal(url, 'https://api.groq.com/openai/v1/chat/completions');
+    assert.equal(body.model, 'openai/gpt-oss-20b');
+    assert.equal(body.reasoning_effort, 'low'); assert.equal(body.include_reasoning, false);
+    assert.equal(body.max_completion_tokens, 2048); assert.equal(body.max_tokens, undefined);
+    return {ok:true,status:200,json:async()=>({model:body.model,choices:[{message:{content:' A live answer. ',reasoning:'Not visitor-facing'}}]})};
+  };
+  try {
+    assert.deepEqual(await requestReply('Profile', 'Question'), {reply:'A live answer.',model:'openai/gpt-oss-20b',mode:'ai'});
+    assert.equal(calls.length, 1);
+  } finally {global.fetch=original;process.env=saved;}
+});
+test('saved Groq and OpenAI keys stay disabled until their usage mode is confirmed', async () => {
+  const saved = {...process.env}; const original = global.fetch;
+  delete process.env.OPENROUTER_API_KEY; delete process.env.CHAT_GROQ_FREE_TIER; delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  process.env.GROQ_API_KEY='unconfirmed'; process.env.OPENAI_API_KEY='paid';
+  let calls=0; global.fetch=async()=>{calls++;throw new Error('Must not call a provider');};
+  try {await assert.rejects(requestReply('Profile','Question'), {code:'CHAT_NOT_CONFIGURED'});assert.equal(calls,0);}
+  finally {global.fetch=original;process.env=saved;}
+});
+test('free Groq retries its second model then uses only the free OpenRouter backup', async () => {
+  const saved = {...process.env}; const original = global.fetch; const calls=[];
+  process.env.CHAT_GROQ_FREE_TIER='true'; process.env.GROQ_API_KEY='free'; process.env.OPENROUTER_API_KEY='free'; process.env.OPENAI_API_KEY='must-not-use';
+  delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  global.fetch=async(url,options)=>{
+    const body=JSON.parse(options.body); calls.push(body.model);
+    if(url.includes('groq.com')) return {ok:false,status:429,json:async()=>({error:{code:'rate_limit_exceeded'}})};
+    assert.equal(url,'https://openrouter.ai/api/v1/chat/completions'); assert.ok(body.model.endsWith(':free'));
+    return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Backup answer'}}]})};
+  };
+  try {assert.equal((await requestReply('Profile','Question')).mode,'ai'); assert.deepEqual(calls,['openai/gpt-oss-20b','openai/gpt-oss-120b','liquid/lfm-2.5-2.6b:free']);}
+  finally {global.fetch=original;process.env=saved;}
+});
+test('an account-wide free quota does not retry another OpenRouter model', async () => {
+  const saved={...process.env}; const original=global.fetch; let calls=0;
+  process.env.OPENROUTER_API_KEY='free'; delete process.env.GROQ_API_KEY; delete process.env.OPENAI_API_KEY;
+  global.fetch=async()=>{calls++;return {ok:false,status:429,json:async()=>({error:{code:429,metadata:{limit_source:'openrouter_free_tier_daily'}}})};};
+  try {await assert.rejects(requestReply('Profile','Question'),{code:'PROVIDER_UNAVAILABLE'});assert.equal(calls,1);}
+  finally {global.fetch=original;process.env=saved;}
+});
+test('both endpoints report live AI mode and retain the supplied conversation', async () => {
+  const saved={...process.env}; const original=global.fetch;
+  process.env.GROQ_API_KEY='free'; process.env.CHAT_GROQ_FREE_TIER='true';
+  const history=[{role:'user',content:'Tell me about Kwantu'},{role:'assistant',content:'He built RAG systems.'}];
+  global.fetch=async(_url,options)=>{
+    assert.deepEqual(JSON.parse(options.body).messages.slice(1,-1),history);
+    return {ok:true,status:200,json:async()=>({model:'openai/gpt-oss-20b',choices:[{message:{content:'He used FastAPI and LangChain.'}}]})};
+  };
+  try {for(const handler of [chat.handler,search.handler]){
+    const response=await handler({httpMethod:'POST',body:JSON.stringify({message:'Which tools did he use?',history})});
+    const data=JSON.parse(response.body);assert.equal(data.mode,'ai');assert.equal(data.model,'openai/gpt-oss-20b');assert.equal(data.reply,'He used FastAPI and LangChain.');
+  }} finally {global.fetch=original;process.env=saved;}
 });
 test('direct project prompts search real code while biography questions skip irrelevant files', () => {
   for (const question of ["What's in the Task Tracker?", 'Tell me about PapzinAI', 'What RAG projects has he built?', 'How does the ID recognition work?']) assert.equal(search.shouldSearchCode(question),true);

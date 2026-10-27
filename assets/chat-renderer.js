@@ -26,6 +26,8 @@
     }
     if (options.mode === 'portfolio') {
       const label = doc.createElement('p'); label.className = 'chat-mode'; label.textContent = 'Portfolio guide · prepared answers, not AI-generated'; element.append(label);
+    } else if (options.mode === 'ai') {
+      const label = doc.createElement('p'); label.className = 'chat-mode'; label.textContent = 'Live AI response'; element.append(label);
     }
     const sources = Array.isArray(options.sources) ? options.sources.filter(source => source && source.score > 5 && sourceUrl(source)).slice(0, 3) : [];
     if (sources.length) {
