@@ -62,6 +62,7 @@ test('timeline grounding calculates overlaps from profile dates rather than assu
 });
 
 test('confirmed project contributions follow shared profile edits and removal', () => {
+  assert.doesNotMatch(buildSystemPrompt(), /Built TruthGuard/);
   const changed = structuredClone(profile);
   changed.projects.find(project=>project.id==='truthguard').contribution = 'Confirmed responsibility: Example evaluation workflow.';
   assert.match(buildSystemPrompt(changed), /TruthGuard: Confirmed responsibility: Example evaluation workflow\./);

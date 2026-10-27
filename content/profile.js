@@ -70,12 +70,12 @@ DJ & MUSIC: DJing since ${data.milestones.djSince}. ${musicAnswer(data)}
 EDUCATION: ${educationAnswer(data)}
 FEATURED PROJECTS: ${data.featured.map(id => projectAnswer(id, data)).join('\n')}
 OTHER PROFILE PROJECTS: ${data.projects.filter(project => !data.featured.includes(project.id)).map(project => projectAnswer(project.id, data)).join('\n')}
-CONFIRMED PROJECT CONTRIBUTIONS: ${data.projects.filter(project => project.contribution).map(project => `${project.name}: ${project.contribution}`).join('\n')}
 OTHER PROJECTS: ChatSnap-Extractor (Django, YOLO and PaddleOCR; extracts messages, timestamps and emojis from screenshots), PapzinAI (multi-agent development workflows), Task Tracker (FastAPI and PostgreSQL), VisualPro (WebGPU and Three.js visualisation with Node.js and SQLite), TalentFlow Bot (recruitment workflow prototype), Arc-ZARDIAN, SA ID Recognition (computer vision and OCR), NextSapien Facial Analysis (Python and DeepFace).
 HACKATHONS: VisualPro won first place at the WebGPU Hackathon. ElevenLabs AI Audio Challenge and Geekle.us FR1 are participation entries, not documented wins.
 CONTACT: ${contactAnswer(data)}
 CV: ${data.contact.website}${data.cv.path} (updated ${data.cv.updatedOn}).
 
-FINAL ACCURACY CHECK: In career summaries, give each role's actual date range and describe the recorded overlaps as concurrent. Avoid chronological transitions such as "prior to", "previously", "before" or "after" between roles; a role starting earlier may still continue during another role. When asked about contributions to a team project, state his confirmed role and explicitly acknowledge any undocumented division of work. Do not turn project-level features into claims that he personally built them.`;
+FINAL ACCURACY CHECK: In career summaries, give each role's actual date range and describe the recorded overlaps as concurrent. Avoid chronological transitions such as "prior to", "previously", "before" or "after" between roles; a role starting earlier may still continue during another role. When asked about contributions to a team project, state his confirmed role and explicitly acknowledge any undocumented division of work. Do not turn project-level features into claims that he personally built them. A role title alone does not establish specific duties.
+CONFIRMED PROJECT CONTRIBUTIONS: ${data.projects.filter(project => project.contribution).map(project => `${project.name}: ${project.contribution}`).join('\n')}`;
 }
 module.exports = { profile, month, period, roleById, projectById, identityAnswer, contactAnswer, experienceAnswer, skillsAnswer, educationAnswer, projectAnswer, musicAnswer, buildSystemPrompt };
