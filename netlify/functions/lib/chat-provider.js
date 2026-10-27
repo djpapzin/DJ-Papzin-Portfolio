@@ -36,7 +36,7 @@ async function requestReply(prompt, message, history = []) {
         const response = await fetch(provider.url, {
           method: 'POST', signal: AbortSignal.timeout(attemptTimeout),
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://djpapzin.com', 'X-Title': 'DJ Papzin Assistant' },
-          body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], temperature: 0.7,
+          body: JSON.stringify({ model, messages: [{role: 'system', content: prompt}, ...history, { role: 'user', content: message }], temperature: 0.2,
             ...(provider.key === 'GROQ_API_KEY'
               ? { max_completion_tokens: 2048, reasoning_effort: 'low', include_reasoning: false }
               : { max_tokens: 1000 }),
