@@ -9,6 +9,10 @@ function shouldSearchCode(message) {
   const employerContext = /\b(?:at|for|with|join(?:ed)?)\s+(?:translated|outlier(?:\.ai)?|kwantu|afrisam|next\s*sapien)\b|\b(?:translated|outlier|kwantu|afrisam|next\s*sapien)(?:\.ai)?(?:'s)?\s+(?:role|employment|job|work|experience|career)\b/i.test(message);
   if (employer && employerContext && employmentDates && !explicitProject) return false;
   if (identifiesProject(message)) return true;
+  // Recruiter questions are grounded in the profile, not incidental code matches.
+  const roleFit = /\b(?:fit|fits|suitable|qualified|candidate)\b.*\b(?:role|position|job)\b|\b(?:ai|solutions?) engineer\b.*\b(?:role|position)\b/i.test(message);
+  const companyDates = /\bcompan(?:y|ies)\b/i.test(message) && employmentDates;
+  if (roleFit || companyDates) return false;
   // A recruiter asking for a computer-vision overview needs the approved
   // experience, not arbitrary repository matches for the short acronym "CV".
   const visionOverview = /\b(cv|computer vision)\b/i.test(message) && /\b(projects?|experience|work)\b/i.test(message);

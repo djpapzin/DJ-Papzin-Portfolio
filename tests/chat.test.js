@@ -181,6 +181,20 @@ test('both endpoints report live AI mode and retain the supplied conversation', 
     const data=JSON.parse(response.body);assert.equal(data.mode,'ai');assert.equal(data.model,'openai/gpt-oss-20b');assert.equal(data.reply,'He used FastAPI and LangChain.');
   }} finally {global.fetch=original;process.env=saved;}
 });
+test('recruiter suitability questions and company-date follow-ups do not attach unrelated source files', async () => {
+  const question='In two short sentences, explain why DJ Papzin fits an AI Solutions Engineer role.';
+  const followUp='Which company did that RAG work involve, and what were the dates?';
+  assert.equal(search.shouldSearchCode(question),false);
+  assert.equal(search.shouldSearchCode(search.codeQuery(followUp,[{role:'user',content:question}])),false);
+  assert.equal(search.shouldSearchCode('Why does AgentOps make him suitable for this role?'),true);
+  const saved={...process.env}; const original=global.fetch;
+  process.env.OPENROUTER_API_KEY='test';
+  global.fetch=async()=>({ok:true,status:200,json:async()=>({choices:[{message:{content:'He builds RAG applications.'}}]})});
+  try {
+    const result=JSON.parse((await search.handler({httpMethod:'POST',body:JSON.stringify({message:question})})).body);
+    assert.equal(result.mode,'ai');assert.deepEqual(result.sources,[]);
+  } finally {global.fetch=original;process.env=saved;}
+});
 test('direct project prompts search real code while biography questions skip irrelevant files', () => {
   for (const question of ["What's in the Task Tracker?", 'Tell me about PapzinAI', 'What RAG projects has he built?', 'How does the ID recognition work?']) assert.equal(search.shouldSearchCode(question),true);
   for (const question of ['When did DJ Papzin start learning Python?', 'What skills do you have?', 'When did he start DJing?']) assert.equal(search.shouldSearchCode(question),false);
