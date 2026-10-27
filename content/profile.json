@@ -18,7 +18,7 @@
   },
   "cv": {
     "path": "/assets/Letlhogonolo-Fanampe-AI-Solutions-Engineer-CV.pdf",
-    "updatedOn": "2026-10-27"
+    "updatedOn": "2026-10-28"
   },
   "about": [
     "At Kwantu, I developed RAG and SQL chatbot solutions using Python, FastAPI, LangChain and vector databases. My work included multilingual information retrieval, WhatsApp and Telegram integrations, OCR pipelines, and deployment on Linux with systemd and Nginx.",
