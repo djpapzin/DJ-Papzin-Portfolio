@@ -85,6 +85,36 @@ test('free chat retries another conversational model and reports the actual mode
     assert.equal(answer.reply, 'Started in 2022.'); assert.equal(answer.model,calls[1]);
   } finally { global.fetch = original; process.env = saved; }
 });
+test('free-router classification labels are replaced by a conversational model reply', async () => {
+  const saved={...process.env}; const original=global.fetch;
+  process.env.OPENROUTER_API_KEY='free'; process.env.OPENAI_API_KEY='must-not-use';
+  delete process.env.GROQ_API_KEY; delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  try {
+    for (const classifier of ['nvidia/nemotron-3.5-content-safety:free','openai/gpt-oss-safeguard-20b:free','meta-llama/llama-guard-4-12b:free']) {
+      const calls=[];
+      global.fetch=async(url,options)=>{
+        assert.equal(url,'https://openrouter.ai/api/v1/chat/completions');
+        const model=JSON.parse(options.body).model; calls.push(model);
+        return {ok:true,status:200,json:async()=>({model:calls.length===1?classifier:model,choices:[{message:{content:calls.length===1?'User Safety: unsafe\nSafety Categories: PII/Privacy':'He is an AI Solutions Engineer.'}}]})};
+      };
+      const answer=await requestReply('Profile','What is his professional title?');
+      assert.equal(answer.reply,'He is an AI Solutions Engineer.'); assert.equal(answer.mode,'ai');
+      assert.deepEqual(calls,['openrouter/free','liquid/lfm-2.5-2.6b:free']);
+      assert.equal(answer.model,calls[1]);
+    }
+  } finally {process.env=saved;global.fetch=original;}
+});
+test('both endpoints use the labelled guide if only classification models reply', async () => {
+  const saved={...process.env}; const original=global.fetch;
+  process.env.OPENROUTER_API_KEY='free'; delete process.env.GROQ_API_KEY; delete process.env.OPENAI_API_KEY;
+  global.fetch=async()=>({ok:true,status:200,json:async()=>({model:'nvidia/nemotron-3.5-content-safety:free',choices:[{message:{content:'User Safety: unsafe'}}]})});
+  try {
+    for(const handler of [chat.handler,search.handler]) {
+      const result=JSON.parse((await handler({httpMethod:'POST',body:JSON.stringify({message:'What is your experience?'})})).body);
+      assert.equal(result.mode,'portfolio'); assert.doesNotMatch(result.reply,/User Safety:/);
+    }
+  } finally {process.env=saved;global.fetch=original;}
+});
 test('the website code-search endpoint includes biography facts in the AI prompt', async () => {
   const saved = {...process.env}; const original = global.fetch;
   process.env.OPENROUTER_API_KEY = 'test';
