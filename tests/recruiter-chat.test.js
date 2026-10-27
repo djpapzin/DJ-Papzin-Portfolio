@@ -80,7 +80,7 @@ test('both AI endpoints receive attribution and overlap grounding while preservi
     const messages = JSON.parse(options.body).messages;
     assert.match(messages[0].content, /Describe overlapping roles as concurrent/);
     assert.match(messages[0].content, /TruthGuard: AI Specialist on the team/);
-    assert.match(messages[0].content, /does not establish individual ownership of model fine-tuning, the Flask API or the interface/);
+    assert.match(messages[0].content, /His specific individual tasks and the division of work are not documented/);
     assert.deepEqual(messages.slice(1,-1),history);
     return {ok:true,status:200,json:async()=>({model:'openai/gpt-oss-20b',choices:[{message:{content:'Salary and relocation preferences are not documented.'}}]})};
   };

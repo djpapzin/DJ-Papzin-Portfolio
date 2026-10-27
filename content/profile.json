@@ -262,7 +262,7 @@
       "image": "assets/truthguard.jpg",
       "imageAlt": "TruthGuard news classification interface",
       "summary": "A team project exploring news classification with Llama 3 and Together AI. My role: AI Specialist. The repository documents model fine-tuning on WELFake and a Python/Flask classification API.",
-      "contribution": "AI Specialist on the team. The approved profile does not establish individual ownership of model fine-tuning, the Flask API or the interface.",
+      "contribution": "AI Specialist on the team. His specific individual tasks and the division of work are not documented. Do not claim that he personally did, contributed to or owned the model fine-tuning, Flask API or interface; these are project-level features, not verified personal contributions.",
       "detail": "The interface displays a classification and confidence score; its output should be checked against reliable sources.",
       "stack": [
         "Llama 3",
