@@ -74,7 +74,8 @@ test('free chat retries another conversational model and reports the actual mode
   global.fetch = async (url, options) => {
     const body = JSON.parse(options.body); calls.push(body.model);
     assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
-    assert.ok(body.model.endsWith(':free'));
+    assert.ok(body.model === 'openrouter/free' || body.model.endsWith(':free'));
+    assert.deepEqual(body.reasoning, {effort:'low',exclude:true});
     assert.equal(options.signal.aborted, false);
     return calls.length === 1 ? {ok:false,status:503,json:async()=>({error:{code:503}})} : {ok:true,status:200,json:async()=>({model:body.model,choices:[{message:{content:' Started in 2022. '}}]})};
   };
@@ -155,10 +156,10 @@ test('free Groq retries its second model then uses only the free OpenRouter back
   global.fetch=async(url,options)=>{
     const body=JSON.parse(options.body); calls.push(body.model);
     if(url.includes('groq.com')) return {ok:false,status:429,json:async()=>({error:{code:'rate_limit_exceeded'}})};
-    assert.equal(url,'https://openrouter.ai/api/v1/chat/completions'); assert.ok(body.model.endsWith(':free'));
+    assert.equal(url,'https://openrouter.ai/api/v1/chat/completions'); assert.ok(body.model === 'openrouter/free' || body.model.endsWith(':free'));
     return {ok:true,status:200,json:async()=>({choices:[{message:{content:'Backup answer'}}]})};
   };
-  try {assert.equal((await requestReply('Profile','Question')).mode,'ai'); assert.deepEqual(calls,['openai/gpt-oss-20b','openai/gpt-oss-120b','liquid/lfm-2.5-2.6b:free']);}
+  try {assert.equal((await requestReply('Profile','Question')).mode,'ai'); assert.deepEqual(calls,['openai/gpt-oss-20b','openai/gpt-oss-120b','openrouter/free']);}
   finally {global.fetch=original;process.env=saved;}
 });
 test('an account-wide free quota does not retry another OpenRouter model', async () => {
@@ -167,6 +168,21 @@ test('an account-wide free quota does not retry another OpenRouter model', async
   global.fetch=async()=>{calls++;return {ok:false,status:429,json:async()=>({error:{code:429,metadata:{limit_source:'openrouter_free_tier_daily'}}})};};
   try {await assert.rejects(requestReply('Profile','Question'),{code:'PROVIDER_UNAVAILABLE'});assert.equal(calls,1);}
   finally {global.fetch=original;process.env=saved;}
+});
+test('a rejected Groq key falls through to the free router and reports its actual model', async () => {
+  const saved={...process.env}; const original=global.fetch; const calls=[];
+  process.env.GROQ_API_KEY='invalid';process.env.CHAT_GROQ_FREE_TIER='true';process.env.OPENROUTER_API_KEY='free';process.env.OPENAI_API_KEY='must-not-use';
+  delete process.env.CHAT_ALLOW_PAID_PROVIDERS;
+  global.fetch=async(url,options)=>{
+    const model=JSON.parse(options.body).model;calls.push(model);
+    if(url.includes('groq.com'))return {ok:false,status:401};
+    assert.equal(model,'openrouter/free');
+    return {ok:true,status:200,json:async()=>({model:'selected/model:free',choices:[{message:{content:'Generated answer'}}]})};
+  };
+  try {
+    assert.deepEqual(await requestReply('Profile','Question'),{reply:'Generated answer',model:'selected/model:free',mode:'ai'});
+    assert.deepEqual(calls,['openai/gpt-oss-20b','openrouter/free']);
+  } finally {global.fetch=original;process.env=saved;}
 });
 test('both endpoints report live AI mode and retain the supplied conversation', async () => {
   const saved={...process.env}; const original=global.fetch;

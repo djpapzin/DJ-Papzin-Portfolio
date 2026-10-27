@@ -1,5 +1,5 @@
 const PROVIDERS = [
-  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
+  { key: 'OPENROUTER_API_KEY', url: 'https://openrouter.ai/api/v1/chat/completions', models: ['openrouter/free', 'liquid/lfm-2.5-2.6b:free', 'google/gemma-4-26b-a4b-it:free'] },
   { key: 'OPENAI_API_KEY', url: 'https://api.openai.com/v1/chat/completions', models: ['gpt-4o-mini'] },
   { key: 'GROQ_API_KEY', url: 'https://api.groq.com/openai/v1/chat/completions', models: ['openai/gpt-oss-20b', 'openai/gpt-oss-120b'] },
 ];
@@ -39,6 +39,7 @@ async function requestReply(prompt, message, history = []) {
             ...(provider.key === 'GROQ_API_KEY'
               ? { max_completion_tokens: 2048, reasoning_effort: 'low', include_reasoning: false }
               : { max_tokens: 1000 }),
+            ...(provider.key === 'OPENROUTER_API_KEY' ? { reasoning: { effort: 'low', exclude: true } } : {}),
           }),
         });
         // Invalid credentials affect the entire provider, not just one model.
@@ -48,7 +49,10 @@ async function requestReply(prompt, message, history = []) {
         }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
-        if (response.ok && typeof reply === 'string' && reply.trim()) return { reply: reply.trim(), model: data.model || model, mode: 'ai' };
+        if (response.ok && typeof reply === 'string' && reply.trim()) {
+          console.info('Chat provider replied', {provider: provider.key, model: data.model || model});
+          return { reply: reply.trim(), model: data.model || model, mode: 'ai' };
+        }
         const limitSource = data.error?.metadata?.limit_source;
         // Log only the structured reason, never provider messages or credentials.
         const safeLimitSource = typeof limitSource === 'string' && /^[a-z0-9_]{1,80}$/.test(limitSource) ? limitSource : undefined;
