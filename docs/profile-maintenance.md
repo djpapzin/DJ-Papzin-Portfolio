@@ -5,7 +5,7 @@
 ## Make a profile update
 
 1. Check the current LinkedIn profile and confirm any new role, date or claim with the owner. Edit the relevant fields in `content/profile.json` and record the review date in `reviewedOn`.
-2. Update the PDF when its facts change, then update `cv.path` and `cv.updatedOn`. The PDF is a reviewed document, not automatically rewritten by the site build. Keep salary expectations and private recruiter conversations out of this public record.
+2. Update the PDF when its facts change, then update `cv.path` and `cv.updatedOn`. Run `python3 scripts/build-cv.py --output /path/to/review/CV.docx` with `python-docx` installed, render it to PDF, and visually review every page before replacing the file at `cv.path`. The builder reads role titles, organizations, dates, the contract-overlap note, Next Sapien responsibilities and the TruthGuard summary from `content/profile.json`; its other condensed CV prose remains editorial content. The PDF is a reviewed document, not automatically rewritten by the site build. Keep salary expectations and private recruiter conversations out of this public record.
 3. Run `node scripts/sync-profile.js`. This refreshes the marked sections of `index.html` and the CV redirects in `_redirects`. Edit layout in the renderer or surrounding page; edits inside generated blocks are replaced on the next build.
 4. Run `node scripts/sync-profile.js --check` and `node --test tests/*.test.js`.
 5. Review the website preview, CV download and chatbot answers before publishing. Update LinkedIn through its own editor when the approved record changes there, too.
