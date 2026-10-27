@@ -1,7 +1,7 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = "python3 scripts/build-code-index.py"
+  command = "node scripts/sync-profile.js && node --test tests/*.test.js && python3 scripts/build-code-index.py"
 
 [[redirects]]
   from = "/api/*"

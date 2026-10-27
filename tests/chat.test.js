@@ -287,7 +287,7 @@ test('explicit facial-analysis implementation intent and professional Python dat
 
 test('professional skills and technical uses of company-like words retain their intent', () => {
   assert.match(portfolioReply('What professional Python skills does he have?').reply,/FastAPI.*LangChain/);
-  assert.match(portfolioReply('What professional Python projects has he built?').reply,/Task Tracker.*TruthGuard/);
+  assert.match(portfolioReply('What professional Python projects has he built?').reply,/(?=.*Task Tracker)(?=.*TruthGuard)/);
   assert.equal(search.shouldSearchCode('How long are translated database records stored?'),true);
   assert.equal(search.shouldSearchCode('When did he work at Translated?'),false);
 });
@@ -301,7 +301,7 @@ test('single-project integrations stay scoped and employer-qualified dates use t
 
 test('Python project timeline questions answer the milestone rather than the project catalog', () => {
   for (const question of ['When did he start building Python projects?','How long has he built projects with Python?']) assert.match(portfolioReply(question).reply,/2022/);
-  assert.match(portfolioReply('What Python projects has he built?').reply,/Task Tracker.*TruthGuard/);
+  assert.match(portfolioReply('What Python projects has he built?').reply,/(?=.*Task Tracker)(?=.*TruthGuard)/);
 });
 
 test('prepared guide treats technical translated and outlier wording as unsupported questions', () => {

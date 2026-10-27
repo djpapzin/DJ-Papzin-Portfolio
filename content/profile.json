@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-10-27",
+  "linkedin": "https://www.linkedin.com/in/djpapzin/",
+  "name": "Letlhogonolo Fanampe",
+  "knownAs": "DJ Papzin",
+  "role": "AI Solutions Engineer",
+  "headline": "AI Solutions Engineer | Production LLM Applications, RAG & Agentic Automation | Python, FastAPI & LangChain",
+  "tagline": "AI Assistants • RAG Systems • Workflow Automation",
+  "summary": "I build and deploy AI applications that connect business knowledge, data and workflows. My work spans retrieval-augmented generation (RAG), SQL assistants, API integrations, document processing and AI quality evaluation.",
+  "location": "Pretoria, South Africa",
+  "availability": "Available immediately for AI Solutions Engineer, AI Engineer and LLM application engineering opportunities, including remote and hybrid roles.",
+  "contact": {
+    "email": "l.fanampe@gmail.com",
+    "phone": "+27 83 483 7699",
+    "github": "https://github.com/djpapzin",
+    "website": "https://djpapzin.com"
+  },
+  "cv": {
+    "path": "/assets/Letlhogonolo-Fanampe-AI-Solutions-Engineer-CV.pdf",
+    "updatedOn": "2026-10-27"
+  },
+  "about": [
+    "At Kwantu, I developed RAG and SQL chatbot solutions using Python, FastAPI, LangChain and vector databases. My work included multilingual information retrieval, WhatsApp and Telegram integrations, OCR pipelines, and deployment on Linux with systemd and Nginx.",
+    "Through work with Outlier and Translated, I have also evaluated model responses, designed prompts and contributed human feedback for AI training. That experience informs how I test applications for accuracy, relevance and failure cases.",
+    "Before moving into software, I spent eight years in AfriSam’s cement laboratory. That work taught me to check data carefully, investigate unexpected results and make processes reproducible. I started learning Python in 2022 and developed my skills through projects and AI hackathons."
+  ],
+  "milestones": {
+    "pythonSince": 2022,
+    "djSince": 2012,
+    "labYears": 8,
+    "hackathonsAttended": 22,
+    "hackathonsVerifiedOn": "2026-10-11"
+  },
+  "music": {
+    "organization": "Papzin & Crew",
+    "founded": 2016,
+    "url": "https://papzincrew.netlify.app/",
+    "summary": "Co-founded Papzin & Crew with Gabriel Matshabe in 2016. The platform features mega-mixes, Cruize Friday mixes, online radio and custom mix requests."
+  },
+  "skills": [
+    {
+      "category": "AI applications",
+      "items": [
+        "Retrieval-Augmented Generation (RAG)",
+        "LangChain",
+        "LLM Fine-Tuning",
+        "API Integration",
+        "Natural Language Processing (NLP)",
+        "Model Evaluation",
+        "RLHF"
+      ]
+    },
+    {
+      "category": "Backend and data",
+      "items": [
+        "Python",
+        "FastAPI",
+        "SQL",
+        "SQLite",
+        "Django",
+        "Flask",
+        "FAISS",
+        "DeepLake",
+        "ChromaDB"
+      ]
+    },
+    {
+      "category": "Deployment and automation",
+      "items": [
+        "Docker",
+        "Git",
+        "Linux",
+        "Nginx",
+        "systemd",
+        "REST APIs",
+        "WhatsApp Business API",
+        "Telegram"
+      ]
+    },
+    {
+      "category": "Supporting tools",
+      "items": [
+        "OCR",
+        "Detectron2",
+        "Tesseract",
+        "PaddleOCR",
+        "OpenCV",
+        "Streamlit",
+        "React",
+        "TensorFlow",
+        "Keras"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "freelance",
+      "title": "Freelance AI Engineer",
+      "organization": "Self-Employed",
+      "referenceName": "Freelance",
+      "type": "Freelance",
+      "location": "Remote",
+      "start": "2024-02",
+      "end": null,
+      "bullets": [
+        "Build AI applications and developer tools using Python, language models and external APIs.",
+        "Developed VocalThread to turn YouTube comments into spoken dialogues through the ElevenLabs API.",
+        "Built TruthGuard, a news-classification project using a fine-tuned Llama 3 model hosted on Together AI.",
+        "Created Agent Handoff Kit, an open-source Python/SQLite prototype for recovering interrupted local work from checkpoints and suppressing duplicate effects within a local transaction.",
+        "Collaborate in Lablab.ai and Devpost hackathons to prototype, integrate and demonstrate AI applications."
+      ]
+    },
+    {
+      "id": "outlier",
+      "title": "AI Training Data Specialist | RLHF & Prompt Engineering",
+      "organization": "Outlier",
+      "referenceName": "Outlier",
+      "type": "Contract via G2i",
+      "location": "Remote",
+      "start": "2024-07",
+      "end": "2025-08",
+      "bullets": [
+        "Evaluated and ranked text and image-model responses for factual accuracy, coherence, relevance and adherence to task guidelines.",
+        "Designed prompts and adversarial tests to identify reasoning errors, unsafe outputs and other model failure cases.",
+        "Verified training data and reviewed peer submissions for correctness and consistency with evaluation criteria.",
+        "Documented model weaknesses and refined prompts and responses to support reinforcement learning from human feedback (RLHF)."
+      ]
+    },
+    {
+      "id": "kwantu",
+      "title": "AI/ML Engineer (RAG, SQL & OCR)",
+      "organization": "Kwantu Pty Ltd",
+      "referenceName": "Kwantu",
+      "type": "Contract",
+      "location": "Remote",
+      "start": "2024-10",
+      "end": "2025-04",
+      "bullets": [
+        "Built RAG assistants for PDF documents and SQL databases using Python, LangChain, FastAPI, OpenAI embeddings, FAISS and DeepLake, including multilingual retrieval.",
+        "Built an ID-document processing pipeline covering data cleaning, Label Studio annotation, Detectron2 training and OCR with Tesseract and PaddleOCR.",
+        "Integrated chatbot services with FastAPI, the WhatsApp Business API and Telegram, using models and APIs including Mixtral and Together AI.",
+        "Deployed and maintained services on CentOS/Linux with systemd and Nginx; diagnosed connectivity and API issues.",
+        "Resolved schema mismatches, SQL query issues, API rate limits and inconsistent LLM responses across retrieval and processing pipelines."
+      ]
+    },
+    {
+      "id": "translated",
+      "title": "AI Prompt Evaluator",
+      "organization": "Translated",
+      "referenceName": "Translated",
+      "type": "Contract",
+      "location": "Remote",
+      "start": "2024-10",
+      "end": "2024-12",
+      "bullets": [
+        "Evaluated AI-generated prompts and responses for a major GPU enterprise client, providing structured human feedback for model training.",
+        "Fact-checked, rated and ranked responses for accuracy, relevance and completeness.",
+        "Rewrote responses to improve clarity and adherence to task requirements, and documented content needing additional review."
+      ]
+    },
+    {
+      "id": "next-sapien",
+      "title": "AI/ML Engineer — Computer Vision",
+      "organization": "Next Sapien",
+      "referenceName": "Next Sapien",
+      "type": "Contract",
+      "location": "Remote",
+      "start": "2023-12",
+      "end": "2024-01",
+      "bullets": [
+        "Developed automated image analysis and built ChatSnap-Extractor to extract messages, timestamps and emojis from chat screenshots using Django, YOLO and PaddleOCR."
+      ]
+    },
+    {
+      "id": "afrisam",
+      "title": "Laboratory Analyst & Assistant",
+      "organization": "AfriSam",
+      "referenceName": "AfriSam",
+      "location": "Lichtenburg, South Africa",
+      "start": "2014-12",
+      "end": "2022-07",
+      "bullets": [
+        "Performed routine and specialised laboratory testing, maintained analytical equipment and supported product quality assurance."
+      ]
+    }
+  ],
+  "education": {
+    "qualification": "National Diploma in Analytical Chemistry",
+    "institution": "Tshwane University of Technology",
+    "start": "2010",
+    "end": "2015",
+    "certificates": [
+      "LangChain and Vector Databases in Production",
+      "Python",
+      "System Administration"
+    ]
+  },
+  "featured": [
+    "agent-handoff",
+    "agentops",
+    "truthguard"
+  ],
+  "projects": [
+    {
+      "id": "agent-handoff",
+      "repo": "agent-handoff-kit",
+      "name": "Agent Handoff Kit",
+      "image": "assets/agent-handoff.png",
+      "imageAlt": "Agent Handoff Kit recovery demo",
+      "summary": "A Python and SQLite recovery prototype that resumes interrupted local work from a durable checkpoint. Its guarantees apply to the local database, not external APIs.",
+      "detail": "The demo interrupts one worker and lets a replacement resume, keeping one durable receipt and verifying unchanged replay. No model API keys or pip dependencies are needed for the local demo.",
+      "stack": [
+        "Python",
+        "SQLite",
+        "Recovery prototype"
+      ],
+      "links": [
+        {
+          "label": "Read case study",
+          "url": "/case-studies/agent-handoff.html"
+        },
+        {
+          "label": "Run demo",
+          "url": "https://handoff.djpapzin.com/"
+        },
+        {
+          "label": "View source",
+          "url": "https://github.com/djpapzin/agent-handoff-kit"
+        }
+      ]
+    },
+    {
+      "id": "agentops",
+      "repo": "agentops-mobile-command-center",
+      "name": "AgentOps Mobile Command Center",
+      "image": "assets/agentops.png",
+      "imageAlt": "AgentOps dashboard for agent workflows, model routing and approvals",
+      "summary": "Connects a FastAPI dashboard and Telegram commands to a SQLite run log for goals, approvals, history and model routing. Demo mode works without provider credentials; live integrations require configuration.",
+      "detail": "Includes a recorded demo, Docker setup and optional integrations with model providers.",
+      "stack": [
+        "FastAPI",
+        "SQLite",
+        "Telegram",
+        "Docker"
+      ],
+      "links": [
+        {
+          "label": "Watch demo",
+          "url": "https://github.com/djpapzin/agentops-mobile-command-center/blob/main/assets/agentops-demo-live-screenshots.mp4"
+        },
+        {
+          "label": "View source",
+          "url": "https://github.com/djpapzin/agentops-mobile-command-center"
+        }
+      ]
+    },
+    {
+      "id": "truthguard",
+      "repo": "TruthGuard-AI-Fake-News-Detection-with-LLM",
+      "name": "TruthGuard",
+      "image": "assets/truthguard.jpg",
+      "imageAlt": "TruthGuard news classification interface",
+      "summary": "A team project exploring news classification with Llama 3 and Together AI. My role: AI Specialist. The repository documents model fine-tuning on WELFake and a Python/Flask classification API.",
+      "detail": "The interface displays a classification and confidence score; its output should be checked against reliable sources.",
+      "stack": [
+        "Llama 3",
+        "Together AI",
+        "Python",
+        "Flask"
+      ],
+      "links": [
+        {
+          "label": "Open demo",
+          "url": "https://truth-guard-dusky.vercel.app/"
+        },
+        {
+          "label": "View source",
+          "url": "https://github.com/djpapzin/TruthGuard-AI-Fake-News-Detection-with-LLM"
+        }
+      ]
+    },
+    {
+      "id": "vocal-thread",
+      "repo": "Vocal-Thread",
+      "name": "VocalThread",
+      "image": "assets/vocal-thread.jpeg",
+      "imageAlt": "VocalThread speech bubble logo",
+      "summary": "A Streamlit application that analyses YouTube comments and turns them into spoken dialogues using ElevenLabs, YouTube Data API and Google Gemini.",
+      "detail": "Includes sentiment analysis and a Chat with Comments feature. Built for the ElevenLabs AI Audio Challenge.",
+      "stack": [
+        "Python",
+        "Streamlit",
+        "ElevenLabs",
+        "Gemini"
+      ],
+      "links": [
+        {
+          "label": "View source",
+          "url": "https://github.com/djpapzin/Vocal-Thread"
+        }
+      ]
+    }
+  ]
+}
