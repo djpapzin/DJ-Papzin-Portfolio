@@ -50,9 +50,16 @@ async function requestReply(prompt, message, history = []) {
         }
         const data = await response.json();
         const reply = data.choices?.[0]?.message?.content;
+        const replyModel = data.model || model;
+        // The free router can select a classifier instead of a chat model.
+        // Its labels are not conversational answers; try the next free model.
+        if (provider.key === 'OPENROUTER_API_KEY' && /(?:^|[\/_-])(?:guard|safeguard|moderation|content-safety)(?:$|[\/_:-])/i.test(replyModel)) {
+          console.warn('Chat provider selected a classification model', {provider: provider.key, model: replyModel});
+          continue;
+        }
         if (response.ok && typeof reply === 'string' && reply.trim()) {
-          console.info('Chat provider replied', {provider: provider.key, model: data.model || model});
-          return { reply: reply.trim(), model: data.model || model, mode: 'ai' };
+          console.info('Chat provider replied', {provider: provider.key, model: replyModel});
+          return { reply: reply.trim(), model: replyModel, mode: 'ai' };
         }
         const limitSource = data.error?.metadata?.limit_source;
         // Log only the structured reason, never provider messages or credentials.
